@@ -1,16 +1,16 @@
-From 9ad02981e680539f93946ca2969bfc8e6bd0a384 Mon Sep 17 00:00:00 2001
+From 77e0cd0354a49ec9d401ca126cf7565cd4cce45b Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
-Date: Wed, 3 Jul 2013 13:31:21 -0400
-Subject: [PATCH] Canadensys styling
+Date: Fri, 25 Apr 2014 11:57:10 -0400
+Subject: [PATCH] Make customizations
 
 ---
  .gitignore                              |   1 +
- WEB-INF/datadir.location                |   1 -
+ WEB-INF/pages/admin/config.ftl          |   1 -
  WEB-INF/pages/inc/footer.ftl            |  43 +++----
  WEB-INF/pages/inc/header.ftl            |  30 ++---
  WEB-INF/pages/inc/header_setup.ftl      |   4 +-
  WEB-INF/pages/inc/menu.ftl              | 168 +++++++++++++--------------
- WEB-INF/pages/macros/resourcesTable.ftl |  13 +--
+ WEB-INF/pages/macros/resourcesTable.ftl |   9 +-
  WEB-INF/pages/manage/eml/basic.ftl      |   1 -
  WEB-INF/pages/manage/eml/parties.ftl    |   3 +
  WEB-INF/pages/manage/home.ftl           |  15 ++-
@@ -18,18 +18,16 @@ Subject: [PATCH] Canadensys styling
  WEB-INF/pages/manage/overview.ftl       |   3 +-
  WEB-INF/pages/portal/home.ftl           |  10 +-
  WEB-INF/pages/portal/resource.ftl       |   7 +-
+ WEB-INF/pages/portal/rss.ftl            |   5 +-
  images/dataTables/sort_asc_red.png      | Bin 0 -> 266 bytes
  images/dataTables/sort_desc_red.png     | Bin 0 -> 273 bytes
  js/custom.js                            |  18 +++
  styles/custom.css                       | 199 +++++++++++++++++++++++++++++---
- styles/custom.css.orig                  |  36 ++++++
- 19 files changed, 398 insertions(+), 179 deletions(-)
+ 19 files changed, 363 insertions(+), 179 deletions(-)
  create mode 100644 .gitignore
- delete mode 100644 WEB-INF/datadir.location
  create mode 100644 images/dataTables/sort_asc_red.png
  create mode 100644 images/dataTables/sort_desc_red.png
  create mode 100644 js/custom.js
- create mode 100644 styles/custom.css.orig
 
 diff --git a/.gitignore b/.gitignore
 new file mode 100644
@@ -38,16 +36,19 @@ index 0000000..e43b0f9
 +++ b/.gitignore
 @@ -0,0 +1 @@
 +.DS_Store
-diff --git a/WEB-INF/datadir.location b/WEB-INF/datadir.location
-deleted file mode 100644
-index 856c0e1..0000000
---- a/WEB-INF/datadir.location
-+++ /dev/null
-@@ -1 +0,0 @@
--/Users/dshorthouse/Documents/Canadensys/ipt-data
-\ No newline at end of file
+diff --git a/WEB-INF/pages/admin/config.ftl b/WEB-INF/pages/admin/config.ftl
+index ee036aa..d56b6be 100644
+--- a/WEB-INF/pages/admin/config.ftl
++++ b/WEB-INF/pages/admin/config.ftl
+@@ -68,6 +68,5 @@ $(document).ready(function(){
+ 
+ </@s.form>
+ </div>
+-</div>
+ 
+ <#include "/WEB-INF/pages/inc/footer.ftl">
 diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
-index e5b49c4..08837e3 100644
+index e5b49c4..74a88d9 100644
 --- a/WEB-INF/pages/inc/footer.ftl
 +++ b/WEB-INF/pages/inc/footer.ftl
 @@ -1,28 +1,31 @@
@@ -84,7 +85,7 @@ index e5b49c4..08837e3 100644
 +		<p>Most Canadensys participants have dedicated their data to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
 +		<ul>
 +			<li><a href="http://www.canadensys.net/norms">Data usage norms</a></li>
-+			<li>Powered by <a href="http://code.google.com/p/gbif-providertoolkit/">IPT</a> &copy; <a href="http://www.gbif.org">GBIF</a></li>
++			<li>Powered by <a href="http://code.google.com/p/gbif-providertoolkit/">IPT ${cfg.version!"???"}</a> &copy; <a href="http://www.gbif.org">GBIF</a></li>
 +		</ul>
 +	</div>
 +	<div class="footer_section right">
@@ -168,7 +169,7 @@ index 284de8e..b1bb74f 100644
  [#assign currentMenu = "home"]
 \ No newline at end of file
 diff --git a/WEB-INF/pages/inc/header_setup.ftl b/WEB-INF/pages/inc/header_setup.ftl
-index 1a07748..86ed9ed 100644
+index 9b90852..b238721 100644
 --- a/WEB-INF/pages/inc/header_setup.ftl
 +++ b/WEB-INF/pages/inc/header_setup.ftl
 @@ -8,13 +8,15 @@
@@ -384,7 +385,7 @@ index 6064adc..3408b1b 100644
  
  			<div class="grid_24 region region-content" id="region-content">
 diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
-index ea3953f..cff602f 100644
+index 994cd3d..d7e49fd 100644
 --- a/WEB-INF/pages/macros/resourcesTable.ftl
 +++ b/WEB-INF/pages/macros/resourcesTable.ftl
 @@ -7,7 +7,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
@@ -396,28 +397,19 @@ index ea3953f..cff602f 100644
      <#assign emptyString="--">
      <#assign dotDot="..">
  
-@@ -15,16 +15,15 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
-     var aDataSet = [
-       <#list resources as r>
-           [<#if r.eml.logoUrl?has_content>'<img class="resourceminilogo" src="${r.eml.logoUrl}" />'<#else>'${emptyString}'</#if>,
--           '<a href="${baseURL}<#if !shownPublicly>/manage</#if>/resource.do?r=${r.shortname}"><if><#if r.title?has_content>${r.title}<#else>${r.shortname}</#if></a>',
--           <#if r.status=='REGISTERED'>'${r.organisation.alias!r.organisation.name}'<#else>'<@s.text name="manage.home.not.registered"/>'</#if>,
-+           "<a href='${baseURL}<#if !shownPublicly>/manage</#if>/resource.do?r=${r.shortname}'><if><#if r.title?has_content>${r.title?replace("\'", "\\'")?replace("\"", '\\"')}<#else>${r.shortname}</#if></a>",
-+           <#if r.status=='REGISTERED'>'${r.organisation.alias?replace("\'", "\\'")?replace("\"", '\\"')!r.organisation.name?replace("'", "\'")?replace("\"", '\\"')}'<#else>'<@s.text name="manage.home.not.registered"/>'</#if>,
+@@ -40,10 +40,9 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+            <#if r.status=='REGISTERED'>'${r.organisation.alias?replace("\'", "\\'")?replace("\"", '\\"')!r.organisation.name?replace("'", "\'")?replace("\"", '\\"')}'<#else>'<@s.text name="manage.home.not.registered"/>'</#if>,
             <#if r.coreType?has_content && types[r.coreType?lower_case]?has_content>'${types[r.coreType?lower_case]?cap_first!}'<#else>'${emptyString}'</#if>,
             <#if r.subtype?has_content && datasetSubtypes[r.subtype?lower_case]?has_content >'${datasetSubtypes[r.subtype?lower_case]?cap_first!}'<#else>'${emptyString}'</#if>,
 -           '${r.recordsPublished!0}',
 +           '${r.recordsPublished?c!0}',
             '${r.modified?date}',
             <#if r.published>'${(r.lastPublished?date)!}'<#else>'<@s.text name="portal.home.not.published"/>'</#if>,
--           '${(r.nextPublished?date)!'${emptyString}'}',
+-           '${(r.nextPublished?date?string("yyyy-MM-dd HH:mm:ss"))!'${emptyString}'}',
             <#if r.status=='PRIVATE'>'<@s.text name="manage.home.visible.private"/>'<#else>'<@s.text name="manage.home.visible.public"/>'</#if>,
--           <#if r.creator??>'${r.creator.firstname!} ${r.creator.lastname!}'<#else>'${emptyString}'</#if>]<#if r_has_next>,</#if>
-+           <#if r.creator??>'${r.creator.firstname?replace("\'", "\\'")?replace("\"", '\\"')!} ${r.creator.lastname?replace("\'", "\\'")?replace("\"", '\\"')!}'<#else>'${emptyString}'</#if>]<#if r_has_next>,</#if>
+            <#if r.creator??>'${r.creator.firstname?replace("\'", "\\'")?replace("\"", '\\"')!} ${r.creator.lastname?replace("\'", "\\'")?replace("\"", '\\"')!}'<#else>'${emptyString}'</#if>]<#if r_has_next>,</#if>
        </#list>
-     ];
- 
-@@ -34,6 +33,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+@@ -55,6 +54,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
              "aaData": aDataSet,
              "iDisplayLength": ${numResourcesShown},
              "bLengthChange": false,
@@ -425,19 +417,22 @@ index ea3953f..cff602f 100644
              "bAutoWidth": false,
              "oLanguage": {
                  "sEmptyTable": "<@s.text name="${sEmptyTable}"/>",
-@@ -57,7 +57,6 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
-                 { "sTitle": "<@s.text name="portal.home.records"/>", "bSearchable": false},
-                 { "sTitle": "<@s.text name="manage.home.last.modified"/>", "bSearchable": false},
+@@ -76,9 +76,8 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+                 { "sTitle": "<@s.text name="manage.home.type"/>"},
+                 { "sTitle": "<@s.text name="manage.home.subtype"/>"},
+                 { "sTitle": "<@s.text name="portal.home.records"/>", "bSearchable": false, "sType": "number"},
+-                { "sTitle": "<@s.text name="manage.home.last.modified"/>", "bSearchable": false},
++                { "sTitle": "<@s.text name="manage.home.last.modified"/>", "bSearchable": false, "bVisible": <#if shownPublicly>false<#else>true</#if>},
                  { "sTitle": "<@s.text name="manage.home.last.publication" />", "bSearchable": false},
 -                { "sTitle": "<@s.text name="manage.home.next.publication" />", "bSearchable": false},
                  { "sTitle": "<@s.text name="manage.home.visible"/>", "bSearchable": false, "bVisible": <#if shownPublicly>false<#else>true</#if>},
                  { "sTitle": "<@s.text name="portal.home.author"/>", "bVisible": <#if shownPublicly>false<#else>true</#if>}
              ],
 diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
-index 513f882..dfac920 100644
+index 3bead4e..3cf187a 100644
 --- a/WEB-INF/pages/manage/eml/basic.ftl
 +++ b/WEB-INF/pages/manage/eml/basic.ftl
-@@ -260,7 +260,6 @@
+@@ -262,7 +262,6 @@
  	<input name="r" type="hidden" value="${resource.shortname}" />
  </form>
  </div>
@@ -491,10 +486,10 @@ index 2f3cc36..7cabbfa 100644
  <h1 class="rtableTitle"><@s.text name="manage.home.title"/></h1>
  <div id="rtableContainer"></div>
 diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
-index f4c2aa3..97dff4e 100644
+index f5012a0..41ba8b8 100644
 --- a/WEB-INF/pages/manage/mapping.ftl
 +++ b/WEB-INF/pages/manage/mapping.ftl
-@@ -189,23 +189,23 @@ $(document).ready(function(){
+@@ -192,23 +192,23 @@ $(document).ready(function(){
    <div class="body">
    	<div class="infos">
    		<img class="infoImg" src="${baseURL}/images/info.gif" />
@@ -526,7 +521,7 @@ index f4c2aa3..97dff4e 100644
      </div>
          <div>
          	<p><@s.text name='manage.mapping.filter.text' /></p>
-@@ -297,19 +297,19 @@ $(document).ready(function(){
+@@ -300,19 +300,19 @@ $(document).ready(function(){
  	      	</div>
  	      	<#if field.index?exists>
  	      	<div>
@@ -550,7 +545,7 @@ index f4c2aa3..97dff4e 100644
  	      	</div>
  	      	</#if>
  	      	</div>
-@@ -339,7 +339,6 @@ $(document).ready(function(){
+@@ -342,7 +342,6 @@ $(document).ready(function(){
  	</#list>
  
  </form>
@@ -560,10 +555,10 @@ index f4c2aa3..97dff4e 100644
  </#escape>
 \ No newline at end of file
 diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
-index d741010..b579a3a 100644
+index e3d345a..90e5c2b 100644
 --- a/WEB-INF/pages/manage/overview.ftl
 +++ b/WEB-INF/pages/manage/overview.ftl
-@@ -22,7 +22,8 @@ $(document).ready(function(){
+@@ -23,7 +23,8 @@ $(document).ready(function(){
  	$('.confirmDeletion').jConfirmAction({question : "<#if resource.status=='REGISTERED'><@s.text name='manage.resource.delete.confirm.registered'/><#else><@s.text name='basic.confirm'/></#if>", yesAnswer : "<@s.text name='basic.yes'/>", cancelAnswer : "<@s.text name='basic.no'/>"});
  
      var showReport=false;
@@ -603,7 +598,7 @@ index 0c92482..b5fa865 100644
    <#else>
    <p><@s.text name="portal.home.no.public"/></p>
 diff --git a/WEB-INF/pages/portal/resource.ftl b/WEB-INF/pages/portal/resource.ftl
-index e24e5b1..fdbc094 100644
+index 4b313dc..c3e9b1f 100644
 --- a/WEB-INF/pages/portal/resource.ftl
 +++ b/WEB-INF/pages/portal/resource.ftl
 @@ -20,6 +20,7 @@
@@ -623,7 +618,7 @@ index e24e5b1..fdbc094 100644
  	</#if>
  </div>
  <p>
-@@ -83,7 +84,7 @@
+@@ -89,7 +90,7 @@
                    </#if>
                      <tr>
                          <th><@s.text name='portal.resource.published.eml'/></th>
@@ -632,7 +627,7 @@ index e24e5b1..fdbc094 100644
                                 onClick="_gaq.push(['_trackEvent', 'EML', 'Download', '${resource.shortname}']);"><@s.text name='portal.resource.download'/></a>
                              (${emlFormattedSize})
                          </td>
-@@ -91,7 +92,7 @@
+@@ -97,7 +98,7 @@
  
                      <tr>
                          <th><@s.text name='portal.resource.published.rtf'/></th>
@@ -641,6 +636,33 @@ index e24e5b1..fdbc094 100644
                                 onClick="_gaq.push(['_trackEvent', 'RTF', 'Download', '${resource.shortname}']);"><@s.text name='portal.resource.download'/></a>
                              (${rtfFormattedSize})
                          </td>
+diff --git a/WEB-INF/pages/portal/rss.ftl b/WEB-INF/pages/portal/rss.ftl
+index f3938cc..9e8cb1d 100644
+--- a/WEB-INF/pages/portal/rss.ftl
++++ b/WEB-INF/pages/portal/rss.ftl
+@@ -3,11 +3,13 @@
+ 	xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+ 	xmlns:ipt="http://ipt.gbif.org/"
+ 	xmlns:dc="http://purl.org/dc/elements/1.1/"
+-	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
++	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
++	xmlns:atom="http://www.w3.org/2005/Atom">
+ <#escape x as x?xml>
+   <channel>
+     <title>${ipt.name!}</title>
+     <link>${baseURL!}</link>
++    <atom:link href="${baseURL!}/rss.do" rel="self" type="application/rss+xml"></atom:link>
+     <description>Resource metadata <#if ipt.name??>of ${ipt.name}</#if></description>
+     <language>en-us</language>
+     <!-- RFC-822 date-time  / Wed, 02 Oct 2010 13:00:00 GMT -->
+@@ -34,7 +36,6 @@
+         <title>${res.title!}<#if res.emlVersion?has_content> - Version ${res.emlVersion}</#if></title>
+         <link>${cfg.getResourceUrl(res.shortname)}</link>
+         <description>${res.description!} &lt;a href="${cfg.getResourceEmlUrl(res.shortname)}"&gt;EML&lt;/a&gt;</description>
+-        <author>${res.creator.email}</author>
+         <#if res.lastPublished??>
+           <ipt:eml>${cfg.getResourceEmlUrl(res.shortname)}</ipt:eml>
+ 	        <dc:publisher>${res.eml.contact.firstName!} ${res.eml.contact.lastName!} ${res.eml.contact.organisation!}<#if res.eml.contact.email??>&lt;${res.eml.contact.email}&gt;</#if></dc:publisher>
 diff --git a/images/dataTables/sort_asc_red.png b/images/dataTables/sort_asc_red.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..44db5a6cd890a6251c3ede87783b8ed19a7ef232
@@ -914,49 +936,6 @@ index 355407d..284e5ac 100644
  }
 +#footer_content ul li{margin:0px;}
 \ No newline at end of file
-diff --git a/styles/custom.css.orig b/styles/custom.css.orig
-new file mode 100644
-index 0000000..c00f1b9
---- /dev/null
-+++ b/styles/custom.css.orig
-@@ -0,0 +1,36 @@
-+/*
-+ For css overrides needed for customizations.
-+ By having this separate file for css overrides, it should be easier to backup and restore customizations.
-+ If some organization want to style the IPT to their own branding and they want to support more backward compatibility
-+ they can create their own modernizr.js with the desired supported elements. They only have to replace the 'default'
-+ file with their own.
-+*/
-+a {
-+  color: #008959;
-+  font-weight: normal;
-+}
-+.green{
-+  color: #008959;
-+}
-+#region-menu nav ul li.current {
-+  background-color: #008959;
-+}
-+#region-content h1 {
-+  color: #008959;
-+}
-+div.groupmenu ul li a {
-+  color: #008959;
-+}
-+table#rtable thead{
-+  background-color: #dbf0e8;
-+}
-+.dataTables_filter {
-+  background-color: #dbf0e8;
-+}
-+tr.even td.sorting_1 {
-+  background-color: #E6F5EB;
-+}
-+.actionMessage{
-+  color: #008959;
-+  background-color: #dbf0e8;
-+}
-\ No newline at end of file
 -- 
-1.8.3.4 (Apple Git-47)
+1.8.5.2 (Apple Git-48)
 
