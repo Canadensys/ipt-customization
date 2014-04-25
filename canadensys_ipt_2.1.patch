@@ -773,7 +773,7 @@ index 355407d..284e5ac 100644
 +/* Messages */
 +.errorMessage, .actionMessage, .warnMessage{padding:5px;}
 +.errorMessage li, .actionMessage li, .warnMessage li{margin-left:20px;padding-left:5px;}
-+p.actionMessage, p.warnMessage{padding-left:30px;}
++p.actionMessage, p.warnMessage, p.errorMessage{padding-left:30px;}
 +
 +#region-content{width:100%;padding:0px;margin:0px;}
 +#region-content h1{color:#22241E;font-size:1.5em;padding:5px 0;}
