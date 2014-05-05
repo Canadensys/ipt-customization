@@ -1,7 +1,7 @@
-From 77e0cd0354a49ec9d401ca126cf7565cd4cce45b Mon Sep 17 00:00:00 2001
+From b3d37c2416d98ca9a48d1bae387fa7ee5231a7d0 Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
-Date: Fri, 25 Apr 2014 11:57:10 -0400
-Subject: [PATCH] Make customizations
+Date: Mon, 5 May 2014 13:42:09 -0400
+Subject: [PATCH] New changes
 
 ---
  .gitignore                              |   1 +
@@ -17,16 +17,12 @@ Subject: [PATCH] Make customizations
  WEB-INF/pages/manage/mapping.ftl        |  25 ++--
  WEB-INF/pages/manage/overview.ftl       |   3 +-
  WEB-INF/pages/portal/home.ftl           |  10 +-
- WEB-INF/pages/portal/resource.ftl       |   7 +-
+ WEB-INF/pages/portal/resource.ftl       |   9 +-
  WEB-INF/pages/portal/rss.ftl            |   5 +-
- images/dataTables/sort_asc_red.png      | Bin 0 -> 266 bytes
- images/dataTables/sort_desc_red.png     | Bin 0 -> 273 bytes
  js/custom.js                            |  18 +++
  styles/custom.css                       | 199 +++++++++++++++++++++++++++++---
- 19 files changed, 363 insertions(+), 179 deletions(-)
+ 17 files changed, 364 insertions(+), 180 deletions(-)
  create mode 100644 .gitignore
- create mode 100644 images/dataTables/sort_asc_red.png
- create mode 100644 images/dataTables/sort_desc_red.png
  create mode 100644 js/custom.js
 
 diff --git a/.gitignore b/.gitignore
@@ -598,14 +594,16 @@ index 0c92482..b5fa865 100644
    <#else>
    <p><@s.text name="portal.home.no.public"/></p>
 diff --git a/WEB-INF/pages/portal/resource.ftl b/WEB-INF/pages/portal/resource.ftl
-index 4b313dc..c3e9b1f 100644
+index 4b313dc..71f65de 100644
 --- a/WEB-INF/pages/portal/resource.ftl
 +++ b/WEB-INF/pages/portal/resource.ftl
-@@ -20,6 +20,7 @@
+@@ -19,7 +19,8 @@
+ </#macro>
  <#include "/WEB-INF/pages/macros/forms.ftl"/>
  <#include "/WEB-INF/pages/inc/header.ftl">
- 	<title>${resource.title!resource.shortname!}</title>	
-+<#assign sideMenuResource=true />
+-	<title>${resource.title!resource.shortname!}</title>	
++	<title>${resource.title!resource.shortname!}</title>
++	<#assign sideMenuResource=true />
  <#include "/WEB-INF/pages/inc/menu.ftl">
  
  <div class="grid_24">
@@ -614,7 +612,7 @@ index 4b313dc..c3e9b1f 100644
  <div id="resourcelogo">
  	<#if eml.logoUrl?has_content>
 -	<img src="${eml.logoUrl}" />
-+	<img src="${eml.logoUrl}" alt="${eml.title!resource.shortname}"  />
++	<img src="${eml.logoUrl}" alt="${eml.title!resource.shortname}" />
  	</#if>
  </div>
  <p>
@@ -663,36 +661,6 @@ index f3938cc..9e8cb1d 100644
          <#if res.lastPublished??>
            <ipt:eml>${cfg.getResourceEmlUrl(res.shortname)}</ipt:eml>
  	        <dc:publisher>${res.eml.contact.firstName!} ${res.eml.contact.lastName!} ${res.eml.contact.organisation!}<#if res.eml.contact.email??>&lt;${res.eml.contact.email}&gt;</#if></dc:publisher>
-diff --git a/images/dataTables/sort_asc_red.png b/images/dataTables/sort_asc_red.png
-new file mode 100644
-index 0000000000000000000000000000000000000000..44db5a6cd890a6251c3ede87783b8ed19a7ef232
-GIT binary patch
-literal 266
-zcmeAS@N?(olHy`uVBq!ia0vp^!XV7S1|*9D%+3HQwj^(N7a$D;Kb?2i11Zh|kH}&M
-z25z8IZed1-S#u<Sg6t)pzOL+d*`!1j^uKA$&jJcf_jGX#u{iy9k~ZI=00GzYu2Wi;
-zFvUk66*IV!=zW8MDOiYS+m1+v+ll(A@;eUNTost*InUvXT5_72dbwRuc~PdLo9`i?
-zsF`03R-SnHhN<L0<*LB_Woeh#DwsqK7=GXTD_WK|sUez)@yY?yr-zf@HIz-UX1pzM
-zW{J=a=GTEMS*j*a6HGt;<iTH6sRsgf2kPzL^2|<@{K6RAFDK&VD?b_NL<Ub+KbLh*
-G2~7aKoLN5r
-
-literal 0
-HcmV?d00001
-
-diff --git a/images/dataTables/sort_desc_red.png b/images/dataTables/sort_desc_red.png
-new file mode 100644
-index 0000000000000000000000000000000000000000..fb095c930adb3c4b0f7ed796cb1985687edbb64e
-GIT binary patch
-literal 273
-zcmeAS@N?(olHy`uVBq!ia0vp^!XV7S1|*9D%+3HQwj^(N7a$D;Kb?2i11Zh|kH}&M
-z25z8IZed1-S#u<Sg6t)pzOL+d*`!2e<QFqtvjhsw^K@|xu{izqiZ!2Oq5$iI_u{R!
-z3A)!3*u_4UzhiP)6tsb1;nj;bn*5fBuW(8FV!kfiMa0kOtc_pVGZl5$7XO9Mntx3G
-zdvc#+*#4<HL9dd!ypJ;Nl`*U=+iV$@ai@bf&42z(Wj~DqovC~;o_9Q6ZGU?~%_*kW
-zs~Strn|4i^6|tz**2*&J_q17-N$rg1B<?A%3fbIZcuT@I%f~*uFMLy(-mL?QN4^1F
-O%HZkh=d#Wzp$Py6l3}6%
-
-literal 0
-HcmV?d00001
-
 diff --git a/js/custom.js b/js/custom.js
 new file mode 100644
 index 0000000..1a6ff39
@@ -719,7 +687,7 @@ index 0000000..1a6ff39
 +}
 \ No newline at end of file
 diff --git a/styles/custom.css b/styles/custom.css
-index 355407d..284e5ac 100644
+index 355407d..a2256b8 100644
 --- a/styles/custom.css
 +++ b/styles/custom.css
 @@ -5,32 +5,193 @@
