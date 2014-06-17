@@ -362,7 +362,7 @@ index 6064adc..3408b1b 100644
 +	[/#if]
 +		[#if eml.physicalData?has_content]
 +			[#list eml.physicalData as item]
-+			[#if item.distributionUrl?starts_with('http://data.canadensys.net/explorer/d/')]
++			[#if item.distributionUrl?starts_with('http://data.canadensys.net/explorer/')]
 +			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}[#if localeLanguage=='fr']?lang=fr[/#if]" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
 +			[/#if]
 +			[/#list]
