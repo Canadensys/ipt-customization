@@ -16,3 +16,5 @@ To reverse the patch:
 $ patch -p1 -R < canadeneys_ipt_2.1.1.patch
 
 This patch was made by David P. Shorthouse.
+
+See LICENSE.
