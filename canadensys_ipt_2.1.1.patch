@@ -1,41 +1,6 @@
-From b3d37c2416d98ca9a48d1bae387fa7ee5231a7d0 Mon Sep 17 00:00:00 2001
-From: David Shorthouse <davidpshorthouse@gmail.com>
-Date: Mon, 5 May 2014 13:42:09 -0400
-Subject: [PATCH] New changes
-
----
- .gitignore                              |   1 +
- WEB-INF/pages/admin/config.ftl          |   1 -
- WEB-INF/pages/inc/footer.ftl            |  43 +++----
- WEB-INF/pages/inc/header.ftl            |  30 ++---
- WEB-INF/pages/inc/header_setup.ftl      |   4 +-
- WEB-INF/pages/inc/menu.ftl              | 168 +++++++++++++--------------
- WEB-INF/pages/macros/resourcesTable.ftl |   9 +-
- WEB-INF/pages/manage/eml/basic.ftl      |   1 -
- WEB-INF/pages/manage/eml/parties.ftl    |   3 +
- WEB-INF/pages/manage/home.ftl           |  15 ++-
- WEB-INF/pages/manage/mapping.ftl        |  25 ++--
- WEB-INF/pages/manage/overview.ftl       |   3 +-
- WEB-INF/pages/portal/home.ftl           |  10 +-
- WEB-INF/pages/portal/resource.ftl       |   9 +-
- WEB-INF/pages/portal/rss.ftl            |   5 +-
- js/custom.js                            |  18 +++
- styles/custom.css                       | 199 +++++++++++++++++++++++++++++---
- 17 files changed, 364 insertions(+), 180 deletions(-)
- create mode 100644 .gitignore
- create mode 100644 js/custom.js
-
-diff --git a/.gitignore b/.gitignore
-new file mode 100644
-index 0000000..e43b0f9
---- /dev/null
-+++ b/.gitignore
-@@ -0,0 +1 @@
-+.DS_Store
-diff --git a/WEB-INF/pages/admin/config.ftl b/WEB-INF/pages/admin/config.ftl
-index ee036aa..d56b6be 100644
---- a/WEB-INF/pages/admin/config.ftl
-+++ b/WEB-INF/pages/admin/config.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/admin/config.ftl ipt/WEB-INF/pages/admin/config.ftl
+--- ipt-2.1.1/WEB-INF/pages/admin/config.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/admin/config.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -68,6 +68,5 @@ $(document).ready(function(){
  
  </@s.form>
@@ -43,10 +8,9 @@ index ee036aa..d56b6be 100644
 -</div>
  
  <#include "/WEB-INF/pages/inc/footer.ftl">
-diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
-index e5b49c4..74a88d9 100644
---- a/WEB-INF/pages/inc/footer.ftl
-+++ b/WEB-INF/pages/inc/footer.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/inc/footer.ftl ipt/WEB-INF/pages/inc/footer.ftl
+--- ipt-2.1.1/WEB-INF/pages/inc/footer.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/inc/footer.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -1,28 +1,31 @@
  			</div>
  			</div>
@@ -99,10 +63,9 @@ index e5b49c4..74a88d9 100644
  			</footer>		
  		</div>
  
-diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
-index 284de8e..b1bb74f 100644
---- a/WEB-INF/pages/inc/header.ftl
-+++ b/WEB-INF/pages/inc/header.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/inc/header.ftl ipt/WEB-INF/pages/inc/header.ftl
+--- ipt-2.1.1/WEB-INF/pages/inc/header.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/inc/header.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -12,32 +12,32 @@
  <!DOCTYPE html>
  <html xmlns="http://www.w3.org/1999/xhtml">
@@ -164,10 +127,9 @@ index 284de8e..b1bb74f 100644
 -
  [#assign currentMenu = "home"]
 \ No newline at end of file
-diff --git a/WEB-INF/pages/inc/header_setup.ftl b/WEB-INF/pages/inc/header_setup.ftl
-index 9b90852..b238721 100644
---- a/WEB-INF/pages/inc/header_setup.ftl
-+++ b/WEB-INF/pages/inc/header_setup.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/inc/header_setup.ftl ipt/WEB-INF/pages/inc/header_setup.ftl
+--- ipt-2.1.1/WEB-INF/pages/inc/header_setup.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/inc/header_setup.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -8,13 +8,15 @@
  		<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/text.css" />
  		<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
@@ -185,10 +147,9 @@ index 9b90852..b238721 100644
  		<style>
        h1 {
        	color: #077A2D;
-diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
-index 6064adc..3408b1b 100644
---- a/WEB-INF/pages/inc/menu.ftl
-+++ b/WEB-INF/pages/inc/menu.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/inc/menu.ftl ipt/WEB-INF/pages/inc/menu.ftl
+--- ipt-2.1.1/WEB-INF/pages/inc/menu.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/inc/menu.ftl	2015-02-09 14:12:02.000000000 -0500
 @@ -1,93 +1,61 @@
  [#ftl]
 -<script type="text/javascript">
@@ -345,7 +306,7 @@ index 6064adc..3408b1b 100644
  				[#list ["basic", "geocoverage", "taxcoverage","tempcoverage", "keywords", "parties", "project", "methods", "citations", "collections", "physical", "additional"] as it]
  				 <li[#if currentSideMenu?? && currentSideMenu==it] class="current"[#else] class="sidebar"[/#if]><a href="metadata-${it}.do?r=${resource.shortname!r!}">[@s.text name="submenu.${it}"/]</a></li>
  				[/#list]
-@@ -107,6 +75,34 @@
+@@ -107,6 +75,39 @@
  
  			<div class="grid_18 pull_6 region region-content" id="region-content">
  
@@ -366,12 +327,17 @@ index 6064adc..3408b1b 100644
 +			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}[#if localeLanguage=='fr']?lang=fr[/#if]" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
 +			[/#if]
 +			[/#list]
-+			
 +			[#list eml.physicalData as item]
 +			[#if item.distributionUrl?starts_with('http://www.gbif.org/dataset/')]
 +			<p><a class="round big_button" id="gbif_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur GBIF[#else]Explore this dataset on GBIF[/#if]</a></p>
 +			[/#if]
 +			[/#list]
++		[/#if]
++		[#if eml.citation.identifier?has_content]
++		[#assign doi = eml.citation.identifier?matches(r".*(10[.][0-9]{4,}(?:[.][0-9]+)*/\S+)")]
++			[#if doi]
++			<p><span class="doi"><a href="http://doi.org/${doi?groups[1]}">doi:${doi?groups[1]}</a></p>
++			[/#if]
 +		[/#if]
 +[/#if]
 +</div>
@@ -380,11 +346,10 @@ index 6064adc..3408b1b 100644
  [#else]
  
  			<div class="grid_24 region region-content" id="region-content">
-diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
-index 994cd3d..d7e49fd 100644
---- a/WEB-INF/pages/macros/resourcesTable.ftl
-+++ b/WEB-INF/pages/macros/resourcesTable.ftl
-@@ -7,7 +7,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+diff -rupN ipt-2.1.1/WEB-INF/pages/macros/resourcesTable.ftl ipt/WEB-INF/pages/macros/resourcesTable.ftl
+--- ipt-2.1.1/WEB-INF/pages/macros/resourcesTable.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/macros/resourcesTable.ftl	2015-02-09 09:39:06.000000000 -0500
+@@ -7,7 +7,7 @@ resourcesTable macro: Generates a data t
  - sortOrder: The sort order of the columnToSortOn
  -->
  <#macro resourcesTable shownPublicly numResourcesShown sEmptyTable columnToSortOn sortOrder>
@@ -393,7 +358,7 @@ index 994cd3d..d7e49fd 100644
      <#assign emptyString="--">
      <#assign dotDot="..">
  
-@@ -40,10 +40,9 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+@@ -40,10 +40,9 @@ resourcesTable macro: Generates a data t
             <#if r.status=='REGISTERED'>'${r.organisation.alias?replace("\'", "\\'")?replace("\"", '\\"')!r.organisation.name?replace("'", "\'")?replace("\"", '\\"')}'<#else>'<@s.text name="manage.home.not.registered"/>'</#if>,
             <#if r.coreType?has_content && types[r.coreType?lower_case]?has_content>'${types[r.coreType?lower_case]?cap_first!}'<#else>'${emptyString}'</#if>,
             <#if r.subtype?has_content && datasetSubtypes[r.subtype?lower_case]?has_content >'${datasetSubtypes[r.subtype?lower_case]?cap_first!}'<#else>'${emptyString}'</#if>,
@@ -405,7 +370,7 @@ index 994cd3d..d7e49fd 100644
             <#if r.status=='PRIVATE'>'<@s.text name="manage.home.visible.private"/>'<#else>'<@s.text name="manage.home.visible.public"/>'</#if>,
             <#if r.creator??>'${r.creator.firstname?replace("\'", "\\'")?replace("\"", '\\"')!} ${r.creator.lastname?replace("\'", "\\'")?replace("\"", '\\"')!}'<#else>'${emptyString}'</#if>]<#if r_has_next>,</#if>
        </#list>
-@@ -55,6 +54,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+@@ -55,6 +54,7 @@ resourcesTable macro: Generates a data t
              "aaData": aDataSet,
              "iDisplayLength": ${numResourcesShown},
              "bLengthChange": false,
@@ -413,7 +378,7 @@ index 994cd3d..d7e49fd 100644
              "bAutoWidth": false,
              "oLanguage": {
                  "sEmptyTable": "<@s.text name="${sEmptyTable}"/>",
-@@ -76,9 +76,8 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+@@ -76,9 +76,8 @@ resourcesTable macro: Generates a data t
                  { "sTitle": "<@s.text name="manage.home.type"/>"},
                  { "sTitle": "<@s.text name="manage.home.subtype"/>"},
                  { "sTitle": "<@s.text name="portal.home.records"/>", "bSearchable": false, "sType": "number"},
@@ -424,10 +389,9 @@ index 994cd3d..d7e49fd 100644
                  { "sTitle": "<@s.text name="manage.home.visible"/>", "bSearchable": false, "bVisible": <#if shownPublicly>false<#else>true</#if>},
                  { "sTitle": "<@s.text name="portal.home.author"/>", "bVisible": <#if shownPublicly>false<#else>true</#if>}
              ],
-diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
-index 3bead4e..3cf187a 100644
---- a/WEB-INF/pages/manage/eml/basic.ftl
-+++ b/WEB-INF/pages/manage/eml/basic.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/manage/eml/basic.ftl ipt/WEB-INF/pages/manage/eml/basic.ftl
+--- ipt-2.1.1/WEB-INF/pages/manage/eml/basic.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/manage/eml/basic.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -262,7 +262,6 @@
  	<input name="r" type="hidden" value="${resource.shortname}" />
  </form>
@@ -436,10 +400,9 @@ index 3bead4e..3cf187a 100644
  
  <#include "/WEB-INF/pages/inc/footer.ftl">
  </#escape>
-diff --git a/WEB-INF/pages/manage/eml/parties.ftl b/WEB-INF/pages/manage/eml/parties.ftl
-index 0970af1..d692a46 100644
---- a/WEB-INF/pages/manage/eml/parties.ftl
-+++ b/WEB-INF/pages/manage/eml/parties.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/manage/eml/parties.ftl ipt/WEB-INF/pages/manage/eml/parties.ftl
+--- ipt-2.1.1/WEB-INF/pages/manage/eml/parties.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/manage/eml/parties.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -67,7 +67,10 @@ $(document).ready(function(){
    				<div class="halfcolumn">
  		  			<@input name="eml.associatedParties[${item_index}].homepage" i18nkey="eml.associatedParties.homepage" />
@@ -451,10 +414,9 @@ index 0970af1..d692a46 100644
  		  	</div>
  		</#list>
  	</div>
-diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
-index 2f3cc36..7cabbfa 100644
---- a/WEB-INF/pages/manage/home.ftl
-+++ b/WEB-INF/pages/manage/home.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/manage/home.ftl ipt/WEB-INF/pages/manage/home.ftl
+--- ipt-2.1.1/WEB-INF/pages/manage/home.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/manage/home.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -1,18 +1,17 @@
  <#escape x as x?html>
    <#include "/WEB-INF/pages/inc/header.ftl">
@@ -481,10 +443,9 @@ index 2f3cc36..7cabbfa 100644
  
  <h1 class="rtableTitle"><@s.text name="manage.home.title"/></h1>
  <div id="rtableContainer"></div>
-diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
-index f5012a0..41ba8b8 100644
---- a/WEB-INF/pages/manage/mapping.ftl
-+++ b/WEB-INF/pages/manage/mapping.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/manage/mapping.ftl ipt/WEB-INF/pages/manage/mapping.ftl
+--- ipt-2.1.1/WEB-INF/pages/manage/mapping.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/manage/mapping.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -192,23 +192,23 @@ $(document).ready(function(){
    <div class="body">
    	<div class="infos">
@@ -550,10 +511,9 @@ index f5012a0..41ba8b8 100644
  <#include "/WEB-INF/pages/inc/footer.ftl">
  </#escape>
 \ No newline at end of file
-diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
-index e3d345a..90e5c2b 100644
---- a/WEB-INF/pages/manage/overview.ftl
-+++ b/WEB-INF/pages/manage/overview.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/manage/overview.ftl ipt/WEB-INF/pages/manage/overview.ftl
+--- ipt-2.1.1/WEB-INF/pages/manage/overview.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/manage/overview.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -23,7 +23,8 @@ $(document).ready(function(){
  	$('.confirmDeletion').jConfirmAction({question : "<#if resource.status=='REGISTERED'><@s.text name='manage.resource.delete.confirm.registered'/><#else><@s.text name='basic.confirm'/></#if>", yesAnswer : "<@s.text name='basic.yes'/>", cancelAnswer : "<@s.text name='basic.no'/>"});
  
@@ -564,10 +524,9 @@ index e3d345a..90e5c2b 100644
  		if(showReport){
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='manage.overview.published.see.report'/>");
-diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
-index 0c92482..b5fa865 100644
---- a/WEB-INF/pages/portal/home.ftl
-+++ b/WEB-INF/pages/portal/home.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/portal/home.ftl ipt/WEB-INF/pages/portal/home.ftl
+--- ipt-2.1.1/WEB-INF/pages/portal/home.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/portal/home.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -1,18 +1,20 @@
  <#escape x as x?html>
    <#include "/WEB-INF/pages/inc/header.ftl">
@@ -593,10 +552,9 @@ index 0c92482..b5fa865 100644
    </p>
    <#else>
    <p><@s.text name="portal.home.no.public"/></p>
-diff --git a/WEB-INF/pages/portal/resource.ftl b/WEB-INF/pages/portal/resource.ftl
-index 4b313dc..71f65de 100644
---- a/WEB-INF/pages/portal/resource.ftl
-+++ b/WEB-INF/pages/portal/resource.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/portal/resource.ftl ipt/WEB-INF/pages/portal/resource.ftl
+--- ipt-2.1.1/WEB-INF/pages/portal/resource.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/portal/resource.ftl	2015-02-09 09:44:20.000000000 -0500
 @@ -19,7 +19,8 @@
  </#macro>
  <#include "/WEB-INF/pages/macros/forms.ftl"/>
@@ -616,6 +574,15 @@ index 4b313dc..71f65de 100644
  	</#if>
  </div>
  <p>
+@@ -74,7 +75,7 @@
+                   <#-- EML and RTF versions can always be retrieved by version number but DWCA versions are only stored if IPT Archive Mode is on -->
+                       <tr>
+                           <th><@s.text name='portal.resource.published.archive'/></th>
+-                          <td><a href="${baseURL}/archive.do?r=${resource.shortname}<#if version??>&v=${version}</#if>"
++                          <td><a href="${baseURL}/archive.do?r=${resource.shortname}<#if version??>&amp;v=${version}</#if>"
+                                  onClick="_gaq.push(['_trackEvent', 'Archive', 'Download', '${resource.shortname}', ${resource.recordsPublished?c!0} ]);"><@s.text name='portal.resource.download'/></a>
+                               (${dwcaFormattedSize}
+                               ) <#if version?? && version!=resource.emlVersion>
 @@ -89,7 +90,7 @@
                    </#if>
                      <tr>
@@ -634,10 +601,9 @@ index 4b313dc..71f65de 100644
                                 onClick="_gaq.push(['_trackEvent', 'RTF', 'Download', '${resource.shortname}']);"><@s.text name='portal.resource.download'/></a>
                              (${rtfFormattedSize})
                          </td>
-diff --git a/WEB-INF/pages/portal/rss.ftl b/WEB-INF/pages/portal/rss.ftl
-index f3938cc..9e8cb1d 100644
---- a/WEB-INF/pages/portal/rss.ftl
-+++ b/WEB-INF/pages/portal/rss.ftl
+diff -rupN ipt-2.1.1/WEB-INF/pages/portal/rss.ftl ipt/WEB-INF/pages/portal/rss.ftl
+--- ipt-2.1.1/WEB-INF/pages/portal/rss.ftl	2014-04-30 16:00:28.000000000 -0400
++++ ipt/WEB-INF/pages/portal/rss.ftl	2015-02-09 09:39:06.000000000 -0500
 @@ -3,11 +3,13 @@
  	xmlns:foaf="http://xmlns.com/foaf/0.1/" 
  	xmlns:ipt="http://ipt.gbif.org/"
@@ -661,11 +627,13 @@ index f3938cc..9e8cb1d 100644
          <#if res.lastPublished??>
            <ipt:eml>${cfg.getResourceEmlUrl(res.shortname)}</ipt:eml>
  	        <dc:publisher>${res.eml.contact.firstName!} ${res.eml.contact.lastName!} ${res.eml.contact.organisation!}<#if res.eml.contact.email??>&lt;${res.eml.contact.email}&gt;</#if></dc:publisher>
-diff --git a/js/custom.js b/js/custom.js
-new file mode 100644
-index 0000000..1a6ff39
---- /dev/null
-+++ b/js/custom.js
+Binary files ipt-2.1.1/images/dataTables/sort_asc_red.png and ipt/images/dataTables/sort_asc_red.png differ
+Binary files ipt-2.1.1/images/dataTables/sort_desc_red.png and ipt/images/dataTables/sort_desc_red.png differ
+Binary files ipt-2.1.1/images/sort_asc_red.png and ipt/images/sort_asc_red.png differ
+Binary files ipt-2.1.1/images/sort_desc_red.png and ipt/images/sort_desc_red.png differ
+diff -rupN ipt-2.1.1/js/custom.js ipt/js/custom.js
+--- ipt-2.1.1/js/custom.js	1969-12-31 19:00:00.000000000 -0500
++++ ipt/js/custom.js	2015-02-09 09:39:06.000000000 -0500
 @@ -0,0 +1,18 @@
 +/*
 + * This method replaces the function langs from global.js
@@ -686,11 +654,10 @@ index 0000000..1a6ff39
 +
 +}
 \ No newline at end of file
-diff --git a/styles/custom.css b/styles/custom.css
-index 355407d..a2256b8 100644
---- a/styles/custom.css
-+++ b/styles/custom.css
-@@ -5,32 +5,193 @@
+diff -rupN ipt-2.1.1/styles/custom.css ipt/styles/custom.css
+--- ipt-2.1.1/styles/custom.css	2014-04-30 16:00:28.000000000 -0400
++++ ipt/styles/custom.css	2015-02-09 12:31:40.000000000 -0500
+@@ -5,32 +5,214 @@
   they can create their own modernizr.js with the desired supported elements. They only have to replace the 'default'
   file with their own.
  */
@@ -725,7 +692,31 @@ index 355407d..a2256b8 100644
    font-weight: normal;
 +  line-height: 1.5em;
 +  text-align: left;
-+}
+ }
+-.green{
+-  color: #008959;
+-}
+-#region-menu nav ul li.current {
+-  background-color: #008959;
+-}
+-#region-content h1 {
+-  color: #008959;
+-}
+-div.groupmenu ul li a {
+-  color: #008959;
+-}
+-table#rtable thead{
+-  background-color: #dbf0e8;
+-}
+-.dataTables_filter {
+-  background-color: #dbf0e8;
+-}
+-tr.even td.sorting_1 {
+-  background-color: #E6F5EB;
+-}
+-.actionMessage{
+-  color: #008959;
+-  background-color: #dbf0e8;
 +#zone-content-wrapper{
 +  margin:0px;
 +  padding: 0 36px;
@@ -812,6 +803,27 @@ index 355407d..a2256b8 100644
 +#side_bar{
 +  padding-right:10px;
 +}
++#side_bar span.doi:before {
++    content: "DOI";
++}
++#side_bar span.doi {
++    background: none repeat scroll 0 0 black;
++    border-color: black;
++    border-radius: 5px;
++    color: white;
++    font-size: 0.6em;
++    padding: 4px 0 4px 6px;
++    text-decoration: none;
++}
++#side_bar span.doi a {
++    background: none repeat scroll 0 0 #a82400;
++    border-radius: 0 5px 5px 0;
++    color: white;
++    margin-left: 6px;
++    padding: 4px 7px 4px 6px;
++    text-decoration: none;
++    text-transform: lowercase;
++}
 +div.third select {
 +  max-width:90%;
 +  width:85%;
@@ -825,14 +837,10 @@ index 355407d..a2256b8 100644
 +.sorting_asc, .sorting_desc{box-shadow:none;}
 +.sorting_asc{
 +  background:url("../images/dataTables/sort_asc_red.png") no-repeat scroll right center transparent;
- }
--.green{
--  color: #008959;
++}
 +.sorting_desc{
 +  background:url("../images/dataTables/sort_desc_red.png") no-repeat scroll right center transparent;
- }
--#region-menu nav ul li.current {
--  background-color: #008959;
++}
 +tr.even td.sorting_1{background-color:transparent;}
 +#rtable_info{display:none;}
 +.paginate_disabled_previous, .paginate_disabled_next{cursor:default;}
@@ -843,23 +851,17 @@ index 355407d..a2256b8 100644
 +.container_24 .push_18{position:absolute;right:0px;left:auto;min-width:275px;}
 +form.half{
 +  width:50%;
- }
--#region-content h1 {
--  color: #008959;
++}
 +.topForm label {
 +    display: block;
 +    font-size: 12px;
 +    line-height:1.5em;
 +    margin-top:10px;
- }
--div.groupmenu ul li a {
--  color: #008959;
++}
 +.topForm input {
 +  margin:0 0 0 0.5em;
 +  width:90%;
- }
--table#rtable thead{
--  background-color: #dbf0e8;
++}
 +.topForm p {margin:0px 20px 20px;}
 +.topForm div.right {margin-top:0px; text-align:left;}
 +.topForm button{display:block;}
@@ -870,22 +872,15 @@ index 355407d..a2256b8 100644
 +div.groupmenu ul li {
 +  margin-left: 0;
 +  margin-right: 20px;
- }
--.dataTables_filter {
--  background-color: #dbf0e8;
++}
 +.checkbox div {display:inline;}
 +.checkbox input {width:5%;}
 +#config div.checkbox{
 +  padding-top:0px;
- }
--tr.even td.sorting_1 {
--  background-color: #E6F5EB;
++}
 +#location>label{
 +  display:block;
- }
--.actionMessage{
--  color: #008959;
--  background-color: #dbf0e8;
++}
 +div.item{margin-bottom:10px;}
 +div.roles{width:250px;margin-top:15px;}
 +div.roles label{font-weight:bold;display:inline;}
@@ -904,6 +899,3 @@ index 355407d..a2256b8 100644
  }
 +#footer_content ul li{margin:0px;}
 \ No newline at end of file
--- 
-1.8.5.2 (Apple Git-48)
-
