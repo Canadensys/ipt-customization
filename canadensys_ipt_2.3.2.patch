@@ -1,4 +1,4 @@
-From 76ca23b613772ac56672ba57938448996fc6b52f Mon Sep 17 00:00:00 2001
+From 0900fde231ea2e43c77577046c0e4fb48b801656 Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
 Date: Thu, 19 Nov 2015 09:52:25 -0500
 Subject: [PATCH] Complete theming to match existing Canadensys theme
@@ -18,9 +18,9 @@ Subject: [PATCH] Complete theming to match existing Canadensys theme
  images/dataTables/sort_asc_red.png              | Bin 0 -> 266 bytes
  images/dataTables/sort_desc_red.png             | Bin 0 -> 273 bytes
  js/custom.js                                    |  18 ++
- styles/custom.css                               | 282 ++++++++++++++++++++++--
+ styles/custom.css                               | 290 ++++++++++++++++++++++--
  styles/main.css                                 |  13 --
- 16 files changed, 428 insertions(+), 254 deletions(-)
+ 16 files changed, 436 insertions(+), 254 deletions(-)
  create mode 100644 images/dataTables/forward_enabled_hover_red.png
  create mode 100644 images/dataTables/sort_asc_red.png
  create mode 100644 images/dataTables/sort_desc_red.png
@@ -153,7 +153,7 @@ index 323745f..b1d3a85 100644
        h1 {
        	color: #077A2D;
 diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
-index a99b0a6..fd258e9 100644
+index a99b0a6..37d4642 100644
 --- a/WEB-INF/pages/inc/menu.ftl
 +++ b/WEB-INF/pages/inc/menu.ftl
 @@ -1,79 +1,57 @@
@@ -312,7 +312,7 @@ index a99b0a6..fd258e9 100644
 +      		[#if eml.physicalData?has_content]
 +      			[#list eml.physicalData as item]
 +      			[#if item.distributionUrl?starts_with('http://data.canadensys.net/explorer/')]
-+      			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}[#if localeLanguage=='fr']?lang=fr[/#if]" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
++      			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
 +      			[/#if]
 +      			[/#list]
 +      			[#list eml.physicalData as item]
@@ -444,7 +444,7 @@ index bc07934..40538f1 100644
    <#else>
    <p><@s.text name="portal.home.no.public"/></p>
 diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
-index f8f91cc..f2d7438 100644
+index f8f91cc..17db3a2 100644
 --- a/WEB-INF/pages/portal/resource_new.ftl
 +++ b/WEB-INF/pages/portal/resource_new.ftl
 @@ -105,106 +105,7 @@
@@ -579,7 +579,7 @@ index f8f91cc..f2d7438 100644
 +                                  <#if eml.physicalData?has_content>
 +                                    <#list eml.physicalData as item>
 +                                      <#if item.distributionUrl?starts_with('http://data.canadensys.net/explorer/')>
-+                                        <li class="box round big_button"><a href="${item.distributionUrl}[#if localeLanguage=='fr']?lang=fr[/#if]" id="explorer_link" class="icon icon-canadensys multi_line" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);"><#if localeLanguage=='fr']Voir données sur Canadensys<#else>Explore this dataset on Canadensys</#if></a></li>
++                                        <li class="box round big_button"><a href="${item.distributionUrl}" id="explorer_link" class="icon icon-canadensys multi_line" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);"><#if localeLanguage=='fr']Voir données sur Canadensys<#else>Explore this dataset on Canadensys</#if></a></li>
 +                                      </#if>
 +                                    </#list>
                                    </#if>
@@ -674,10 +674,10 @@ index 0000000..1a6ff39
 +}
 \ No newline at end of file
 diff --git a/styles/custom.css b/styles/custom.css
-index 355407d..ce6c676 100644
+index 355407d..0e61d47 100644
 --- a/styles/custom.css
 +++ b/styles/custom.css
-@@ -5,32 +5,276 @@
+@@ -5,32 +5,284 @@
   they can create their own modernizr.js with the desired supported elements. They only have to replace the 'default'
   file with their own.
  */
@@ -887,14 +887,12 @@ index 355407d..ce6c676 100644
 +.sorting_asc, .sorting_desc{box-shadow:none;}
 +.sorting_asc{
 +  background:url("../images/dataTables/sort_asc_red.png") no-repeat scroll right center transparent;
- }
--.green{
--  color: #008959;
++}
 +.sorting_desc{
 +  background:url("../images/dataTables/sort_desc_red.png") no-repeat scroll right center transparent;
  }
--#region-menu nav ul li.current {
--  background-color: #008959;
+-.green{
+-  color: #008959;
 +tr.even td.sorting_1{background-color:transparent;}
 +#rtable_info{display:none;}
 +.paginate_disabled_previous, .paginate_disabled_next{cursor:default;}
@@ -906,22 +904,22 @@ index 355407d..ce6c676 100644
 +form.half{
 +  width:50%;
  }
--#region-content h1 {
--  color: #008959;
+-#region-menu nav ul li.current {
+-  background-color: #008959;
 +.topForm label {
 +    display: block;
 +    font-size: 12px;
 +    line-height:1.5em;
 +    margin-top:10px;
  }
--div.groupmenu ul li a {
+-#region-content h1 {
 -  color: #008959;
 +.topForm input {
 +  margin:0 0 0 0.5em;
 +  width:90%;
  }
--table#rtable thead{
--  background-color: #dbf0e8;
+-div.groupmenu ul li a {
+-  color: #008959;
 +.topForm p {margin:0px 20px 20px;}
 +.topForm div.right {margin-top:0px; text-align:left;}
 +.topForm button{display:block;}
@@ -933,21 +931,20 @@ index 355407d..ce6c676 100644
 +  margin-left: 0;
 +  margin-right: 20px;
  }
--.dataTables_filter {
+-table#rtable thead{
 -  background-color: #dbf0e8;
 +.checkbox div {display:inline;}
 +.checkbox input {width:5%;}
 +#config div.checkbox{
 +  padding-top:0px;
  }
--tr.even td.sorting_1 {
--  background-color: #E6F5EB;
+-.dataTables_filter {
+-  background-color: #dbf0e8;
 +#location>label{
 +  display:block;
  }
--.actionMessage{
--  color: #008959;
--  background-color: #dbf0e8;
+-tr.even td.sorting_1 {
+-  background-color: #E6F5EB;
 +div.item{margin-bottom:10px;}
 +div.roles{width:250px;margin-top:15px;}
 +div.roles label{font-weight:bold;display:inline;}
@@ -956,12 +953,14 @@ index 355407d..ce6c676 100644
 +div.groupmenu ul{clear:both;margin-top:0px;}
 +div.info{line-height:1.5em;}
 +
-+
 +.sidebar-nav li a:hover {
 +  text-decoration: none;
 +  color: #666;
 +  background: #dbf0e8;
  }
+-.actionMessage{
+-  color: #008959;
+-  background-color: #dbf0e8;
 +
 +#zone-footer-wrapper{display:none;height:0px;}
 +#section-footer{height:90px;}
@@ -973,6 +972,15 @@ index 355407d..ce6c676 100644
 +  width:500px;
 + }
 +#footer_content ul li{margin:0px;}
++.ui-widget-header{
++  background:-moz-linear-gradient(bottom,#a82400 0,#6a0c00 100%);
++  background:-ms-linear-gradient(bottom,#a82400 0,#6a0c00 100%);
++  background:-o-linear-gradient(bottom,#a82400 0,#6a0c00 100%);
++  background:-webkit-linear-gradient(bottom,#a82400 0,#6a0c00 100%);
++  background:linear-gradient(bottom,#a82400 0,#6a0c00 100%);
++  background-color:#961b00;
++  color:#fff;
+ }
 diff --git a/styles/main.css b/styles/main.css
 index 3706fe6..6e1225e 100644
 --- a/styles/main.css
