@@ -5,7 +5,7 @@ Customize the [Global Biodiversity Information Facility](http://www.gbif.org)'s 
 
 This patch is specific to IPT 2.3.2 and the [Canadensys IPT](http://data.canadensys.net/ipt/) install. It is provided here to illustrate how the Canadensys team coordinates its IPT customization and for its version control.
 
-Copy canadensys_ipt_2.3.2.patch into the Tomcat directory for your IPT (i.e. where you have its META-INF, WEB-INF, images, js, and styles directories). Ensure that git has been initialized for ipt directory and all files added to the git index, the execute instructions from [https://ariejan.net/2009/10/26/how-to-create-and-apply-a-patch-with-git/](https://ariejan.net/2009/10/26/how-to-create-and-apply-a-patch-with-git/).
+Copy canadensys_ipt_2.3.2.patch into the Tomcat directory for your IPT (i.e. where you have its META-INF, WEB-INF, images, js, and styles directories). Ensure that git has been initialized for this directory and all files added and committed to its git index, the execute instructions from [https://ariejan.net/2009/10/26/how-to-create-and-apply-a-patch-with-git/](https://ariejan.net/2009/10/26/how-to-create-and-apply-a-patch-with-git/).
 
 This patch was made by David P. Shorthouse.
 
