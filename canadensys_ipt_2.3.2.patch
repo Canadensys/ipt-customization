@@ -1,4 +1,4 @@
-From 0900fde231ea2e43c77577046c0e4fb48b801656 Mon Sep 17 00:00:00 2001
+From 9114a5167726c7f7ed1f6ffad30a212b36392406 Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
 Date: Thu, 19 Nov 2015 09:52:25 -0500
 Subject: [PATCH] Complete theming to match existing Canadensys theme
@@ -11,6 +11,7 @@ Subject: [PATCH] Complete theming to match existing Canadensys theme
  WEB-INF/pages/macros/resourcesTable.ftl         |   9 +-
  WEB-INF/pages/macros/versionsTable.ftl          |   2 +-
  WEB-INF/pages/manage/home.ftl                   |   2 +-
+ WEB-INF/pages/manage/mapping.ftl                |   2 +-
  WEB-INF/pages/manage/overview.ftl               |   3 +-
  WEB-INF/pages/portal/home.ftl                   |   7 +-
  WEB-INF/pages/portal/resource_new.ftl           | 132 ++---------
@@ -20,7 +21,7 @@ Subject: [PATCH] Complete theming to match existing Canadensys theme
  js/custom.js                                    |  18 ++
  styles/custom.css                               | 290 ++++++++++++++++++++++--
  styles/main.css                                 |  13 --
- 16 files changed, 436 insertions(+), 254 deletions(-)
+ 17 files changed, 437 insertions(+), 255 deletions(-)
  create mode 100644 images/dataTables/forward_enabled_hover_red.png
  create mode 100644 images/dataTables/sort_asc_red.png
  create mode 100644 images/dataTables/sort_desc_red.png
@@ -405,6 +406,19 @@ index f40b06d..4bd5062 100644
  
  <h1 class="rtableTitle"><@s.text name="manage.home.title"/></h1>
  <div id="tableContainer"></div>
+diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
+index 289ebb7..7527c53 100644
+--- a/WEB-INF/pages/manage/mapping.ftl
++++ b/WEB-INF/pages/manage/mapping.ftl
+@@ -91,7 +91,7 @@ $(document).ready(function(){
+ 	};
+   var showAllGroups=${Parameters.showAllGroups!"false"};
+   if (!showAllGroups){
+-    hideRedundantGroups();
++    //hideRedundantGroups();
+   };
+ 
+     $('.confirm').jConfirmAction({question : "<@s.text name="basic.confirm"/>", yesAnswer : "<@s.text name="basic.yes"/>", cancelAnswer : "<@s.text name="basic.no"/>"});
 diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
 index d8e1051..b93b2bd 100644
 --- a/WEB-INF/pages/manage/overview.ftl
