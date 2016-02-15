@@ -1,4 +1,4 @@
-From 9114a5167726c7f7ed1f6ffad30a212b36392406 Mon Sep 17 00:00:00 2001
+From 32316c8cb8308bb21a37f98287f8ea277e26aa98 Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
 Date: Thu, 19 Nov 2015 09:52:25 -0500
 Subject: [PATCH] Complete theming to match existing Canadensys theme
@@ -19,9 +19,9 @@ Subject: [PATCH] Complete theming to match existing Canadensys theme
  images/dataTables/sort_asc_red.png              | Bin 0 -> 266 bytes
  images/dataTables/sort_desc_red.png             | Bin 0 -> 273 bytes
  js/custom.js                                    |  18 ++
- styles/custom.css                               | 290 ++++++++++++++++++++++--
+ styles/custom.css                               | 291 ++++++++++++++++++++++--
  styles/main.css                                 |  13 --
- 17 files changed, 437 insertions(+), 255 deletions(-)
+ 17 files changed, 438 insertions(+), 255 deletions(-)
  create mode 100644 images/dataTables/forward_enabled_hover_red.png
  create mode 100644 images/dataTables/sort_asc_red.png
  create mode 100644 images/dataTables/sort_desc_red.png
@@ -688,10 +688,10 @@ index 0000000..1a6ff39
 +}
 \ No newline at end of file
 diff --git a/styles/custom.css b/styles/custom.css
-index 355407d..0e61d47 100644
+index 355407d..7407d51 100644
 --- a/styles/custom.css
 +++ b/styles/custom.css
-@@ -5,32 +5,284 @@
+@@ -5,32 +5,285 @@
   they can create their own modernizr.js with the desired supported elements. They only have to replace the 'default'
   file with their own.
  */
@@ -823,11 +823,12 @@ index 355407d..0e61d47 100644
 +#wrapper {
 +  padding-right: 336px;
 +  padding-left:0px;
++  position:relative;
 +}
 +#one .horizontal-list {
 +  position:absolute;
 +  right:0px;
-+  top:0px;
++  top:30px;
 +  width:300px;
 +  margin-right:10px;
 +}
