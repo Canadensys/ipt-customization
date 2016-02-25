@@ -1,9 +1,11 @@
-From 32316c8cb8308bb21a37f98287f8ea277e26aa98 Mon Sep 17 00:00:00 2001
+From 384ec135ad9ecf254e293a0ccc9711b49882904f Mon Sep 17 00:00:00 2001
 From: David Shorthouse <davidpshorthouse@gmail.com>
 Date: Thu, 19 Nov 2015 09:52:25 -0500
 Subject: [PATCH] Complete theming to match existing Canadensys theme
 
 ---
+ WEB-INF/pages/admin/organisations.ftl           |   2 +-
+ WEB-INF/pages/admin/users.ftl                   |   2 +-
  WEB-INF/pages/inc/footer.ftl                    |  43 ++--
  WEB-INF/pages/inc/header.ftl                    |  11 +-
  WEB-INF/pages/inc/header_setup.ftl              |   4 +-
@@ -19,14 +21,40 @@ Subject: [PATCH] Complete theming to match existing Canadensys theme
  images/dataTables/sort_asc_red.png              | Bin 0 -> 266 bytes
  images/dataTables/sort_desc_red.png             | Bin 0 -> 273 bytes
  js/custom.js                                    |  18 ++
- styles/custom.css                               | 291 ++++++++++++++++++++++--
+ styles/custom.css                               | 297 ++++++++++++++++++++++--
  styles/main.css                                 |  13 --
- 17 files changed, 438 insertions(+), 255 deletions(-)
+ 19 files changed, 446 insertions(+), 257 deletions(-)
  create mode 100644 images/dataTables/forward_enabled_hover_red.png
  create mode 100644 images/dataTables/sort_asc_red.png
  create mode 100644 images/dataTables/sort_desc_red.png
  create mode 100644 js/custom.js
 
+diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
+index 5e89c77..333cc57 100644
+--- a/WEB-INF/pages/admin/organisations.ftl
++++ b/WEB-INF/pages/admin/organisations.ftl
+@@ -28,7 +28,7 @@ $(document).ready(function(){
+ 
+ <h1 class="rtableTitle"><@s.text name="admin.home.editOrganisations"/></h1>
+ 
+-<@organisationsTable numOrganisationsShown=20 sEmptyTable="dataTables.sEmptyTable.organisations" columnToSortOn=0 sortOrder="asc" />
++<@organisationsTable numOrganisationsShown=999 sEmptyTable="dataTables.sEmptyTable.organisations" columnToSortOn=0 sortOrder="asc" />
+ <div id="tableContainer"></div>
+ 
+ <div class="grid_24">
+diff --git a/WEB-INF/pages/admin/users.ftl b/WEB-INF/pages/admin/users.ftl
+index 9947ede..81c74e6 100644
+--- a/WEB-INF/pages/admin/users.ftl
++++ b/WEB-INF/pages/admin/users.ftl
+@@ -19,7 +19,7 @@ $(document).ready(function(){
+ 
+ <h1 class="rtableTitle"><@s.text name="admin.home.manageUsers"/></h1>
+ 
+-<@usersTable numUsersShown=20 sEmptyTable="dataTables.sEmptyTable.users" columnToSortOn=0 sortOrder="asc" />
++<@usersTable numUsersShown=999 sEmptyTable="dataTables.sEmptyTable.users" columnToSortOn=0 sortOrder="asc" />
+ <div id="tableContainer"></div>
+ 
+ <div class="grid_24">
 diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
 index ea1ce94..13e1bb2 100644
 --- a/WEB-INF/pages/inc/footer.ftl
@@ -394,7 +422,7 @@ index ed96e1a..3ed1757 100644
                 '${v.recordsPublished}',
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
 diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
-index f40b06d..4bd5062 100644
+index f40b06d..48704e4 100644
 --- a/WEB-INF/pages/manage/home.ftl
 +++ b/WEB-INF/pages/manage/home.ftl
 @@ -12,7 +12,7 @@
@@ -402,7 +430,7 @@ index f40b06d..4bd5062 100644
      });
  </script>
 -  <@resourcesTable shownPublicly=false numResourcesShown=10 sEmptyTable="manage.home.resources.none" columnToSortOn=6 sortOrder="desc"/>
-+  <@resourcesTable shownPublicly=false numResourcesShown=500 sEmptyTable="manage.home.resources.none" columnToSortOn=6 sortOrder="desc"/>
++  <@resourcesTable shownPublicly=false numResourcesShown=999 sEmptyTable="manage.home.resources.none" columnToSortOn=6 sortOrder="desc"/>
  
  <h1 class="rtableTitle"><@s.text name="manage.home.title"/></h1>
  <div id="tableContainer"></div>
@@ -434,7 +462,7 @@ index d8e1051..b93b2bd 100644
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='basic.show'/>");
 diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
-index bc07934..40538f1 100644
+index bc07934..c3f725d 100644
 --- a/WEB-INF/pages/portal/home.ftl
 +++ b/WEB-INF/pages/portal/home.ftl
 @@ -5,14 +5,17 @@
@@ -442,7 +470,7 @@ index bc07934..40538f1 100644
  <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery-1.11.1.min.js"></script>
  <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
 -  <@resourcesTable shownPublicly=true numResourcesShown=20 sEmptyTable="dataTables.sEmptyTable.resources" columnToSortOn=1 sortOrder="asc" />
-+  <@resourcesTable shownPublicly=true numResourcesShown=500 sEmptyTable="dataTables.sEmptyTable.resources" columnToSortOn=1 sortOrder="asc" />
++  <@resourcesTable shownPublicly=true numResourcesShown=999 sEmptyTable="dataTables.sEmptyTable.resources" columnToSortOn=1 sortOrder="asc" />
  <h1 class="rtableTitle"><@s.text name="portal.home.title"/></h1>
 +
 +<p><#if localeLanguage=='fr'>Suivez <a href="http://www.canadensys.net/data-publication-guide?lang=fr">notre guide en 7 étapes</a> pour publier votre propre jeu de données sur ce dépôt.<#else>Follow <a href="http://www.canadensys.net/data-publication-guide">our 7-step guide</a> to publish your own dataset on this repository.</#if></p>
@@ -688,10 +716,10 @@ index 0000000..1a6ff39
 +}
 \ No newline at end of file
 diff --git a/styles/custom.css b/styles/custom.css
-index 355407d..7407d51 100644
+index 355407d..cb5acb0 100644
 --- a/styles/custom.css
 +++ b/styles/custom.css
-@@ -5,32 +5,285 @@
+@@ -5,32 +5,291 @@
   they can create their own modernizr.js with the desired supported elements. They only have to replace the 'default'
   file with their own.
  */
@@ -905,9 +933,7 @@ index 355407d..7407d51 100644
 +}
 +.sorting_desc{
 +  background:url("../images/dataTables/sort_desc_red.png") no-repeat scroll right center transparent;
- }
--.green{
--  color: #008959;
++}
 +tr.even td.sorting_1{background-color:transparent;}
 +#rtable_info{display:none;}
 +.paginate_disabled_previous, .paginate_disabled_next{cursor:default;}
@@ -918,23 +944,21 @@ index 355407d..7407d51 100644
 +.container_24 .push_18{position:absolute;right:0px;left:auto;min-width:275px;}
 +form.half{
 +  width:50%;
- }
--#region-menu nav ul li.current {
--  background-color: #008959;
++}
 +.topForm label {
 +    display: block;
 +    font-size: 12px;
 +    line-height:1.5em;
 +    margin-top:10px;
  }
--#region-content h1 {
+-.green{
 -  color: #008959;
 +.topForm input {
 +  margin:0 0 0 0.5em;
 +  width:90%;
  }
--div.groupmenu ul li a {
--  color: #008959;
+-#region-menu nav ul li.current {
+-  background-color: #008959;
 +.topForm p {margin:0px 20px 20px;}
 +.topForm div.right {margin-top:0px; text-align:left;}
 +.topForm button{display:block;}
@@ -946,20 +970,20 @@ index 355407d..7407d51 100644
 +  margin-left: 0;
 +  margin-right: 20px;
  }
--table#rtable thead{
--  background-color: #dbf0e8;
+-#region-content h1 {
+-  color: #008959;
 +.checkbox div {display:inline;}
 +.checkbox input {width:5%;}
 +#config div.checkbox{
 +  padding-top:0px;
  }
--.dataTables_filter {
--  background-color: #dbf0e8;
+-div.groupmenu ul li a {
+-  color: #008959;
 +#location>label{
 +  display:block;
  }
--tr.even td.sorting_1 {
--  background-color: #E6F5EB;
+-table#rtable thead{
+-  background-color: #dbf0e8;
 +div.item{margin-bottom:10px;}
 +div.roles{width:250px;margin-top:15px;}
 +div.roles label{font-weight:bold;display:inline;}
@@ -973,10 +997,20 @@ index 355407d..7407d51 100644
 +  color: #666;
 +  background: #dbf0e8;
  }
+-.dataTables_filter {
+-  background-color: #dbf0e8;
++
++td.separator{
++  border-right:0px;
+ }
+-tr.even td.sorting_1 {
+-  background-color: #E6F5EB;
++#resourcedoi{
++  display:none;
+ }
 -.actionMessage{
 -  color: #008959;
 -  background-color: #dbf0e8;
-+
 +#zone-footer-wrapper{display:none;height:0px;}
 +#section-footer{height:90px;}
 +#footer_content{text-align:left;}
