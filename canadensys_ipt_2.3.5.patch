@@ -1,0 +1,965 @@
+From 6ea97a5b5239702c3c8634e211e3447be2a6ed96 Mon Sep 17 00:00:00 2001
+From: JeGoi <jeremy.goimard@gmail.com>
+Date: Mon, 18 Dec 2017 15:15:28 -0500
+Subject: [PATCH] canadensys_ipt_2.3.5 patch
+
+---
+ WEB-INF/pages/admin/organisations.ftl   |   6 +-
+ WEB-INF/pages/admin/users.ftl           |   5 +-
+ WEB-INF/pages/inc/footer.ftl            | 114 +++++++---
+ WEB-INF/pages/inc/header.ftl            |  79 +++----
+ WEB-INF/pages/inc/menu.ftl              | 365 +++++++++++++++++++++++++-------
+ WEB-INF/pages/macros/resourcesTable.ftl |  11 +-
+ WEB-INF/pages/macros/versionsTable.ftl  |   2 +-
+ WEB-INF/pages/manage/home.ftl           |   7 +-
+ WEB-INF/pages/manage/mapping.ftl        |   4 +-
+ WEB-INF/pages/manage/overview.ftl       |   3 +-
+ WEB-INF/pages/portal/home.ftl           |   8 +-
+ WEB-INF/pages/portal/resource_new.ftl   |  27 ++-
+ styles/custom.css                       | 332 +++++++++++++++++++++++++++--
+ styles/main.css                         |  47 ++++
+ 14 files changed, 818 insertions(+), 192 deletions(-)
+
+diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
+index 5e89c77..6e2fcd0 100644
+--- a/WEB-INF/pages/admin/organisations.ftl
++++ b/WEB-INF/pages/admin/organisations.ftl
+@@ -28,9 +28,7 @@ $(document).ready(function(){
+ 
+ <h1 class="rtableTitle"><@s.text name="admin.home.editOrganisations"/></h1>
+ 
+-<@organisationsTable numOrganisationsShown=20 sEmptyTable="dataTables.sEmptyTable.organisations" columnToSortOn=0 sortOrder="asc" />
+-<div id="tableContainer"></div>
+-
++<@organisationsTable numOrganisationsShown=999 sEmptyTable="dataTables.sEmptyTable.organisations" columnToSortOn=0 sortOrder="asc" /><div id="tableContainer"></div>
+ <div class="grid_24">
+ <p>
+ 	<button id="add"><@s.text name="button.add"/></button>
+@@ -45,4 +43,4 @@ $(document).ready(function(){
+ <!-- DataTables v1.9.4 -->
+ <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
+ 
+-</#escape>
+\ No newline at end of file
++</#escape>
+diff --git a/WEB-INF/pages/admin/users.ftl b/WEB-INF/pages/admin/users.ftl
+index 9947ede..3cbcf00 100644
+--- a/WEB-INF/pages/admin/users.ftl
++++ b/WEB-INF/pages/admin/users.ftl
+@@ -19,8 +19,7 @@ $(document).ready(function(){
+ 
+ <h1 class="rtableTitle"><@s.text name="admin.home.manageUsers"/></h1>
+ 
+-<@usersTable numUsersShown=20 sEmptyTable="dataTables.sEmptyTable.users" columnToSortOn=0 sortOrder="asc" />
+-<div id="tableContainer"></div>
++<@usersTable numUsersShown=999 sEmptyTable="dataTables.sEmptyTable.users" columnToSortOn=0 sortOrder="asc" /><div id="tableContainer"></div>
+ 
+ <div class="grid_24">
+ <p>
+@@ -36,4 +35,4 @@ $(document).ready(function(){
+ <!-- DataTables v1.9.4 -->
+ <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
+ 
+-</#escape>
+\ No newline at end of file
++</#escape>
+diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
+index 605130c..f62927d 100644
+--- a/WEB-INF/pages/inc/footer.ftl
++++ b/WEB-INF/pages/inc/footer.ftl
+@@ -1,32 +1,88 @@
+-<#ftl output_format="HTML">
+-</div>
+-			</div>
+-			</section>
+-			<footer id="section-footer" class="section section-footer">
+-  			<div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">  
+-      		<div id="zone-footer" class="zone zone-footer clearfix container_24">
+-      			<ul>
+-			        <li>IPT <@s.text name="footer.version"/> ${cfg.version!"???"}</li>
+-			        <li><a href="http://www.gbif.org/ipt"><@s.text name="footer.projectHome"/></a></li>
+-			        <li><a href="https://github.com/gbif/ipt/wiki/IPT2ManualNotes.wiki" target="_blank"><@s.text name="footer.useManual"/></a></li>
+-			        <li><a href="https://github.com/gbif/ipt/issues/new" target="_blank"><@s.text name="footer.bugReport"/></a></li>
+-			        <li><a href="https://github.com/gbif/ipt/issues/new" target="_blank"><@s.text name="footer.featureRequest"/></a></li>
+-		        </ul>
+-      		</div>
+-  			</div>
++        <#ftl output_format="HTML">
++        </div>
++            </div>
++            </section>
++            <footer id="section-footer" class="section section-footer">
++                <!-- Custom footer START -->
++        <div id="footer" class="col-xs-12">
++            <div class="col-md-10 col-md-offset-1 col-sm-12">
++                <div class="emptyspace col-xs-12"></div>
++                <div class="container-fluid">
++                    <div class="row-fluid">
++                        <div id="fConnect" class="col-md-2 col-sm-12">
++                            <div class="emptyspace col-xs-12"></div>
++                            <div class="col-xs-12">
++                                <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/github_black_white_64.png" alt="GitHub"></a>
++                            </div>
++                            <div class="col-xs-12">
++                                <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/facebook_black_white_64.png" alt="Facebook"></a>
++                            </div>
++                            <div class="col-xs-12">
++                                <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/twitter_black_white_64.png" alt="Twitter"></a>
++                            </div>
++                            <div class="emptyspace col-xs-12"></div>
++                        </div>
++                        <div id="fLicense" class="col-md-9 col-sm-12">
++                            <div class="col-left-center">
++                                <span class="col-left-center-p">
++                                    <div class="row-fluid">
++                                        <div class="emptyspace col-xs-12"></div>
++                                        <div class="col-xs-12">
++                                            <div class="row-fluid">
++                                                <div class="col-sm-6 col-xs-12 text-center">
++                                                    <a href="http://community.canadensys.net/about/norms"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/cite_us_black_white_64_2.png" alt="Cite us"></a>
++                                                    <p class="fr">Comment nous citer</p>
++                                                    <p class="en">How to cite us</p>
++                                                </div>
++                                                <div class="col-sm-6 col-xs-12 text-center">
++                                                    <a href="http://community.canadensys.net/about/contact"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/mail_black_white_64.png" alt="Contact us"></a>
++                                                    <p class="fr">Contactez nous</p>
++                                                    <p class="en">Contact us</p>
++                                                </div>
++                                            </div>
++                                        </div>
++                                        <div class="emptyspace col-xs-12"></div>
++                                        <div class="row-fluid">
++                                            <div class="col-sm-6 col-xs-12">
++                                                <div class="col-sm-5 col-xs-12">
++                                                    <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/commonui-bs3/img//icons/cc0-logo.png" alt="cc0-logo"></a>
++                                                </div>
++                                                <div class="col-sm-7 col-xs-12 center">
++                                                    <p class="fr">La plupart des participants de Canadensys ont transféré leurs données au <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr">domaine public</a>.</p>
++                                                    <p class="en">Most Canadensys participants have dedicated their data to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
++                                                </div>
++                                            </div>
++                                            </div>
++                                            <div class="col-sm-6 col-xs-12">
++                                                <div class="col-sm-5 col-xs-12">
++                                                    <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/commonui-bs3/img/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                                </div>
++                                                <div class="col-sm-7 col-xs-12">
++                                                    <p class="fr">Tous les autres contenus de ce site opèrent sous <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.fr">CC-BY</a>, sauf pour le <a href="http://www.canadensys.net/documents?lang=fr">logo de Canadensys</a>, qui est sous copyright.</p>
++                                                    <p class="en">All other content on this website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">CC-BY</a>, except for the copyrighted <a href="http://www.canadensys.net/documents">Canadensys logo</a>.</p>
++                                                </div>
++                                            </div>
++                                        </div>
++                                        <div class="emptyspace col-xs-12"></div>
++                                    </div>
++                                </span>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++            </div><!--/#footer -->
++        </div><!--/#footer -->
+ 
+-  			<div id="zone-credit-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">
+-          <div id="zone-credit" class="zone zone-credit clearfix container_24">
+-            <aside class="grid_16 region region-credit-first" id="region-credit-first">
+-              <div class="region-inner region-credit-first-inner">
+-                <p>&copy;2017 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>.</p>
+-              </div>
+-            </aside>
+-          </div>
+-  			</div>
+-			</footer>		
+-		</div>
++                <!-- Custom footer END -->
++            </footer>
++        </div>
+ 
+-    <div id="modalbox"><div id="modalback"></div><div id="modalcontainer"><div id="modalcontent"></div></div></div>
+-	</body>
++        <div id="modalbox">
++            <div id="modalback"></div>
++            <div id="modalcontainer">
++                <div id="modalcontent"></div>
++            </div>
++        </div>
++
++    </body>
+ </html>
+diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
+index 5cd7c94..370f70b 100644
+--- a/WEB-INF/pages/inc/header.ftl
++++ b/WEB-INF/pages/inc/header.ftl
+@@ -10,43 +10,50 @@
+       xmlns:foaf="http://xmlns.com/foaf/0.1/">
+   <head>
+     <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/reset.css" />
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/text.css" />
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
+- 	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/text.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
++    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
+     <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/jquery/dataTable.css"/>
+- 	<link rel="shortcut icon" href="${baseURL}/images/icons/favicon-16x16.png" type="image/x-icon" />
+-	<link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
++    <link rel="shortcut icon" href="http://layout.canadensys.net/common/images/favicon.ico" type="image/x-icon" />
++    <link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
+     <link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.11.0.css" rel="stylesheet" />
+     <!-- for css overrides needed for customizations -->
+-    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/custom.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
+     <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/bootstrap.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
+     <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
+     <script type="text/javascript" src="${baseURL}/js/jquery/jquery-1.11.1.min.js"></script>
+     <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.11.0.js"></script>
+-	<script type="text/javascript" src="${baseURL}/js/global.js"></script>
+-
+-[#-- GOOGLE ANALYTICS - asynchroneous: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html --]
+-[#if cfg.gbifAnalytics || (cfg.analyticsKey!"")?length>1] 
+-<script type="text/javascript">
+-  var _gaq = _gaq || [];
+-	[#if (cfg.analyticsKey!"")?length>1] 
+-	  _gaq.push(['_setAccount', '${cfg.analyticsKey}']);
+-	  _gaq.push(['_trackPageview']);
+-	[/#if]
+-	[#if cfg.gbifAnalytics] 
+-	  _gaq.push(['gbif._setAccount', '${cfg.getProperty("dev.analytics.gbif")}']);
+-	  _gaq.push(['gbif._trackPageview']);
+-	[/#if]
+-  (function() {
+-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+-  })();
+-</script>
+-[/#if]
++    <script type="text/javascript" src="${baseURL}/js/global.js"></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/bootstrap3/js/bootstrap.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/js.cookie-2.1.4.min.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_lang_ipt.js"/></script>
++    <script src="http://layout.canadensys.net/common/js/change_active_menu.js"></script>
++    
++    [#-- GOOGLE ANALYTICS - asynchroneous: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html --]
++    [#if cfg.gbifAnalytics || (cfg.analyticsKey!"")?length>1] 
++    <script type="text/javascript">
++      var _gaq = _gaq || [];
++        [#if (cfg.analyticsKey!"")?length>1] 
++          _gaq.push(['_setAccount', '${cfg.analyticsKey}']);
++          _gaq.push(['_trackPageview']);
++        [/#if]
++        [#if cfg.gbifAnalytics] 
++          _gaq.push(['gbif._setAccount', '${cfg.getProperty("dev.analytics.gbif")}']);
++          _gaq.push(['gbif._trackPageview']);
++        [/#if]
++      (function() {
++        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
++        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
++        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
++      })();
++    </script>
++    [/#if]
+ 
+     [#-- Metadata used by browsers (title in browser toolbar, bookmark when added to favorites), search engines (keywords) --]
+-    [#assign metaKeywords = "GBIF, Global Biodiversity Information Facility, IPT, Integrated Publishing Toolkit, checklist, occurrence, metadata, DwC-A, Darwin Core, Darwin Core Archive, biodiversity data, data paper, EML" /]
++    [#assign metaKeywords = "Canadensys, integrated publishing toolkit, IPT, repository, checklist, occurrence, specimen" /]
+     [#assign registeredIpt = action.getRegisteredIpt()!""/]
+     [#if resource?? && eml??]
+       <meta name="description" content="${eml.description!}" charset="UTF-8" />
+@@ -66,12 +73,12 @@
+     <meta name="inventory" content="${baseURL}/inventory/dataset"/>
+     <meta name="foaf:seeAlso" content="${baseURL}/dcat"/>
+ 
+-<script type="text/javascript">
+-$(document).ready(function(){
+-[#-- see global.js for function defs --]
+-    initForm();
+-	initMenu();
+-});
+-</script>
++    <script type="text/javascript">
++        $(document).ready(function(){
++        [#-- see global.js for function defs --]
++            initForm();
++            initMenu();
++        });
++    </script>
+ 
+-[#assign currentMenu = "home"]
+\ No newline at end of file
++    [#assign currentMenu = "home"]
+diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
+index 130a50a..1b74e23 100644
+--- a/WEB-INF/pages/inc/menu.ftl
++++ b/WEB-INF/pages/inc/menu.ftl
+@@ -1,105 +1,306 @@
+ [#ftl output_format="HTML"]
+ </head>
+- 	<body>
+-		<div class="page clearfix" id="page">
+-			<header id="section-header" class="section section-header">
+-        <div id="zone-user-wrapper" class="zone-wrapper zone-user-wrapper clearfix">
+-          <div id="zone-user" class="zone zone-user clearfix container_24">
+-            <div class="region-inner region-branding-inner">
+-              <div class="branding-data clearfix">
+-                <div class="logo-img">
+-                  <a href="${baseURL}" rel="home" title="GBIF Logo" class="active">
+-                    <img src="${baseURL}/images/GBIF-2015-standard-ipt.png" />
+-                  </a>
++    <body>
++    <div id="feedback_bar"><a href="https://github.com/Canadensys/Canadensys-Website-Issues/issues/new" title="[#if localeLanguage=='fr']Signaler un problème[#else]Report a problem[/#if]">&nbsp;</a></div>
++    <!-- Navbar start -->
++        <div id="general-header" class="clearfix">
++            <div class="text-center no-margin-bottom">
++            <div id="" class="col-xs-8 col-xs-offset-2 hidden-xs">
++                <div class="col-xs-6 text-left">
++                    <a href="http://www.canadensys.net">
++                        <img class="img-responsive image-header" src="http://layout.canadensys.net/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
++                        <span id="header-canadensys">Canadensys</span>
++                    </a>
+                 </div>
+-                <hgroup class="site-name-slogan">
+-                  <h1 class="site-name"><a href="${baseURL}" rel="home" title="Home" class="active">Integrated Publishing Toolkit</a><span class="logoSuperscript">(IPT)</span></h1>
+-                  <h6 class="site-slogan">free and open access to biodiversity data</h6>
+-                  [#if !cfg.devMode() && cfg.getRegistryType()?has_content && cfg.getRegistryType()=='PRODUCTION']
+-                  [#else]
+-                    <img class="testmode" src="${baseURL}/styles/testmode.png" />
+-                  [/#if]
+-                </hgroup>
+-                <div id="region-user-second" class="region-inner region-user-second-inner">
+-                  <ul id="language-menu">
+-                    [#if (Session.curr_user)??]
+-                      <li>[@s.text name="menu.loggedin"][@s.param]${Session.curr_user.email}[/@s.param][/@s.text]</li>
+-                      <li[#if currentMenu=="account"] class="current"[/#if] ><a href="${baseURL}/account.do">[@s.text name="menu.account"/]</a></li>
+-                      <li[#if currentMenu=="logout"] class="current"[/#if]><a href="${baseURL}/logout.do">[@s.text name="menu.logout"/]</a></li>
+-                    [#else]
+-                      <li>
+-                        <form id="login-form" action="${baseURL}/login.do" method="post">
+-                          <input type="text" size="25" name="email" value="email" class="form-reset" />
+-                          <input type="password" size="20" name="password" value="password" class="form-reset" />
+-                          <input name="csrfToken" type="hidden" value="${newCsrfToken!}">
+-                          [@s.submit key="portal.login" name="login-submit"/]
+-                        </form>
+-                      </li>
+-                    [/#if]
+-                    <li>
+-                      <a href="#"><img src="${baseURL}/images/flags/flag_${localeLanguage}.png"/></a>
+-                      <ul id="languages">
+-                        [#if !requestURL?has_content]
+-                            [#assign requrl = baseURL + "?request_locale="]
+-                        [#elseif requestURL?contains("?")]
+-                            [#assign requrl = requestURL + "&request_locale="]
+-                        [#else]
+-                            [#assign requrl = requestURL + "?request_locale="]
+-                        [/#if]
+-                        <!-- add more languages as translations become available. -->
+-                        [#list ["en","fr","es", "zh", "pt", "ja", "ru"] as lang]
+-                          [#if lang != localeLanguage]
+-                            <li><a href="${requrl}${lang}"><img src="${baseURL}/images/flags/flag_${lang}.png"/></a></li>
+-                          [/#if]
+-                        [/#list]
+-                      </ul>
+-                    </li>
+-                  </ul>
++                <div class="col-xs-4">
++                    <!--
++                    <h3 class="en">Make Canadian biodiversity information free and open to everyone</h3>
++                    <h3 class="fr">Rendre accessible à tous l'information sur la biodiversité canadienne</h3>
++                    -->
+                 </div>
+-              </div>
++                <div class="col-xs-1">
++                    <div id="lang-selector">
++                        <button id="en-lang" type="button" class="btn btn-default btn-lang noshadow fr">English</button>
++                        <button id="fr-lang" type="button" class="btn btn-default btn-lang noshadow en">Français</button>
++                    </div>
++                </div>
++            </div>
++            <div id="header-xs" class="col-xs-12 visible-xs">
++                <a class="navbar-brand visible-xs" href="http://www.canadensys.net">
++                    <img class="img-responsive image-header-xs" src="http://layout.canadensys.net/commonui-bs2/images/canadensys_logo_simple_white.png" alt="Canadensys">
++                    <span id="header-canadensys-xs">Canadensys</span>
++                </a>
++            </div>
++            <div id="menu-nav" class="col-xs-8 col-xs-offset-2 ">
++                <nav class="navbar navbar-default">
++                    <div class="">
++                        <div class="navbar-header">
++                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
++                                <span class="icon-bar"></span>
++                                <span class="icon-bar"></span>
++                                <span class="icon-bar"></span>
++                            </button>
++                            <div class="col-xs-1 visible-xs">
++                                <div id="lang-selector-xs">
++                                    <button id="en-lang-xs" type="button" class="btn btn-default btn-lang noshadow fr">En</button>
++                                    <button id="fr-lang-xs" type="button" class="btn btn-default btn-lang noshadow en">Fr</button>
++                                </div>
++                            </div>
++                        </div>
++
++                        <div class="collapse navbar-collapse" id="navbar-collapse">
++                            <ul class="nav navbar-nav navbar-right hidden-xs">
++                                <li>
++                                    <div class="btn-group navbar-btn">
++                                        <a class="btn btn-subgroup1 en" href="http://community.canadensys.net/" role="button">community</a>
++                                        <a class="btn btn-subgroup1 fr" href="http://community.canadensys.net/?lang=fr" role="button">communauté</a>
++                                        <button data-toggle="dropdown" class="btn dropdown-toggle btn-subgroup2"><span class="caret"></span></button>
++                                        <ul class="dropdown-menu">
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/about?lang=en">about</a>
++                                                <a class="fr" href="http://community.canadensys.net/about?lang=fr">à propos</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/about/contact?lang=en">contact us</a>
++                                                <a class="fr" href="http://community.canadensys.net/about/contact?lang=fr">contactez-nous</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/digitization?lang=en">digitization</a>
++                                                <a class="fr" href="http://community.canadensys.net/digitization?lang=fr">numérisation</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/publication?lang=en">publication</a>
++                                                <a class="fr" href="http://community.canadensys.net/publication?lang=fr">publication</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/activities?lang=en">activities</a>
++                                                <a class="fr" href="http://community.canadensys.net/activities?lang=fr">activité</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/blog?lang=en">blog</a>
++                                                <a class="fr" href="http://community.canadensys.net/blog?lang=fr">blogue</a>
++                                            </li>
++                                        </ul>
++                                    </div>
++                                </li>
++                            </ul>
++                            <ul class="nav navbar-nav">
++                                <li id="nav_data">
++                                    <a class="en" href="http://data.canadensys.net/?lang=en">data</a>
++                                    <a class="fr" href="http://data.canadensys.net/?lang=fr">données</a>
++                                </li>
++                                <li id="nav_explorer" class="dropdown">
++                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="en">explorer</span><span class="fr">explorateur</span> <span class="caret"></span></a>
++                                    <ul class="dropdown-menu">
++                                        <li class="text-center li-button">
++                                            <button type="button" class="btn-small btn-danger">
++                                                <span class="en">
++                                                    <span class="caret"></span> Data not updated <span class="caret"></span>
++                                                </span>
++                                                <span class="fr">
++                                                    Données<br><span class="caret"></span> non mises à jours <span class="caret"></span>
++                                                </span>
++                                            </button>
++                                        </li>
++                                        <li>
++                                            <a class="en" href="http://data.canadensys.net/explorer/en/search">old explorer</a>
++                                            <a class="fr" href="http://data.canadensys.net/explorer/fr/rechercher">ancien explorateur</a>
++                                        </li>
++                                        <li class="nav-divider"></li>
++                                        <li class="text-center li-button">
++                                            <button type="button" class="btn-small btn-success">
++                                                <span class="en">
++                                                    <span class="caret"></span> Data updated <span class="caret"></span>
++                                                </span>
++                                                <span class="fr">
++                                                    <span class="caret"></span> Données à jours <span class="caret"></span>
++                                                </span>
++                                            </button>
++                                        </li>
++                                        <li  id="nav_explorer_ala">
++                                            <a class="en" href="http://explorer.canadensys.net/search?lang=en">explorer</a>
++                                            <a class="fr" href="http://explorer.canadensys.net/search?lang=fr">explorateur</a>
++                                        </li>
++                                        <li id="nav_collections">
++                                            <a class="en" href="http://collections.canadensys.net/?lang=en">collections</a>
++                                            <a class="fr" href="http://collections.canadensys.net/?lang=fr">collections</a>
++                                        </li>
++                                        <li id="nav_datasets">
++                                            <a class="en" href="http://collections.canadensys.net/datasets?lang=en">datasets</a>
++                                            <a class="fr" href="http://collections.canadensys.net/datasets?lang=fr">jeux de données</a>
++                                        </li>
++                                        <li id="nav_images">
++                                            <a class="en" href="http://images.canadensys.net/?lang=en">images</a>
++                                            <a class="fr" href="http://images.canadensys.net/?lang=fr">images</a>
++                                        </li>
++                                        <li class="en"> -- Web services -- </li>
++                                        <li class="fr"> -- Services web -- </li>
++                                        <li id="nav_explorer_ala_ws">
++                                            <a class="en" href="http://explorer-ws.canadensys.net/">explorer ws</a>
++                                            <a class="fr" href="http://explorer-ws.canadensys.net/">sw pour l'explorateur</a>
++                                        </li>
++                                        <li id="nav_collections_ws">
++                                            <a class="en" href="http://collections.canadensys.net/ws">collections & datasets</a>
++                                            <a class="fr" href="http://collections.canadensys.net/ws">collections & jeux de données</a>
++                                        </li>
++                                    </ul>
++                                </li>
++                                <li>
++                                    <a class="en" href="http://data.canadensys.net/ipt/?request_locale=en">repository</a>
++                                    <a class="fr" href="http://data.canadensys.net/ipt/?request_locale=fr">dépôt</a>
++                                </li>
++                                <li>
++                                    <a class="en" href="http://data.canadensys.net/vascan/">vascan</a>
++                                    <a class="fr" href="http://data.canadensys.net/vascan/?lang=fr">vascan</a>
++                                </li>
++                                <li>
++                                    <a class="en" href="http://data.canadensys.net/tools/">tools</a>
++                                    <a class="fr" href="http://data.canadensys.net/tools/?lang=fr">outils</a>
++                                </li>
++                            </ul>
++                            <ul class="nav navbar-nav navbar-right visible-xs">
++                                <li>
++                                    <div class="btn-group navbar-btn">
++                                        <a class="btn btn-subgroup1 en" href="http://community.canadensys.net/" role="button">community</a>
++                                        <a class="btn btn-subgroup1 fr" href="http://community.canadensys.net/?lang=fr" role="button">communauté</a>
++                                        <button data-toggle="dropdown" class="btn dropdown-toggle btn-subgroup2"><span class="caret"></span></button>
++                                        <ul class="dropdown-menu">
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/about?lang=en">about</a>
++                                                <a class="fr" href="http://community.canadensys.net/about?lang=fr">à propos</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/about/contact?lang=en">contact us</a>
++                                                <a class="fr" href="http://community.canadensys.net/about/contact?lang=fr">contactez-nous</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/digitization?lang=en">digitization</a>
++                                                <a class="fr" href="http://community.canadensys.net/digitization?lang=fr">numérisation</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/publication?lang=en">publication</a>
++                                                <a class="fr" href="http://community.canadensys.net/publication?lang=fr">publication</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/activities?lang=en">activities</a>
++                                                <a class="fr" href="http://community.canadensys.net/activities?lang=fr">activité</a>
++                                            </li>
++                                            <li>
++                                                <a class="en" href="http://community.canadensys.net/blog?lang=en">blog</a>
++                                                <a class="fr" href="http://community.canadensys.net/blog?lang=fr">blogue</a>
++                                            </li>
++                                        </ul>
++                                    </div>
++                                </li>
++                            </ul>
++                        </div>
++                    </div>
++                </nav>
++            </div>
+             </div>
+-          </div>
+         </div>
++  <!-- End Navbar -->
++
++        <div class="page clearfix" id="page">
++            <header id="section-header" class="section section-header">
+         <!-- show production logo only if ipt 1) .war was not built in test mode and 2) run in production mode -->
+         <div id="zone-branding-wrapper" class="zone-wrapper zone-branding-wrapper clearfix">
+-          <div id="zone-branding" class="zone zone-branding clearfix container_24">
+-      		  <div class="grid_13 region region-menu" id="region-menu">
+-              <nav>
+-      	        <ul>
+-      		    	  <li[#if currentMenu=='home'] class="current"[/#if]><a href="${baseURL}/">[@s.text name="menu.home"/]</a></li>
+-      		    	  [#if managerRights]
+-      		    	    <li[#if currentMenu=='manage'] class="current"[/#if]><a href="${baseURL}/manage/">[@s.text name="menu.manage"/]</a></li>
+-      		    	  [/#if]
+-      		    	  [#if adminRights]
+-      		    	    <li[#if currentMenu=='admin'] class="current"[/#if]><a href="${baseURL}/admin/">[@s.text name="menu.admin"/]</a></li>
+-      		    	  [/#if]
+-      		    	  <li[#if currentMenu=='about'] class="current"[/#if]><a href="${baseURL}/about.do">[@s.text name="menu.about"/]</a></li>
+-      	        </ul>
+-      	      </nav>
+-      	    </div>
+-      	  </div>
+-      		<div id="search"></div>
++            <div id="zone-branding" class="zone zone-branding clearfix container_24">
++                <div class="container_24 region region-menu" id="region-menu">
++                    <nav>
++                        <ul id="mainNav" class="grid_12">
++                            [#if managerRights]
++                                <li[#if currentMenu=='manage'] class="current"[/#if]><a href="${baseURL}/manage/">[@s.text name="menu.manage"/]</a></li>
++                            [/#if]
++                            [#if adminRights]
++                                <li[#if currentMenu=='admin'] class="current"[/#if]><a href="${baseURL}/admin/">[@s.text name="menu.admin"/]</a></li>
++                            [/#if]
++                        </ul>
++                    </nav>
++                    <div id="zone-user-wrapper" class="zone-wrapper zone-user-wrapper clearfix">
++                      <div id="zone-user" class="zone zone-user clearfix container_24">
++                        <div class="region-inner region-branding-inner">
++                          <div class="branding-data clearfix">
++                            <div id="region-user-second" class="region-inner region-user-second-inner">
++                              <ul id="language-menu">
++                                [#if (Session.curr_user)??]
++                                  <li>[@s.text name="menu.loggedin"][@s.param]${Session.curr_user.email}[/@s.param][/@s.text]</li>
++                                  <li[#if currentMenu=="account"] class="current"[/#if] ><a href="${baseURL}/account.do">[@s.text name="menu.account"/]</a></li>
++                                  <li[#if currentMenu=="logout"] class="current"[/#if]><a href="${baseURL}/logout.do">[@s.text name="menu.logout"/]</a></li>
++                                [#else]
++                                  <li>
++                                    <form id="login-form" action="${baseURL}/login.do" method="post">
++                                      <input type="text" size="25" name="email" value="email" class="form-reset" />
++                                      <input type="password" size="20" name="password" value="password" class="form-reset" />
++                                      <input name="csrfToken" type="hidden" value="${newCsrfToken!}">
++                                      [@s.submit key="portal.login" name="login-submit"/]
++                                    </form>
++                                  </li>
++                                [/#if]
++                              </ul>
++                            </div>
++                          </div>
++                        </div>
++                      </div>
++                    </div>
++                </div>
++            </div>
++            <div id="search"></div>
+         </div>
+-		  </header>
+-		  <section id="section-content" class="section section-content">
++            </header>
++        <section id="section-content" class="section section-content">
+         <div id="zone-content-wrapper" class="zone-wrapper zone-content-wrapper clearfix">
+           <div id="zone-content" class="zone zone-content clearfix container_24">
+ 
+-[#if sideMenuEml!false]
++        [#if sideMenuEml!false]
+ 
+ 			<aside class="grid_6 push_18">
+ 			<div class="clearfix" id="sidebar">
+ 				<h2>[@s.text name='manage.metadata.section' /]</h2>
+-				<ul class="sidebar">
+-				[#list ["basic", "geocoverage", "taxcoverage","tempcoverage", "keywords", "parties", "project", "methods", "citations", "collections", "physical", "additional"] as it]
+-				 <li[#if currentSideMenu?? && currentSideMenu==it] class="current"[#else] class="sidebar"[/#if]><a href="metadata-${it}.do?r=${resource.shortname!r!}">[@s.text name="submenu.${it}"/]</a></li>
+-				[/#list]
+-				</ul>
++                <ul class="sidebar round">
++                    [#list ["basic", "geocoverage", "taxcoverage","tempcoverage", "keywords", "parties", "project", "methods", "citations", "collections", "physical", "additional"] as it]
++                        <li[#if currentSideMenu?? && currentSideMenu==it] class="current"[#else] class="sidebar"[/#if]><a href="metadata-${it}.do?r=${resource.shortname!r!}">[@s.text name="submenu.${it}"/]</a></li>
++                    [/#list]
++                </ul>
+ 			</div>
+ 			</aside>
+ 
+ 			<div class="grid_18 pull_6 region region-content" id="region-content">
+ 
++      [#elseif sideMenuResource!false]
++      
++      <div id="side_bar">
++      [#if resource.lastPublished??]
++      	[#if (resource.recordsPublished>0)]
++      	<p><a class="round big_button no_margin" id="dwc_archive" href="${baseURL}/archive.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'Archive', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger données[#else]Download dataset[/#if]</a></p>
++      	[/#if]
++      	<p><a class="round big_button multi_line" id="eml_file" href="${baseURL}/eml.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'EML', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format EML[#else]Download metadata as an EML file[/#if]</a></p>
++      	[#if rtfFileExisting]
++      	<p><a class="round big_button multi_line" id="rtf_file" href="${baseURL}/rtf.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'RTF', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format RTF[#else]Download metadata as an RTF file[/#if]</a></p>
++      	[/#if]
++      		[#if eml.physicalData?has_content]
++      			[#list eml.physicalData as item]
++      			[#if item.distributionUrl?starts_with('http://explorer.canadensys.net/')]
++      			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
++      			[/#if]
++      			[/#list]
++      			[#list eml.physicalData as item]
++      			[#if item.distributionUrl?starts_with('http://www.gbif.org/dataset/')]
++      			<p><a class="round big_button" id="gbif_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur GBIF[#else]Explore this dataset on GBIF[/#if]</a></p>
++      			[/#if]
++      			[/#list]
++      		[/#if]
++      		[#if eml.citation.identifier?has_content]
++      		[#assign doi = eml.citation.identifier?matches(r".*(10[.][0-9]{4,}(?:[.][0-9])*/\S)")]
++      			[#if doi]
++      			<p><span class="doi"><a href="http://doi.org/${doi?groups[1]}">doi:${doi?groups[1]}</a></p>
++      			[/#if]
++      		[/#if]
++      [/#if]
++      </div>
++      
++      			<div class="grid_18 region region-content" id="region-content">
++
+ [#else]
+ 
+ 			<div class="grid_24 region region-content" id="region-content">
+@@ -116,4 +317,4 @@
+             [/#if]
+ 			[@s.actionerror/]
+ 
+-            <div id="dialog-confirm" title="[@s.text name="basic.confirm"/]" style="display: none;"></div>
+\ No newline at end of file
++            <div id="dialog-confirm" title="[@s.text name="basic.confirm"/]" style="display: none;"></div>
+diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
+index 6b4c438..9657391 100644
+--- a/WEB-INF/pages/macros/resourcesTable.ftl
++++ b/WEB-INF/pages/macros/resourcesTable.ftl
+@@ -8,7 +8,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+ -->
+ <#macro resourcesTable shownPublicly numResourcesShown sEmptyTable columnToSortOn sortOrder>
+ 
+-<script type="text/javascript" charset="utf-8">
++<script type="text/javascript">
+     <#assign emptyString="--">
+     <#assign dotDot="..">
+     <#assign deletedString><@s.text name="manage.home.visible.deleted"/></#assign>
+@@ -45,7 +45,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+            <#if r.recordsByExtension?? && r.recordsByExtension?size gt 1>'<a target="_blank" href="${baseURL}/resource?r=${r.shortname}#dataRecords">${r.recordsPublished!0}</a>'<#else>'${r.recordsPublished!0}'</#if>,
+            '${r.modified?date}',
+            <#if r.published>'${(r.lastPublished?date)!}'<#else>'<@s.text name="portal.home.not.published"/>'</#if>,
+-           '${(r.nextPublished?date?string("yyyy-MM-dd HH:mm:ss"))!'${emptyString}'}',
++           <!--'${(r.nextPublished?date?string("yyyy-MM-dd HH:mm:ss"))!'${emptyString}'}',-->
+            <#if r.status=='PRIVATE'>'<@s.text name="manage.home.visible.private"/>'<#elseif r.status=='DELETED'>'${deletedString}'<#else>'<@s.text name="manage.home.visible.public"/>'</#if>,
+            <#if r.creator??>'${r.creator.firstname?replace("\'", "\\'")?replace("\"", '\\"')!} ${r.creator.lastname?replace("\'", "\\'")?replace("\"", '\\"')!}'<#else>'${emptyString}'</#if>]<#if r_has_next>,</#if>
+       </#list>
+@@ -57,6 +57,7 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+             "aaData": aDataSet,
+             "iDisplayLength": ${numResourcesShown},
+             "bLengthChange": false,
++            "bPaginate": false,
+             "bAutoWidth": false,
+             "oLanguage": {
+                 "sEmptyTable": "<@s.text name="${sEmptyTable}"/>",
+@@ -68,7 +69,6 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+                 "oPaginate": {
+                     "sNext": "<@s.text name="pager.next"/>",
+                     "sPrevious": "<@s.text name="pager.previous"/>"
+-
+                 }
+             },
+             "aoColumns": [
+@@ -78,9 +78,8 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+                 { "sTitle": "<@s.text name="manage.home.type"/>"},
+                 { "sTitle": "<@s.text name="manage.home.subtype"/>"},
+                 { "sTitle": "<@s.text name="portal.home.records"/>", "bSearchable": false, "sType": "number"},
+-                { "sTitle": "<@s.text name="manage.home.last.modified"/>", "bSearchable": false},
++                { "sTitle": "<@s.text name="manage.home.last.modified"/>", "bSearchable": false, "bVisible": <#if shownPublicly>false<#else>true</#if>},
+                 { "sTitle": "<@s.text name="manage.home.last.publication" />", "bSearchable": false},
+-                { "sTitle": "<@s.text name="manage.home.next.publication" />", "bSearchable": false},
+                 { "sTitle": "<@s.text name="manage.home.visible"/>", "bSearchable": false, "bVisible": <#if shownPublicly>false<#else>true</#if>},
+                 { "sTitle": "<@s.text name="portal.home.author"/>", "bVisible": <#if shownPublicly>false<#else>true</#if>}
+             ],
+@@ -108,4 +107,4 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
+         } );
+     } );
+ </script>
+-</#macro>
+\ No newline at end of file
++</#macro>
+diff --git a/WEB-INF/pages/macros/versionsTable.ftl b/WEB-INF/pages/macros/versionsTable.ftl
+index 1d43d65..695a837 100644
+--- a/WEB-INF/pages/macros/versionsTable.ftl
++++ b/WEB-INF/pages/macros/versionsTable.ftl
+@@ -15,7 +15,7 @@ versionsTable macro: Generates a data table that has pagination.
+       <#list resource.getVersionHistory() as v>
+           /* only show released versions. The version must be public unless user has manager rights in which case they can see all released versions */
+           <#if v.released?? && ((v.publicationStatus == 'PUBLIC' || v.publicationStatus == 'REGISTERED') || managerRights) >
+-              [<#if (version?? && v.version == version.toPlainString()) || (!version?? && v.version == resource.emlVersion.toPlainString())>'<img class="latestVersion" src="${baseURL}/images/dataTables/forward_enabled_hover.png"/>${v.version!}'<#else>'<img class="latestVersionHidden" src="${baseURL}/images/dataTables/forward_enabled_hover.png"/><a href="${baseURL}/resource?r=${shortname}&amp;v=${v.version!}">${v.version!}</a>'</#if>,
++              [<#if (version?? && v.version == version.toPlainString()) || (!version?? && v.version == resource.emlVersion.toPlainString())>'<img class="latestVersion" src="http://layout.canadensys.net/common/images/dataTables/forward_enabled_hover_red.png"/>${v.version!}'<#else>'<img class="latestVersionHidden" src="http://layout.canadensys.net/common/images/dataTables/forward_enabled_hover_red.png"/><a href="${baseURL}/resource?r=${shortname}&amp;v=${v.version!}">${v.version!}</a>'</#if>,
+                '${v.released?date}',
+                '${v.recordsPublished}',
+                <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
+diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
+index 518f51b..b1cfc69 100644
+--- a/WEB-INF/pages/manage/home.ftl
++++ b/WEB-INF/pages/manage/home.ftl
+@@ -12,9 +12,10 @@
+         initHelp();
+     });
+ </script>
+-  <@resourcesTable shownPublicly=false numResourcesShown=10 sEmptyTable="manage.home.resources.none" columnToSortOn=6 sortOrder="desc"/>
+-
++  <@resourcesTable shownPublicly=false numResourcesShown=999 sEmptyTable="manage.home.resources.none" columnToSortOn=6 sortOrder="desc"/>
++  
+ <h1 class="rtableTitle"><@s.text name="manage.home.title"/></h1>
++
+ <div id="tableContainer"></div>
+ 
+ <div id="new-resource" class="grid_18">
+@@ -24,4 +25,4 @@
+ 
+ </div>
+ 
+-  <#include "/WEB-INF/pages/inc/footer.ftl">
+\ No newline at end of file
++  <#include "/WEB-INF/pages/inc/footer.ftl">
+diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
+index d7e446f..9a25eed 100644
+--- a/WEB-INF/pages/manage/mapping.ftl
++++ b/WEB-INF/pages/manage/mapping.ftl
+@@ -92,7 +92,7 @@ $(document).ready(function(){
+ 	};
+   var showAllGroups=${Parameters.showAllGroups!"false"};
+   if (!showAllGroups){
+-    hideRedundantGroups();
++    //hideRedundantGroups();
+   };
+ 
+     $('.confirm').jConfirmAction({question : "<@s.text name="basic.confirm"/>", yesAnswer : "<@s.text name="basic.yes"/>", cancelAnswer : "<@s.text name="basic.no"/>"});
+@@ -520,4 +520,4 @@ $(document).ready(function(){
+ </form>
+ 
+   <#include "/WEB-INF/pages/inc/footer.ftl">
+-</#escape>
+\ No newline at end of file
++</#escape>
+diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
+index a3080fe..7af2ab1 100644
+--- a/WEB-INF/pages/manage/overview.ftl
++++ b/WEB-INF/pages/manage/overview.ftl
+@@ -106,7 +106,8 @@ $(document).ready(function(){
+   $('.confirmPublishMajorVersionWithoutDOI').jConfirmAction({question : "<@s.text name='manage.overview.publishing.withoutDoi.majorVersion.confirm'/></br></br><@s.text name='manage.overview.publishing.doi.summary'/></br></br><@s.text name='manage.overview.publishing.doi.confirm.end'/>", yesAnswer : "<@s.text name='basic.yes'/>", summary : "<@s.text name='manage.overview.publishing.doi.summary.placeholder'/>", cancelAnswer : "<@s.text name='basic.no'/>"});
+ 
+     var showReport=false;
+-	$("#toggleReport").click(function() {
++	$("#toggleReport").click(function(e) {
++	  e.preventDefault();
+ 		if(showReport){
+ 			showReport=false;
+ 			$("#toggleReport").text("<@s.text name='basic.show'/>");
+diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
+index 1685eeb..be9ea08 100644
+--- a/WEB-INF/pages/portal/home.ftl
++++ b/WEB-INF/pages/portal/home.ftl
+@@ -5,17 +5,19 @@
+   <#include "/WEB-INF/pages/macros/resourcesTable.ftl"/>
+ <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery-1.11.1.min.js"></script>
+ <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
+-  <@resourcesTable shownPublicly=true numResourcesShown=20 sEmptyTable="dataTables.sEmptyTable.resources" columnToSortOn=1 sortOrder="asc" />
++<@resourcesTable shownPublicly=true numResourcesShown=999 sEmptyTable="dataTables.sEmptyTable.resources" columnToSortOn=1 sortOrder="asc" />
+ <h1 class="rtableTitle"><@s.text name="portal.home.title"/></h1>
++<p><#if localeLanguage=='fr'>Suivez <a href="http://www.canadensys.net/data-publication-guide?lang=fr">notre guide en 7 étapes</a> pour publier votre propre jeu de données sur ce dépôt.<#else>Follow <a href="http://www.canadensys.net/data-publication-guide">our 7-step guide</a> to publish your own dataset on this repository.</#if></p>
++
+ <div id="tableContainer"></div>
+ 
+ <!-- RSS Feed shown if there are resources -->
+   <#if (resources?size>0)>
+   <p>
+-    <@s.text name="portal.home.feed"><@s.param>${baseURL}/rss.do</@s.param></@s.text> <img id="rssImage" src="${baseURL}/images/rss.png"/>.
++    <@s.text name="portal.home.feed"><@s.param>${baseURL}/rss.do</@s.param></@s.text> <img id="rssImage" src="${baseURL}/images/rss.png" alt="RSS"/>.
+   </p>
+   <#else>
+   <p><@s.text name="portal.home.no.public"/></p>
+   </#if>
+ 
+-  <#include "/WEB-INF/pages/inc/footer.ftl">
+\ No newline at end of file
++  <#include "/WEB-INF/pages/inc/footer.ftl">
+diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
+index 0de1fc0..558fd25 100644
+--- a/WEB-INF/pages/portal/resource_new.ftl
++++ b/WEB-INF/pages/portal/resource_new.ftl
+@@ -118,7 +118,7 @@
+   <#assign anchor_citation>#citation</#assign>
+ 
+ <!-- Sidebar -->
+-<div id="sidebar-wrapper">
++<div id="sidebar-wrapper hidden">
+ 
+     <ul class="sidebar-nav">
+         <li>
+@@ -301,16 +301,20 @@
+ 
+                           <#if eml.distributionUrl?has_content || resource.lastPublished??>
+                               <ul class="horizontal-list">
++<!--
+                                 <#if eml.distributionUrl?has_content>
+                                   <li class="box"><a href="${eml.distributionUrl}" class="icon icon-homepage"><@s.text name='eml.distributionUrl.short'/></a></li>
+                                 </#if>
+                                 <#if resource.status=="REGISTERED" && resource.key??>
+                                   <li class="box"><a href="${cfg.portalUrl}/dataset/${resource.key}" class="icon icon-gbif"><@s.text name='portal.resource.gbif.page.short'/></a></li>
+                                 </#if>
++-->
+                                 <#if metadataOnly == false>
+-                                  <li class="box"><a href="${download_dwca_url}" class="icon icon-download"><@s.text name='portal.resource.published.dwca'/></a></li>
++<!--                                  <li class="box"><a href="${download_dwca_url}" class="icon icon-download"><@s.text name='portal.resource.published.dwca'/></a></li>-->
++                                  <li class="box round big_button"><a href="${download_dwca_url}" id="dwc_archive" class="icon icon-download"><@s.text name='portal.resource.published.dwca'/></a></li>
+                                 </#if>
+                                 <#if resource.lastPublished??>
++<!--
+                                   <li class="box"><a href="${download_eml_url}" class="icon icon-download"><@s.text name='portal.resource.published.eml'/></a></li>
+                                   <li class="box"><a href="${download_rtf_url}" class="icon icon-download"><@s.text name='portal.resource.published.rtf'/></a></li>
+                                   <#if resource.versionHistory??>
+@@ -320,6 +324,25 @@
+                                   <#if eml.citation?? && (eml.citation.citation?has_content || eml.citation.identifier?has_content)>
+                                     <li class="box"><a href="${anchor_citation}" class="icon icon-book"><@s.text name='portal.resource.cite'/></a></li>
+                                   </#if>
++-->
++                                  <li class="box round big_button"><a href="${download_eml_url}" id="eml_file" class="icon icon-download"><@s.text name='portal.resource.published.eml'/></a></li>
++                                  <li class="box round big_button"><a href="${download_rtf_url}" id="rtf_file" class="icon icon-download"><@s.text name='portal.resource.published.rtf'/></a></li>
++                                  <#if eml.physicalData?has_content>
++                                    <#list eml.physicalData as item>
++                                      <#if item.distributionUrl?starts_with('http://explorer.canadensys.net/')>
++                                        <li class="box round big_button"><a href="${item.distributionUrl}" id="explorer_link" class="icon icon-canadensys multi_line" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);"><#if localeLanguage=='fr']Voir données sur Canadensys<#else>Explore this dataset on Canadensys</#if></a></li>
++                                      </#if>
++                                    </#list>
++                                   </#if>
++                                  <#if resource.status=="REGISTERED" && resource.key??>
++                                    <li class="box round big_button"><a href="${cfg.portalUrl}/dataset/${resource.key}" id="gbif_link" class="icon icon-gbif"><@s.text name='portal.resource.gbif.page.short'/></a></li>
++                                  </#if>
++                                  <#if eml.citation?has_content && eml.citation.identifier?has_content>
++                                    <#assign doi = eml.citation.identifier?matches(r".*(10[.][0-9]{4,}(?:[.][0-9])*/\S)")>
++                                    <#if doi>
++                                      <p><span class="doi"><a href="http://doi.org/${doi?groups[1]}">doi:${doi?groups[1]}</a></p>
++                                    </#if>
++                                  </#if>
+                                 </#if>
+                               </ul>
+                           </#if>
+diff --git a/styles/main.css b/styles/main.css
+index 6309b53..1f5bbef 100644
+--- a/styles/main.css
++++ b/styles/main.css
+@@ -1745,3 +1745,50 @@ ul.horizontal_graph .value_label {
+   padding: 0;
+ }
+ /* End charts */
++
++
++#mainNav {
++    margin:0;
++    padding:0;
++    list-style-type: none;
++}
++#mainNav li{
++    position:relative;
++    background-color: black;
++    display:inline-block;
++    width:auto;
++}
++
++#mainNav li a {
++        color:#ffffff;
++        text-decoration: none;
++        font-weight: bold;
++        display:block;
++}
++
++#mainNav li ul {
++    position: absolute;
++    left: -9999px;
++    background-color: grey;
++    margin:0;
++    padding:0;
++    list-style-type: none;
++    width: auto;
++}
++
++#mainNav li:hover ul {
++    left: 0px;
++    display:block;
++}
++
++#mainNav li ul li {
++    background-color: grey;
++    width: 120px;
++    display:block;
++}
++
++#mainNav li ul li a {
++    color:#ffffff;
++    text-decoration: none;
++    font-style: italic;
++}
+-- 
+2.7.4
+
