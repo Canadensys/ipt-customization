@@ -497,15 +497,15 @@ index 130a50a..1b74e23 100644
 +                                        </li>
 +                                    </ul>
 +                                </li>
-+                                <li>
++                                <li id="nav_repository">
 +                                    <a class="en" href="http://data.canadensys.net/ipt/?request_locale=en">repository</a>
 +                                    <a class="fr" href="http://data.canadensys.net/ipt/?request_locale=fr">dépôt</a>
 +                                </li>
-+                                <li>
++                                <li id="nav_vascan">
 +                                    <a class="en" href="http://data.canadensys.net/vascan/">vascan</a>
 +                                    <a class="fr" href="http://data.canadensys.net/vascan/?lang=fr">vascan</a>
 +                                </li>
-+                                <li>
++                                <li id="nav_tools">
 +                                    <a class="en" href="http://data.canadensys.net/tools/">tools</a>
 +                                    <a class="fr" href="http://data.canadensys.net/tools/?lang=fr">outils</a>
 +                                </li>
