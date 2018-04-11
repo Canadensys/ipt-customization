@@ -1,7 +1,7 @@
-From 6ea97a5b5239702c3c8634e211e3447be2a6ed96 Mon Sep 17 00:00:00 2001
+From 44949d8aea1eee6002a8877dc616bf01493a4797 Mon Sep 17 00:00:00 2001
 From: JeGoi <jeremy.goimard@gmail.com>
-Date: Mon, 18 Dec 2017 15:15:28 -0500
-Subject: [PATCH] canadensys_ipt_2.3.5 patch
+Date: Wed, 11 Apr 2018 08:51:32 -0400
+Subject: [PATCH] Remove tooltip class from title
 
 ---
  WEB-INF/pages/admin/organisations.ftl   |   6 +-
@@ -14,11 +14,12 @@ Subject: [PATCH] canadensys_ipt_2.3.5 patch
  WEB-INF/pages/manage/home.ftl           |   7 +-
  WEB-INF/pages/manage/mapping.ftl        |   4 +-
  WEB-INF/pages/manage/overview.ftl       |   3 +-
+ WEB-INF/pages/manage/eml/basic.ftl      |   2 +-
  WEB-INF/pages/portal/home.ftl           |   8 +-
  WEB-INF/pages/portal/resource_new.ftl   |  27 ++-
  styles/custom.css                       | 332 +++++++++++++++++++++++++++--
  styles/main.css                         |  47 ++++
- 14 files changed, 818 insertions(+), 192 deletions(-)
+ 15 files changed, 819 insertions(+), 193 deletions(-)
 
 diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
 index 5e89c77..6e2fcd0 100644
@@ -816,6 +817,19 @@ index a3080fe..7af2ab1 100644
  		if(showReport){
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='basic.show'/>");
+diff --git a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+index 358bfe3..d504176 100644
+--- a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
++++ b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+@@ -132,7 +132,7 @@
+ <#include "/WEB-INF/pages/macros/forms.ftl"/>
+ 
+ <h1><span class="superscript"><@s.text name='manage.overview.title.label'/></span>
+-    <a class="tooltip" href="resource.do?r=${resource.shortname}" title="${resource.title!resource.shortname}">${resource.title!resource.shortname}</a>
++    <a href="resource.do?r=${resource.shortname}" title="${resource.title!resource.shortname}">${resource.title!resource.shortname}</a>
+ </h1>
+ <div class="grid_17 suffix_1">
+ <h2 class="subTitle"><@s.text name='manage.metadata.basic.title'/></h2>
 diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
 index 1685eeb..be9ea08 100644
 --- a/WEB-INF/pages/portal/home.ftl
