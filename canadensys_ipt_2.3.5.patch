@@ -817,10 +817,10 @@ index a3080fe..7af2ab1 100644
  		if(showReport){
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='basic.show'/>");
-diff --git a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
 index 358bfe3..d504176 100644
---- a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
-+++ b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+--- a/WEB-INF/pages/manage/eml/basic.ftl
++++ b/WEB-INF/pages/manage/eml/basic.ftl
 @@ -132,7 +132,7 @@
  <#include "/WEB-INF/pages/macros/forms.ftl"/>
  

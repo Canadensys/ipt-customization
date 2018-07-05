@@ -21,7 +21,7 @@ Resume steps to apply:
 1. Create first commit: ``# git add -A && git commit -m "IPT first commit"``
 2. ``# git apply --stat canadensys_ipt_x.x.x.patch``
 3. ``# git apply --check canadensys_ipt_x.x.x.patch``
-4. Apply the patch``# git am --signoff < fix_empty_poster.patch``
+4. Apply the patch``# git am --signoff < canadensys_ipt_x.x.x.patch``
 
 (Thanks to ARIEJAN DE VROOM)
 
