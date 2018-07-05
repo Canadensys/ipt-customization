@@ -99,13 +99,13 @@ index 605130c..f62927d 100644
 +                        <div id="fConnect" class="col-md-2 col-sm-12">
 +                            <div class="emptyspace col-xs-12"></div>
 +                            <div class="col-xs-12">
-+                                <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/github_black_white_64.png" alt="GitHub"></a>
++                                <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/github_black_white_64.png" alt="GitHub"></a>
 +                            </div>
 +                            <div class="col-xs-12">
-+                                <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/facebook_black_white_64.png" alt="Facebook"></a>
++                                <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/facebook_black_white_64.png" alt="Facebook"></a>
 +                            </div>
 +                            <div class="col-xs-12">
-+                                <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/twitter_black_white_64.png" alt="Twitter"></a>
++                                <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/twitter_black_white_64.png" alt="Twitter"></a>
 +                            </div>
 +                            <div class="emptyspace col-xs-12"></div>
 +                        </div>
@@ -117,12 +117,12 @@ index 605130c..f62927d 100644
 +                                        <div class="col-xs-12">
 +                                            <div class="row-fluid">
 +                                                <div class="col-sm-6 col-xs-12 text-center">
-+                                                    <a href="http://community.canadensys.net/about/norms"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/cite_us_black_white_64_2.png" alt="Cite us"></a>
++                                                    <a href="http://community.canadensys.net/about/norms"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us"></a>
 +                                                    <p class="fr">Comment nous citer</p>
 +                                                    <p class="en">How to cite us</p>
 +                                                </div>
 +                                                <div class="col-sm-6 col-xs-12 text-center">
-+                                                    <a href="http://community.canadensys.net/about/contact"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/commonui-bs3/img/icons/mail_black_white_64.png" alt="Contact us"></a>
++                                                    <a href="http://community.canadensys.net/about/contact"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us"></a>
 +                                                    <p class="fr">Contactez nous</p>
 +                                                    <p class="en">Contact us</p>
 +                                                </div>
@@ -132,7 +132,7 @@ index 605130c..f62927d 100644
 +                                        <div class="row-fluid">
 +                                            <div class="col-sm-6 col-xs-12">
 +                                                <div class="col-sm-5 col-xs-12">
-+                                                    <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/commonui-bs3/img//icons/cc0-logo.png" alt="cc0-logo"></a>
++                                                    <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
 +                                                </div>
 +                                                <div class="col-sm-7 col-xs-12 center">
 +                                                    <p class="fr">La plupart des participants de Canadensys ont transféré leurs données au <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr">domaine public</a>.</p>
@@ -142,7 +142,7 @@ index 605130c..f62927d 100644
 +                                            </div>
 +                                            <div class="col-sm-6 col-xs-12">
 +                                                <div class="col-sm-5 col-xs-12">
-+                                                    <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/commonui-bs3/img/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                                    <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
 +                                                </div>
 +                                                <div class="col-sm-7 col-xs-12">
 +                                                    <p class="fr">Tous les autres contenus de ce site opèrent sous <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.fr">CC-BY</a>, sauf pour le <a href="http://www.canadensys.net/documents?lang=fr">logo de Canadensys</a>, qui est sous copyright.</p>
@@ -208,11 +208,11 @@ index 5cd7c94..370f70b 100644
      <link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.11.0.css" rel="stylesheet" />
      <!-- for css overrides needed for customizations -->
 -    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/custom.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/bootstrap.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
      <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/bootstrap.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
      <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
      <script type="text/javascript" src="${baseURL}/js/jquery/jquery-1.11.1.min.js"></script>
      <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.11.0.js"></script>
