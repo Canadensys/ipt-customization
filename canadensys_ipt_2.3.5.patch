@@ -7,7 +7,7 @@ Subject: [PATCH] Remove tooltip class from title
  WEB-INF/pages/admin/organisations.ftl   |   6 +-
  WEB-INF/pages/admin/users.ftl           |   5 +-
  WEB-INF/pages/inc/footer.ftl            | 114 +++++++---
- WEB-INF/pages/inc/header.ftl            |  79 +++----
+ WEB-INF/pages/inc/header.ftl            |  78 +++----
  WEB-INF/pages/inc/menu.ftl              | 365 +++++++++++++++++++++++++-------
  WEB-INF/pages/macros/resourcesTable.ftl |  11 +-
  WEB-INF/pages/macros/versionsTable.ftl  |   2 +-
@@ -190,7 +190,7 @@ diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
 index 5cd7c94..370f70b 100644
 --- a/WEB-INF/pages/inc/header.ftl
 +++ b/WEB-INF/pages/inc/header.ftl
-@@ -10,43 +10,50 @@
+@@ -10,43 +10,49 @@
        xmlns:foaf="http://xmlns.com/foaf/0.1/">
    <head>
      <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/reset.css" />
@@ -208,8 +208,7 @@ index 5cd7c94..370f70b 100644
      <link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.11.0.css" rel="stylesheet" />
      <!-- for css overrides needed for customizations -->
 -    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/custom.css" />
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/bootstrap.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/bootstrap3/css/bootstrap.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
      <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
@@ -380,7 +379,7 @@ index 130a50a..1b74e23 100644
 +            </div>
 +            <div id="header-xs" class="col-xs-12 visible-xs">
 +                <a class="navbar-brand visible-xs" href="http://www.canadensys.net">
-+                    <img class="img-responsive image-header-xs" src="http://layout.canadensys.net/commonui-bs2/images/canadensys_logo_simple_white.png" alt="Canadensys">
++                    <img class="img-responsive image-header-xs" src="http://layout.canadensys.net/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
 +                    <span id="header-canadensys-xs">Canadensys</span>
 +                </a>
 +            </div>
