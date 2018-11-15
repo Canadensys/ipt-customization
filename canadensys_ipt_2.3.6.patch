@@ -628,7 +628,7 @@ index 1d43d657d..695a83728 100644
                 '${v.released?date}',
                 '${v.recordsPublished}',
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
-diff --git a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
 index fee9b85dd..f3b2ce9a0 100644
 --- a/WEB-INF/pages/manage/eml/basic.ftl
 +++ b/WEB-INF/pages/manage/eml/basic.ftl
