@@ -4,26 +4,26 @@ Date: Tue, 13 Nov 2018 16:06:06 -0500
 Subject: [PATCH] canadensys ipt 2.3.6.patch
 
 ---
- .../WEB-INF/pages/admin/organisations.ftl     |   4 +-
- src/main/webapp/WEB-INF/pages/admin/users.ftl |   4 +-
- src/main/webapp/WEB-INF/pages/inc/footer.ftl  | 115 +++++--
- src/main/webapp/WEB-INF/pages/inc/header.ftl  |  11 +-
- src/main/webapp/WEB-INF/pages/inc/menu.ftl    | 321 ++++++++++++++----
- .../WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
- .../WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
- .../webapp/WEB-INF/pages/manage/eml/basic.ftl |   2 +-
- src/main/webapp/WEB-INF/pages/manage/home.ftl |   4 +-
- .../webapp/WEB-INF/pages/manage/mapping.ftl   |   4 +-
- .../webapp/WEB-INF/pages/manage/overview.ftl  |   3 +-
- src/main/webapp/WEB-INF/pages/portal/home.ftl |   7 +-
- .../WEB-INF/pages/portal/resource_new.ftl     |  27 +-
- src/main/webapp/styles/main.css               |  47 +++
+ WEB-INF/pages/admin/organisations.ftl     |   4 +-
+ WEB-INF/pages/admin/users.ftl |   4 +-
+ WEB-INF/pages/inc/footer.ftl  | 115 +++++--
+ WEB-INF/pages/inc/header.ftl  |  11 +-
+ WEB-INF/pages/inc/menu.ftl    | 321 ++++++++++++++----
+ WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
+ WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
+ WEB-INF/pages/manage/eml/basic.ftl |   2 +-
+ WEB-INF/pages/manage/home.ftl |   4 +-
+ WEB-INF/pages/manage/mapping.ftl   |   4 +-
+ WEB-INF/pages/manage/overview.ftl  |   3 +-
+ WEB-INF/pages/portal/home.ftl |   7 +-
+ WEB-INF/pages/portal/resource_new.ftl     |  27 +-
+ styles/main.css               |  47 +++
  14 files changed, 443 insertions(+), 119 deletions(-)
 
-diff --git a/src/main/webapp/WEB-INF/pages/admin/organisations.ftl b/src/main/webapp/WEB-INF/pages/admin/organisations.ftl
+diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
 index 3d829faa1..4fc1f2fcc 100644
---- a/src/main/webapp/WEB-INF/pages/admin/organisations.ftl
-+++ b/src/main/webapp/WEB-INF/pages/admin/organisations.ftl
+--- a/WEB-INF/pages/admin/organisations.ftl
++++ b/WEB-INF/pages/admin/organisations.ftl
 @@ -28,7 +28,7 @@ $(document).ready(function(){
  
  <h1 class="rtableTitle"><@s.text name="admin.home.editOrganisations"/></h1>
@@ -40,10 +40,10 @@ index 3d829faa1..4fc1f2fcc 100644
 -</#escape>
 \ No newline at end of file
 +</#escape>
-diff --git a/src/main/webapp/WEB-INF/pages/admin/users.ftl b/src/main/webapp/WEB-INF/pages/admin/users.ftl
+diff --git a/WEB-INF/pages/admin/users.ftl b/WEB-INF/pages/admin/users.ftl
 index ee3ccc303..7a73a1447 100644
---- a/src/main/webapp/WEB-INF/pages/admin/users.ftl
-+++ b/src/main/webapp/WEB-INF/pages/admin/users.ftl
+--- a/WEB-INF/pages/admin/users.ftl
++++ b/WEB-INF/pages/admin/users.ftl
 @@ -19,7 +19,7 @@ $(document).ready(function(){
  
  <h1 class="rtableTitle"><@s.text name="admin.home.manageUsers"/></h1>
@@ -60,10 +60,10 @@ index ee3ccc303..7a73a1447 100644
 -</#escape>
 \ No newline at end of file
 +</#escape>
-diff --git a/src/main/webapp/WEB-INF/pages/inc/footer.ftl b/src/main/webapp/WEB-INF/pages/inc/footer.ftl
+diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
 index 6c591f37f..c55b5dd4d 100644
---- a/src/main/webapp/WEB-INF/pages/inc/footer.ftl
-+++ b/src/main/webapp/WEB-INF/pages/inc/footer.ftl
+--- a/WEB-INF/pages/inc/footer.ftl
++++ b/WEB-INF/pages/inc/footer.ftl
 @@ -1,32 +1,85 @@
 -<#ftl output_format="HTML">
 -</div>
@@ -181,10 +181,10 @@ index 6c591f37f..c55b5dd4d 100644
 +        </div>
 +    </body>
  </html>
-diff --git a/src/main/webapp/WEB-INF/pages/inc/header.ftl b/src/main/webapp/WEB-INF/pages/inc/header.ftl
+diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
 index 03280a429..30f7c9fb8 100644
---- a/src/main/webapp/WEB-INF/pages/inc/header.ftl
-+++ b/src/main/webapp/WEB-INF/pages/inc/header.ftl
+--- a/WEB-INF/pages/inc/header.ftl
++++ b/WEB-INF/pages/inc/header.ftl
 @@ -15,12 +15,15 @@
  	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
   	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
@@ -219,10 +219,10 @@ index 03280a429..30f7c9fb8 100644
 -[#assign currentMenu = "home"]
 \ No newline at end of file
 +[#assign currentMenu = "home"]
-diff --git a/src/main/webapp/WEB-INF/pages/inc/menu.ftl b/src/main/webapp/WEB-INF/pages/inc/menu.ftl
+diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
 index 3fe4cf84c..9cbc1566f 100644
---- a/src/main/webapp/WEB-INF/pages/inc/menu.ftl
-+++ b/src/main/webapp/WEB-INF/pages/inc/menu.ftl
+--- a/WEB-INF/pages/inc/menu.ftl
++++ b/WEB-INF/pages/inc/menu.ftl
 @@ -1,69 +1,228 @@
  [#ftl output_format="HTML"]
  </head>
@@ -566,10 +566,10 @@ index 3fe4cf84c..9cbc1566f 100644
  
  [#else]
  
-diff --git a/src/main/webapp/WEB-INF/pages/macros/resourcesTable.ftl b/src/main/webapp/WEB-INF/pages/macros/resourcesTable.ftl
+diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
 index 6b4c43842..13fd5bbeb 100644
---- a/src/main/webapp/WEB-INF/pages/macros/resourcesTable.ftl
-+++ b/src/main/webapp/WEB-INF/pages/macros/resourcesTable.ftl
+--- a/WEB-INF/pages/macros/resourcesTable.ftl
++++ b/WEB-INF/pages/macros/resourcesTable.ftl
 @@ -8,7 +8,8 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
  -->
  <#macro resourcesTable shownPublicly numResourcesShown sEmptyTable columnToSortOn sortOrder>
@@ -615,10 +615,10 @@ index 6b4c43842..13fd5bbeb 100644
 -</#macro>
 \ No newline at end of file
 +</#macro>
-diff --git a/src/main/webapp/WEB-INF/pages/macros/versionsTable.ftl b/src/main/webapp/WEB-INF/pages/macros/versionsTable.ftl
+diff --git a/WEB-INF/pages/macros/versionsTable.ftl b/WEB-INF/pages/macros/versionsTable.ftl
 index 1d43d657d..695a83728 100644
---- a/src/main/webapp/WEB-INF/pages/macros/versionsTable.ftl
-+++ b/src/main/webapp/WEB-INF/pages/macros/versionsTable.ftl
+--- a/WEB-INF/pages/macros/versionsTable.ftl
++++ b/WEB-INF/pages/macros/versionsTable.ftl
 @@ -15,7 +15,7 @@ versionsTable macro: Generates a data table that has pagination.
        <#list resource.getVersionHistory() as v>
            /* only show released versions. The version must be public unless user has manager rights in which case they can see all released versions */
@@ -630,8 +630,8 @@ index 1d43d657d..695a83728 100644
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
 diff --git a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
 index fee9b85dd..f3b2ce9a0 100644
---- a/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
-+++ b/src/main/webapp/WEB-INF/pages/manage/eml/basic.ftl
+--- a/WEB-INF/pages/manage/eml/basic.ftl
++++ b/WEB-INF/pages/manage/eml/basic.ftl
 @@ -132,7 +132,7 @@
  <#include "/WEB-INF/pages/macros/forms.ftl"/>
  
@@ -641,10 +641,10 @@ index fee9b85dd..f3b2ce9a0 100644
  </h1>
  <div class="grid_17 suffix_1">
  <h2 class="subTitle"><@s.text name='manage.metadata.basic.title'/></h2>
-diff --git a/src/main/webapp/WEB-INF/pages/manage/home.ftl b/src/main/webapp/WEB-INF/pages/manage/home.ftl
+diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
 index 2b6c1f5a8..d8a0f6691 100644
---- a/src/main/webapp/WEB-INF/pages/manage/home.ftl
-+++ b/src/main/webapp/WEB-INF/pages/manage/home.ftl
+--- a/WEB-INF/pages/manage/home.ftl
++++ b/WEB-INF/pages/manage/home.ftl
 @@ -12,7 +12,7 @@
          initHelp();
      });
@@ -661,10 +661,10 @@ index 2b6c1f5a8..d8a0f6691 100644
 -  <#include "/WEB-INF/pages/inc/footer.ftl">
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
-diff --git a/src/main/webapp/WEB-INF/pages/manage/mapping.ftl b/src/main/webapp/WEB-INF/pages/manage/mapping.ftl
+diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
 index d7e446f39..9a25eedf8 100644
---- a/src/main/webapp/WEB-INF/pages/manage/mapping.ftl
-+++ b/src/main/webapp/WEB-INF/pages/manage/mapping.ftl
+--- a/WEB-INF/pages/manage/mapping.ftl
++++ b/WEB-INF/pages/manage/mapping.ftl
 @@ -92,7 +92,7 @@ $(document).ready(function(){
  	};
    var showAllGroups=${Parameters.showAllGroups!"false"};
@@ -681,10 +681,10 @@ index d7e446f39..9a25eedf8 100644
 -</#escape>
 \ No newline at end of file
 +</#escape>
-diff --git a/src/main/webapp/WEB-INF/pages/manage/overview.ftl b/src/main/webapp/WEB-INF/pages/manage/overview.ftl
+diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
 index a3080fe0a..2b0ac6409 100644
---- a/src/main/webapp/WEB-INF/pages/manage/overview.ftl
-+++ b/src/main/webapp/WEB-INF/pages/manage/overview.ftl
+--- a/WEB-INF/pages/manage/overview.ftl
++++ b/WEB-INF/pages/manage/overview.ftl
 @@ -106,7 +106,8 @@ $(document).ready(function(){
    $('.confirmPublishMajorVersionWithoutDOI').jConfirmAction({question : "<@s.text name='manage.overview.publishing.withoutDoi.majorVersion.confirm'/></br></br><@s.text name='manage.overview.publishing.doi.summary'/></br></br><@s.text name='manage.overview.publishing.doi.confirm.end'/>", yesAnswer : "<@s.text name='basic.yes'/>", summary : "<@s.text name='manage.overview.publishing.doi.summary.placeholder'/>", cancelAnswer : "<@s.text name='basic.no'/>"});
  
@@ -695,10 +695,10 @@ index a3080fe0a..2b0ac6409 100644
  		if(showReport){
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='basic.show'/>");
-diff --git a/src/main/webapp/WEB-INF/pages/portal/home.ftl b/src/main/webapp/WEB-INF/pages/portal/home.ftl
+diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
 index f152c418a..b4a4e6400 100644
---- a/src/main/webapp/WEB-INF/pages/portal/home.ftl
-+++ b/src/main/webapp/WEB-INF/pages/portal/home.ftl
+--- a/WEB-INF/pages/portal/home.ftl
++++ b/WEB-INF/pages/portal/home.ftl
 @@ -5,17 +5,18 @@
    <#include "/WEB-INF/pages/macros/resourcesTable.ftl"/>
  <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
@@ -722,10 +722,10 @@ index f152c418a..b4a4e6400 100644
 -  <#include "/WEB-INF/pages/inc/footer.ftl">
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
-diff --git a/src/main/webapp/WEB-INF/pages/portal/resource_new.ftl b/src/main/webapp/WEB-INF/pages/portal/resource_new.ftl
+diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
 index 0de1fc05a..87c4ec682 100644
---- a/src/main/webapp/WEB-INF/pages/portal/resource_new.ftl
-+++ b/src/main/webapp/WEB-INF/pages/portal/resource_new.ftl
+--- a/WEB-INF/pages/portal/resource_new.ftl
++++ b/WEB-INF/pages/portal/resource_new.ftl
 @@ -118,7 +118,7 @@
    <#assign anchor_citation>#citation</#assign>
  
@@ -784,10 +784,10 @@ index 0de1fc05a..87c4ec682 100644
                                  </#if>
                                </ul>
                            </#if>
-diff --git a/src/main/webapp/styles/main.css b/src/main/webapp/styles/main.css
+diff --git a/styles/main.css b/styles/main.css
 index b5bab9db2..054415f87 100644
---- a/src/main/webapp/styles/main.css
-+++ b/src/main/webapp/styles/main.css
+--- a/styles/main.css
++++ b/styles/main.css
 @@ -1786,3 +1786,50 @@ ul.horizontal_graph .value_label {
    padding: 0;
  }
