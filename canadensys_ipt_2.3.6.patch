@@ -1,30 +1,66 @@
-From 96e9c26031c7860a52642a728b05fff1c81c32aa Mon Sep 17 00:00:00 2001
-From: JeGoi <jeremy.goimard@gmail.com>
-Date: Tue, 13 Nov 2018 16:06:06 -0500
-Subject: [PATCH] canadensys ipt 2.3.6.patch
+From 91cf7d9dbd392662240ddf7d0df5b63c8e74f264 Mon Sep 17 00:00:00 2001
+From: jegoi <jeremy.goimard@gmail.com>
+Date: Thu, 15 Nov 2018 14:13:29 -0500
+Subject: [PATCH] canadensys_ipt_2.3.6
 
 ---
- WEB-INF/pages/admin/organisations.ftl     |   4 +-
- WEB-INF/pages/admin/users.ftl |   4 +-
- WEB-INF/pages/inc/footer.ftl  | 115 +++++--
- WEB-INF/pages/inc/header.ftl  |  11 +-
- WEB-INF/pages/inc/menu.ftl    | 321 ++++++++++++++----
+ WEB-INF/pages/admin/organisations.ftl     |  38 +-
+ WEB-INF/pages/admin/users.ftl |  24 +-
+ WEB-INF/pages/inc/footer.ftl  | 115 ++++--
+ WEB-INF/pages/inc/header.ftl  |  63 +--
+ WEB-INF/pages/inc/menu.ftl    | 368 +++++++++++++-----
  WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
  WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
- WEB-INF/pages/manage/eml/basic.ftl |   2 +-
+ webapp/WEB-INF/pages/manage/eml/basic.ftl |  14 +-
  WEB-INF/pages/manage/home.ftl |   4 +-
- WEB-INF/pages/manage/mapping.ftl   |   4 +-
- WEB-INF/pages/manage/overview.ftl  |   3 +-
+ webapp/WEB-INF/pages/manage/mapping.ftl   |   4 +-
+ webapp/WEB-INF/pages/manage/overview.ftl  |   3 +-
  WEB-INF/pages/portal/home.ftl |   7 +-
- WEB-INF/pages/portal/resource_new.ftl     |  27 +-
- styles/main.css               |  47 +++
- 14 files changed, 443 insertions(+), 119 deletions(-)
+ WEB-INF/pages/portal/resource_new.ftl     |  29 +-
+ 13 files changed, 478 insertions(+), 204 deletions(-)
 
 diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
-index 3d829faa1..4fc1f2fcc 100644
+index 3d829faa1..877151d9b 100644
 --- a/WEB-INF/pages/admin/organisations.ftl
 +++ b/WEB-INF/pages/admin/organisations.ftl
-@@ -28,7 +28,7 @@ $(document).ready(function(){
+@@ -4,21 +4,21 @@
+ <script type="text/javascript">
+ 
+ $(document).ready(function(){
+-	$('#organisation\\.key').click(function() {
+-		$('#organisation\\.name').val($('#organisation\\.key :selected').text());	
+-	});
+-	//Hack needed for Internet Explorer X.*x
+-	$('#add').click(function() {
+-		window.location='organisation.do';
+-	});
+-	$('#cancel').click(function() {
+-		window.location='organisations.do?cancel=true';
+-	});	
+-	$('.edit').each(function() {
+-		$(this).click(function() {
+-			window.location = $(this).parent('a').attr('href');
+-		});
+-	});		
++  $('#organisation\\.key').click(function() {
++    $('#organisation\\.name').val($('#organisation\\.key :selected').text()); 
++  });
++  //Hack needed for Internet Explorer X.*x
++  $('#add').click(function() {
++    window.location='organisation.do';
++  });
++  $('#cancel').click(function() {
++    window.location='organisations.do?cancel=true';
++  }); 
++  $('.edit').each(function() {
++    $(this).click(function() {
++      window.location = $(this).parent('a').attr('href');
++    });
++  });   
+ });
+ </script>
+ <#assign currentMenu = "admin"/>
+@@ -28,13 +28,13 @@ $(document).ready(function(){
  
  <h1 class="rtableTitle"><@s.text name="admin.home.editOrganisations"/></h1>
  
@@ -33,6 +69,14 @@ index 3d829faa1..4fc1f2fcc 100644
  <div id="tableContainer"></div>
  
  <div class="grid_24">
+ <p>
+-	<button id="add"><@s.text name="button.add"/></button>
+-	<button id="cancel"><@s.text name="button.cancel"/></button>
++  <button id="add"><@s.text name="button.add"/></button>
++  <button id="cancel"><@s.text name="button.cancel"/></button>
+ </p>
+ </div>
+ 
 @@ -45,4 +45,4 @@ $(document).ready(function(){
  <!-- DataTables v1.9.4 -->
  <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
@@ -41,10 +85,33 @@ index 3d829faa1..4fc1f2fcc 100644
 \ No newline at end of file
 +</#escape>
 diff --git a/WEB-INF/pages/admin/users.ftl b/WEB-INF/pages/admin/users.ftl
-index ee3ccc303..7a73a1447 100644
+index ee3ccc303..8e44b3ecd 100644
 --- a/WEB-INF/pages/admin/users.ftl
 +++ b/WEB-INF/pages/admin/users.ftl
-@@ -19,7 +19,7 @@ $(document).ready(function(){
+@@ -4,28 +4,28 @@
+  <script type="text/javascript">
+ 
+ $(document).ready(function(){
+-	//Hack needed for Internet Explorer
+-	$('#create').click(function() {
+-		window.location='user.do';
+-	});	
+-	$('#cancel').click(function() {
+-		window.location='home.do';
+-	});	
++  //Hack needed for Internet Explorer
++  $('#create').click(function() {
++    window.location='user.do';
++  }); 
++  $('#cancel').click(function() {
++    window.location='home.do';
++  }); 
+ });
+-</script>	
++</script> 
+  <#assign currentMenu = "admin"/>
+ <#include "/WEB-INF/pages/inc/menu.ftl">
+ <#include "/WEB-INF/pages/macros/usersTable.ftl"/>
  
  <h1 class="rtableTitle"><@s.text name="admin.home.manageUsers"/></h1>
  
@@ -53,6 +120,14 @@ index ee3ccc303..7a73a1447 100644
  <div id="tableContainer"></div>
  
  <div class="grid_24">
+ <p>
+-	<button id="create"><@s.text name="button.create"/></button>
+-	<button id="cancel"><@s.text name="button.cancel"/></button>
++  <button id="create"><@s.text name="button.create"/></button>
++  <button id="cancel"><@s.text name="button.cancel"/></button>
+ </p>
+ </div>
+ 
 @@ -36,4 +36,4 @@ $(document).ready(function(){
  <!-- DataTables v1.9.4 -->
  <script type="text/javascript" language="javascript" src="${baseURL}/js/jquery/jquery.dataTables.js"></script>
@@ -182,28 +257,78 @@ index 6c591f37f..c55b5dd4d 100644
 +    </body>
  </html>
 diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
-index 03280a429..30f7c9fb8 100644
+index 03280a429..14a0b6645 100644
 --- a/WEB-INF/pages/inc/header.ftl
 +++ b/WEB-INF/pages/inc/header.ftl
-@@ -15,12 +15,15 @@
- 	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
-  	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
- 	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/jquery/dataTable.css"/>
+@@ -10,35 +10,42 @@
+       xmlns:foaf="http://xmlns.com/foaf/0.1/">
+   <head>
+ 
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/reset.css" />
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/text.css" />
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
+- 	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
+-	<link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/jquery/dataTable.css"/>
 - 	<link rel="shortcut icon" href="${baseURL}/images/icons/favicon-16x16.png" type="image/x-icon" />
-+    <link rel="shortcut icon" href="http://layout.canadensys.net/common/images/favicon.ico" type="image/x-icon" />
- 	<link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
- 	<link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.12.1.css" rel="stylesheet" />
-   	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/font-awesome.min.css" media="all" />	
-   <!-- for css overrides needed for customizations -->
+-	<link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
+-	<link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.12.1.css" rel="stylesheet" />
+-  	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/font-awesome.min.css" media="all" />	
+-  <!-- for css overrides needed for customizations -->
 -	<link rel="stylesheet" type="text/css" href="${baseURL}/styles/custom.css" />
+-  <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
+-	  <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
+-	  <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
+-	  <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.12.1.js"></script>
+-	<script type="text/javascript" src="${baseURL}/js/global.js"></script>
+-
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/reset.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/text.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
++    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/jquery/dataTable.css"/>
++    <link rel="shortcut icon" href="http://layout.canadensys.net/common/images/favicon.ico" type="image/x-icon" />
++    <link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
++    <link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.12.1.css" rel="stylesheet" />
++    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/font-awesome.min.css" media="all" />	
++    <!-- for css overrides needed for customizations -->
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/bootstrap.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/bootstrap3/css/bootstrap.css"/>
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/alc-styles.css"/>
-   <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
- 	  <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
- 	  <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
-@@ -48,7 +51,7 @@
++    <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
++    <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.12.1.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/global.js"></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/bootstrap3/js/bootstrap.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/js.cookie-2.1.4.min.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_lang_ipt.js"/></script>
++    <script src="http://layout.canadensys.net/common/js/change_active_menu.js"></script>
++    
+ [#-- GOOGLE ANALYTICS - asynchroneous: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html --]
+ [#if cfg.gbifAnalytics || (cfg.analyticsKey!"")?length>1] 
+ <script type="text/javascript">
+   var _gaq = _gaq || [];
+-	[#if (cfg.analyticsKey!"")?length>1] 
+-	  _gaq.push(['_setAccount', '${cfg.analyticsKey}']);
+-	  _gaq.push(['_trackPageview']);
+-	[/#if]
+-	[#if cfg.gbifAnalytics] 
+-	  _gaq.push(['gbif._setAccount', '${cfg.getProperty("dev.analytics.gbif")}']);
+-	  _gaq.push(['gbif._trackPageview']);
+-	[/#if]
++  [#if (cfg.analyticsKey!"")?length>1] 
++    _gaq.push(['_setAccount', '${cfg.analyticsKey}']);
++    _gaq.push(['_trackPageview']);
++  [/#if]
++  [#if cfg.gbifAnalytics] 
++    _gaq.push(['gbif._setAccount', '${cfg.getProperty("dev.analytics.gbif")}']);
++    _gaq.push(['gbif._trackPageview']);
++  [/#if]
+   (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+@@ -48,7 +55,7 @@
  [/#if]
  
      [#-- Metadata used by browsers (title in browser toolbar, bookmark when added to favorites), search engines (keywords) --]
@@ -212,7 +337,16 @@ index 03280a429..30f7c9fb8 100644
      [#assign registeredIpt = action.getRegisteredIpt()!""/]
      [#if resource?? && eml??]
        <meta name="description" content="${eml.description!}" charset="UTF-8" />
-@@ -76,4 +79,4 @@ $(document).ready(function(){
+@@ -67,7 +74,7 @@
+     <meta name="generator" content="IPT ${cfg.version!}" />
+     <meta name="inventory" content="${baseURL}/inventory/dataset"/>
+     <meta name="foaf:seeAlso" content="${baseURL}/dcat"/>
+-    <meta http-equiv="X-UA-Compatible" content="IE=9" />
++
+ <script type="text/javascript">
+ $(document).ready(function(){
+ [#-- see global.js for function defs --]
+@@ -76,4 +83,4 @@ $(document).ready(function(){
  });
  </script>
  
@@ -220,10 +354,10 @@ index 03280a429..30f7c9fb8 100644
 \ No newline at end of file
 +[#assign currentMenu = "home"]
 diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
-index 3fe4cf84c..9cbc1566f 100644
+index 3fe4cf84c..335829819 100644
 --- a/WEB-INF/pages/inc/menu.ftl
 +++ b/WEB-INF/pages/inc/menu.ftl
-@@ -1,69 +1,228 @@
+@@ -1,104 +1,292 @@
  [#ftl output_format="HTML"]
  </head>
 - 	<body>
@@ -509,63 +643,103 @@ index 3fe4cf84c..9cbc1566f 100644
 +            </div>
 +            <div id="search"></div>
          </div>
- 		  </header>
- 		  <section id="section-content" class="section section-content">
-@@ -75,15 +234,49 @@
- 			<aside class="grid_6 push_18">
- 			<div class="clearfix" id="sidebar">
- 				<h2>[@s.text name='manage.metadata.section' /]</h2>
+-		  </header>
+-		  <section id="section-content" class="section section-content">
++      </header>
++      <section id="section-content" class="section section-content">
+         <div id="zone-content-wrapper" class="zone-wrapper zone-content-wrapper clearfix">
+           <div id="zone-content" class="zone zone-content clearfix container_24">
+ 
+-[#if sideMenuEml!false]
+-
+-			<aside class="grid_6 push_18">
+-			<div class="clearfix" id="sidebar">
+-				<h2>[@s.text name='manage.metadata.section' /]</h2>
 -				<ul class="sidebar">
 -				[#list ["basic", "geocoverage", "taxcoverage","tempcoverage", "keywords", "parties", "project", "methods", "citations", "collections", "physical", "additional"] as it]
 -				 <li[#if currentSideMenu?? && currentSideMenu==it] class="current"[#else] class="sidebar"[/#if]><a href="metadata-${it}.do?r=${resource.shortname!r!}">[@s.text name="submenu.${it}"/]</a></li>
 -				[/#list]
 -				</ul>
+-			</div>
+-			</aside>
+-
+-			<div class="grid_18 pull_6 region region-content" id="region-content">
+-
+-[#else]
++    [#if sideMenuEml!false]
+ 
+-			<div class="grid_24 region region-content" id="region-content">
+-[/#if]
++      <aside class="grid_6 push_18">
++      <div class="clearfix" id="sidebar">
++        <h2>[@s.text name='manage.metadata.section' /]</h2>
 +                <ul class="sidebar round">
 +                    [#list ["basic", "geocoverage", "taxcoverage","tempcoverage", "keywords", "parties", "project", "methods", "citations", "collections", "physical", "additional"] as it]
 +                        <li[#if currentSideMenu?? && currentSideMenu==it] class="current"[#else] class="sidebar"[/#if]><a href="metadata-${it}.do?r=${resource.shortname!r!}">[@s.text name="submenu.${it}"/]</a></li>
 +                    [/#list]
 +                </ul>
- 			</div>
- 			</aside>
++      </div>
++      </aside>
  
- 			<div class="grid_18 pull_6 region region-content" id="region-content">
+-
+-			[@s.actionmessage/]
+-			[#if warnings?size>0]
+-			 <ul class="warnMessage">
+-			 [#list warnings as w]
+-	          <li><span>${w!}</span></li>
+-			 [/#list]
+-             </ul>
++      <div class="grid_18 pull_6 region region-content" id="region-content">
 +      
 +      [#elseif sideMenuResource!false]
 +      
 +      <div id="side_bar">
 +      [#if resource.lastPublished??]
-+      	[#if (resource.recordsPublished>0)]
-+      	<p><a class="round big_button no_margin" id="dwc_archive" href="${baseURL}/archive.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'Archive', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger données[#else]Download dataset[/#if]</a></p>
-+      	[/#if]
-+      	<p><a class="round big_button multi_line" id="eml_file" href="${baseURL}/eml.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'EML', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format EML[#else]Download metadata as an EML file[/#if]</a></p>
-+      	[#if rtfFileExisting]
-+      	<p><a class="round big_button multi_line" id="rtf_file" href="${baseURL}/rtf.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'RTF', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format RTF[#else]Download metadata as an RTF file[/#if]</a></p>
-+      	[/#if]
-+      		[#if eml.physicalData?has_content]
-+      			[#list eml.physicalData as item]
-+      			[#if item.distributionUrl?starts_with('http://explorer.canadensys.net/')]
-+      			<p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
-+      			[/#if]
-+      			[/#list]
-+      			[#list eml.physicalData as item]
-+      			[#if item.distributionUrl?starts_with('http://www.gbif.org/dataset/')]
-+      			<p><a class="round big_button" id="gbif_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur GBIF[#else]Explore this dataset on GBIF[/#if]</a></p>
-+      			[/#if]
-+      			[/#list]
-+      		[/#if]
-+      		[#if eml.citation.identifier?has_content]
-+      		[#assign doi = eml.citation.identifier?matches(r".*(10[.][0-9]{4,}(?:[.][0-9])*/\S)")]
-+      			[#if doi]
-+      			<p><span class="doi"><a href="http://doi.org/${doi?groups[1]}">doi:${doi?groups[1]}</a></p>
-+      			[/#if]
-+      		[/#if]
++        [#if (resource.recordsPublished>0)]
++        <p><a class="round big_button no_margin" id="dwc_archive" href="${baseURL}/archive.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'Archive', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger données[#else]Download dataset[/#if]</a></p>
++        [/#if]
++        <p><a class="round big_button multi_line" id="eml_file" href="${baseURL}/eml.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'EML', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format EML[#else]Download metadata as an EML file[/#if]</a></p>
++        [#if rtfFileExisting]
++        <p><a class="round big_button multi_line" id="rtf_file" href="${baseURL}/rtf.do?r=${resource.shortname}" onClick="_gaq.push(['_trackEvent', 'RTF', 'Download', '${resource.shortname}']);">[#if localeLanguage=='fr']Télécharger metadonnées en format RTF[#else]Download metadata as an RTF file[/#if]</a></p>
++        [/#if]
++          [#if eml.physicalData?has_content]
++            [#list eml.physicalData as item]
++            [#if item.distributionUrl?starts_with('http://explorer.canadensys.net/')]
++            <p><a class="round big_button[#if localeLanguage=='en'] multi_line[/#if]" id="explorer_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Canadensys explorer', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur Canadensys[#else]Explore this dataset on Canadensys[/#if]</a></p>
+             [/#if]
+-			[@s.actionerror/]
+-
+-            <div id="dialog-confirm" title="[@s.text name="basic.confirm"/]" style="display: none;"></div>
++            [/#list]
++            [#list eml.physicalData as item]
++            [#if item.distributionUrl?starts_with('http://www.gbif.org/dataset/')]
++            <p><a class="round big_button" id="gbif_link" href="${item.distributionUrl}" target="_blank" onClick="_gaq.push(['_trackEvent', 'GBIF data portal', 'Outbound link', '${resource.shortname}']);">[#if localeLanguage=='fr']Voir données sur GBIF[#else]Explore this dataset on GBIF[/#if]</a></p>
++            [/#if]
++            [/#list]
++          [/#if]
++          [#if eml.citation.identifier?has_content]
++          [#assign doi = eml.citation.identifier?matches(r".*(10[.][0-9]{4,}(?:[.][0-9])*/\S)")]
++            [#if doi]
++            <p><span class="doi"><a href="http://doi.org/${doi?groups[1]}">doi:${doi?groups[1]}</a></p>
++            [/#if]
++          [/#if]
 +      [/#if]
 +      </div>
 +      
-+      			<div class="grid_18 region region-content" id="region-content">
- 
- [#else]
- 
++      <div class="grid_18 region region-content" id="region-content">
++    [#else]
++      <div class="grid_24 region region-content" id="region-content">
++    [/#if]
++      [@s.actionmessage/]
++      [#if warnings?size>0]
++        <ul class="warnMessage">
++          [#list warnings as w]
++            <li><span>${w!}</span></li>
++          [/#list]
++        </ul>
++    [/#if]
++    [@s.actionerror/]
++    <div id="dialog-confirm" title="[@s.text name="basic.confirm"/]" style="display: none;"></div>
 diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
 index 6b4c43842..13fd5bbeb 100644
 --- a/WEB-INF/pages/macros/resourcesTable.ftl
@@ -629,7 +803,7 @@ index 1d43d657d..695a83728 100644
                 '${v.recordsPublished}',
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
 diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
-index fee9b85dd..f3b2ce9a0 100644
+index fee9b85dd..d50417600 100644
 --- a/WEB-INF/pages/manage/eml/basic.ftl
 +++ b/WEB-INF/pages/manage/eml/basic.ftl
 @@ -132,7 +132,7 @@
@@ -641,6 +815,60 @@ index fee9b85dd..f3b2ce9a0 100644
  </h1>
  <div class="grid_17 suffix_1">
  <h2 class="subTitle"><@s.text name='manage.metadata.basic.title'/></h2>
+@@ -274,7 +274,7 @@
+                 <@input name="eml.contacts[${contact_index}].email" i18nkey="eml.contact.email" />
+               </div>
+               <div class="halfcolumn">
+-                <@input name="eml.contacts[${contact_index}].homepage" i18nkey="eml.contact.homepage" type="url" />
++                <@input name="eml.contacts[${contact_index}].homepage" i18nkey="eml.contact.homepage" />
+               </div>
+               <div class="halfcolumn">
+                 <#if eml.contacts[contact_index].userIds[0]??>
+@@ -345,7 +345,7 @@
+               <@input name="eml.creators[${creator_index}].email" i18nkey="eml.resourceCreator.email" />
+             </div>
+             <div class="halfcolumn">
+-              <@input name="eml.creators[${creator_index}].homepage" i18nkey="eml.resourceCreator.homepage" type="url" />
++              <@input name="eml.creators[${creator_index}].homepage" i18nkey="eml.resourceCreator.homepage" />
+             </div>
+             <div class="halfcolumn">
+               <#if eml.creators[creator_index].userIds[0]??>
+@@ -415,7 +415,7 @@
+               <@input name="eml.metadataProviders[${metadataProvider_index}].email" i18nkey="eml.metadataProvider.email" />
+             </div>
+             <div class="halfcolumn">
+-              <@input name="eml.metadataProviders[${metadataProvider_index}].homepage" i18nkey="eml.metadataProvider.homepage" type="url" />
++              <@input name="eml.metadataProviders[${metadataProvider_index}].homepage" i18nkey="eml.metadataProvider.homepage" />
+             </div>
+             <div class="halfcolumn">
+               <#if eml.metadataProviders[metadataProvider_index].userIds[0]??>
+@@ -480,7 +480,7 @@
+           <@input name="eml.contact.email" i18nkey="eml.contact.email" />
+         </div>
+         <div class="halfcolumn">
+-          <@input name="eml.contact.homepage" i18nkey="eml.contact.homepage" type="url" />
++          <@input name="eml.contact.homepage" i18nkey="eml.contact.homepage" />
+         </div>
+         <div class="halfcolumn">
+           <@select name="eml.contact.userId.directory" options=userIdDirectories help="i18n" i18nkey="eml.contact.directory" />
+@@ -533,7 +533,7 @@
+           <@input name="eml.creator.email" i18nkey="eml.resourceCreator.email" />
+         </div>
+         <div class="halfcolumn">
+-          <@input name="eml.creator.homepage" i18nkey="eml.resourceCreator.homepage" type="url" />
++          <@input name="eml.creator.homepage" i18nkey="eml.resourceCreator.homepage" />
+         </div>
+         <div class="halfcolumn">
+           <@select name="eml.creator.userId.directory" options=userIdDirectories help="i18n" i18nkey="eml.contact.directory" />
+@@ -586,7 +586,7 @@
+           <@input name="eml.metadataProvider.email" i18nkey="eml.metadataProvider.email" />
+         </div>
+         <div class="halfcolumn">
+-          <@input name="eml.metadataProvider.homepage" i18nkey="eml.metadataProvider.homepage" type="url" />
++          <@input name="eml.metadataProvider.homepage" i18nkey="eml.metadataProvider.homepage" />
+         </div>
+         <div class="halfcolumn">
+           <@select name="eml.metadataProvider.userId.directory" options=userIdDirectories help="i18n" i18nkey="eml.contact.directory" />
 diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
 index 2b6c1f5a8..d8a0f6691 100644
 --- a/WEB-INF/pages/manage/home.ftl
@@ -723,7 +951,7 @@ index f152c418a..b4a4e6400 100644
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
 diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
-index 0de1fc05a..87c4ec682 100644
+index 0de1fc05a..2b5f2b995 100644
 --- a/WEB-INF/pages/portal/resource_new.ftl
 +++ b/WEB-INF/pages/portal/resource_new.ftl
 @@ -118,7 +118,7 @@
@@ -784,61 +1012,12 @@ index 0de1fc05a..87c4ec682 100644
                                  </#if>
                                </ul>
                            </#if>
-diff --git a/styles/main.css b/styles/main.css
-index b5bab9db2..054415f87 100644
---- a/styles/main.css
-+++ b/styles/main.css
-@@ -1786,3 +1786,50 @@ ul.horizontal_graph .value_label {
-   padding: 0;
- }
- /* End charts */
-+
-+
-+#mainNav {
-+    margin:0;
-+    padding:0;
-+    list-style-type: none;
-+}
-+#mainNav li{
-+    position:relative;
-+    background-color: black;
-+    display:inline-block;
-+    width:auto;
-+}
-+
-+#mainNav li a {
-+        color:#ffffff;
-+        text-decoration: none;
-+        font-weight: bold;
-+        display:block;
-+}
-+
-+#mainNav li ul {
-+    position: absolute;
-+    left: -9999px;
-+    background-color: grey;
-+    margin:0;
-+    padding:0;
-+    list-style-type: none;
-+    width: auto;
-+}
-+
-+#mainNav li:hover ul {
-+    left: 0px;
-+    display:block;
-+}
-+
-+#mainNav li ul li {
-+    background-color: grey;
-+    width: 120px;
-+    display:block;
-+}
-+
-+#mainNav li ul li a {
-+    color:#ffffff;
-+    text-decoration: none;
-+    font-style: italic;
-+}
+@@ -903,5 +928,3 @@
+     </script>
+ 
+ </#escape>
+-
+-
 -- 
 2.17.1
 
