@@ -7,7 +7,7 @@ Subject: [PATCH] canadensys_ipt_2.3.6
  WEB-INF/pages/admin/organisations.ftl     |  38 +-
  WEB-INF/pages/admin/users.ftl |  24 +-
  WEB-INF/pages/inc/footer.ftl  | 115 ++++--
- WEB-INF/pages/inc/header.ftl  |  63 +--
+ WEB-INF/pages/inc/header.ftl  |  62 +--
  WEB-INF/pages/inc/menu.ftl    | 368 +++++++++++++-----
  WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
  WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
@@ -337,15 +337,6 @@ index 03280a429..14a0b6645 100644
      [#assign registeredIpt = action.getRegisteredIpt()!""/]
      [#if resource?? && eml??]
        <meta name="description" content="${eml.description!}" charset="UTF-8" />
-@@ -67,7 +74,7 @@
-     <meta name="generator" content="IPT ${cfg.version!}" />
-     <meta name="inventory" content="${baseURL}/inventory/dataset"/>
-     <meta name="foaf:seeAlso" content="${baseURL}/dcat"/>
--    <meta http-equiv="X-UA-Compatible" content="IE=9" />
-+
- <script type="text/javascript">
- $(document).ready(function(){
- [#-- see global.js for function defs --]
 @@ -76,4 +83,4 @@ $(document).ready(function(){
  });
  </script>
