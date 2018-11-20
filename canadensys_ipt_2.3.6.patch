@@ -1,26 +1,26 @@
-From 91cf7d9dbd392662240ddf7d0df5b63c8e74f264 Mon Sep 17 00:00:00 2001
-From: jegoi <jeremy.goimard@gmail.com>
-Date: Thu, 15 Nov 2018 14:13:29 -0500
-Subject: [PATCH] canadensys_ipt_2.3.6
+From 63a783d3a7abf5e192899b48e960bfc59c04ad48 Mon Sep 17 00:00:00 2001
+From: JeGoi <jeremy.goimard@gmail.com>
+Date: Tue, 20 Nov 2018 11:16:59 -0500
+Subject: [PATCH] update
 
 ---
  WEB-INF/pages/admin/organisations.ftl     |  38 +-
  WEB-INF/pages/admin/users.ftl |  24 +-
- WEB-INF/pages/inc/footer.ftl  | 115 ++++--
- WEB-INF/pages/inc/header.ftl  |  62 +--
- WEB-INF/pages/inc/menu.ftl    | 368 +++++++++++++-----
+ WEB-INF/pages/inc/footer.ftl  | 153 ++++++++++++++----
+ WEB-INF/pages/inc/header.ftl  |  54 +++----
+ WEB-INF/pages/inc/menu.ftl    | 371 +++++++++++++-----
  WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
  WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
- webapp/WEB-INF/pages/manage/eml/basic.ftl |   2 +-
+ WEB-INF/pages/manage/eml/basic.ftl |   2 +-
  WEB-INF/pages/manage/home.ftl |   4 +-
- webapp/WEB-INF/pages/manage/mapping.ftl   |   4 +-
- webapp/WEB-INF/pages/manage/overview.ftl  |   3 +-
+ WEB-INF/pages/manage/mapping.ftl   |   4 +-
+ WEB-INF/pages/manage/overview.ftl  |   3 +-
  WEB-INF/pages/portal/home.ftl |   7 +-
- WEB-INF/pages/portal/resource_new.ftl     |  29 +-
- 13 files changed, 478 insertions(+), 204 deletions(-)
+ WEB-INF/pages/portal/resource_new.ftl     |  31 +++-
+ 13 files changed, 506 insertions(+), 198 deletions(-)
 
 diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
-index 3d829faa1..877151d9b 100644
+index 3d829fa..877151d 100644
 --- a/WEB-INF/pages/admin/organisations.ftl
 +++ b/WEB-INF/pages/admin/organisations.ftl
 @@ -4,21 +4,21 @@
@@ -85,7 +85,7 @@ index 3d829faa1..877151d9b 100644
 \ No newline at end of file
 +</#escape>
 diff --git a/WEB-INF/pages/admin/users.ftl b/WEB-INF/pages/admin/users.ftl
-index ee3ccc303..8e44b3ecd 100644
+index ee3ccc3..8e44b3e 100644
 --- a/WEB-INF/pages/admin/users.ftl
 +++ b/WEB-INF/pages/admin/users.ftl
 @@ -4,28 +4,28 @@
@@ -136,10 +136,10 @@ index ee3ccc303..8e44b3ecd 100644
 \ No newline at end of file
 +</#escape>
 diff --git a/WEB-INF/pages/inc/footer.ftl b/WEB-INF/pages/inc/footer.ftl
-index 6c591f37f..c55b5dd4d 100644
+index 6c591f3..169fcd2 100644
 --- a/WEB-INF/pages/inc/footer.ftl
 +++ b/WEB-INF/pages/inc/footer.ftl
-@@ -1,32 +1,85 @@
+@@ -1,32 +1,123 @@
 -<#ftl output_format="HTML">
 -</div>
 -			</div>
@@ -177,74 +177,104 @@ index 6c591f37f..c55b5dd4d 100644
 +            </section>
 +            <footer id="section-footer" class="section section-footer">
 +                <!-- Custom footer START -->
-+        <div id="footer" class="col-xs-12">
-+            <div class="col-md-10 col-md-offset-1 col-sm-12">
-+                <div class="emptyspace col-xs-12"></div>
-+                <div class="container-fluid">
-+                    <div class="row-fluid">
-+                        <div id="fConnect" class="col-md-2 col-sm-12">
-+                            <div class="emptyspace col-xs-12"></div>
-+                            <div class="col-xs-12">
-+                                <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/github_black_white_64.png" alt="GitHub"></a>
-+                            </div>
-+                            <div class="col-xs-12">
-+                                <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/facebook_black_white_64.png" alt="Facebook"></a>
-+                            </div>
-+                            <div class="col-xs-12">
-+                                <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/twitter_black_white_64.png" alt="Twitter"></a>
-+                            </div>
-+                            <div class="emptyspace col-xs-12"></div>
++    <div id="footer" class="col-xs-12">
++        <div class="col-xs-10 col-xs-offset-1 ">
++            <div class="container-fluid">
++                <div class="row-fluid">
++                    <div id="fConnect" class="col-sm-2 col-xs-12">
++                        <div class="emptyspace span12"></div>
++                        <div class="col-xs-12">
++                            <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/github_black_white_64.png" alt="GitHub"></a>
 +                        </div>
-+                        <div id="fLicense" class="col-md-9 col-sm-12">
-+                            <div class="col-left-center">
-+                                <span class="col-left-center-p">
-+                                    <div class="row-fluid">
-+                                        <div class="emptyspace col-xs-12"></div>
-+                                        <div class="col-xs-12">
-+                                            <div class="row-fluid">
-+                                                <div class="col-sm-6 col-xs-12 text-center">
-+                                                    <a href="http://community.canadensys.net/about/norms"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us"></a>
-+                                                    <p class="fr">Comment nous citer</p>
-+                                                    <p class="en">How to cite us</p>
-+                                                </div>
-+                                                <div class="col-sm-6 col-xs-12 text-center">
-+                                                    <a href="http://community.canadensys.net/about/contact"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us"></a>
-+                                                    <p class="fr">Contactez nous</p>
-+                                                    <p class="en">Contact us</p>
-+                                                </div>
++                        <div class="col-xs-12">
++                            <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/facebook_black_white_64.png" alt="Facebook"></a>
++                        </div>
++                        <div class="col-xs-12">
++                            <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/twitter_black_white_64.png" alt="Twitter"></a>
++                        </div>
++                        <div class="emptyspace col-xs-12"></div>
++                    </div>
++                    <div id="fLicense" class="col-sm-10 col-xs-12">
++                        <div class="col-left-center">
++                            <span class="col-left-center-p">
++                                <div class="row-fluid">
++                                    <div class="emptyspace col-xs-12"></div>
++                                    <div class="col-xs-12">
++                                        <div class="row-fluid fr">
++                                            <div class="col-xs-6  text-center">
++                                                <a class="fr" href="http://www.canadensys.net/about/norms?lang=fr">
++                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
++                                                  <p>Comment nous citer</p>
++                                                </a>
++                                            </div>
++                                            <div class="col-xs-6  text-center">
++                                                <a class="fr" href="http://www.canadensys.net/about/contact?lang=fr">
++                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us">
++                                                  <p>Contactez nous</p>
++                                                </a>
 +                                            </div>
 +                                        </div>
-+                                        <div class="emptyspace col-xs-12"></div>
-+                                        <div class="row-fluid">
-+                                            <div class="col-sm-6 col-xs-12">
-+                                                <div class="col-sm-5 col-xs-12">
-+                                                    <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
-+                                                </div>
-+                                                <div class="col-sm-7 col-xs-12 center">
-+                                                    <p class="fr">La plupart des participants de Canadensys ont transféré leurs données au <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr">domaine public</a>.</p>
-+                                                    <p class="en">Most Canadensys participants have dedicated their data to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
-+                                                </div>
++                                        <div class="row-fluid en">
++                                            <div class="col-xs-6  text-center">
++                                                <a class="en" href="http://www.canadensys.net/about/norms?lang=en">
++                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
++                                                  <p>How to cite us</p>
++                                                </a>
 +                                            </div>
-+                                            </div>
-+                                            <div class="col-sm-6 col-xs-12">
-+                                                <div class="col-sm-5 col-xs-12">
-+                                                    <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
-+                                                </div>
-+                                                <div class="col-sm-7 col-xs-12">
-+                                                    <p class="fr">Tous les autres contenus de ce site opèrent sous <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.fr">CC-BY</a>, sauf pour le <a href="http://www.canadensys.net/documents?lang=fr">logo de Canadensys</a>, qui est sous copyright.</p>
-+                                                    <p class="en">All other content on this website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">CC-BY</a>, except for the copyrighted <a href="http://www.canadensys.net/documents">Canadensys logo</a>.</p>
-+                                                </div>
++                                            <div class="col-xs-6  text-center">
++                                                <a class="en" href="http://www.canadensys.net/about/contact?lang=en">
++                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us">
++                                                  <p>Contact us</p>
++                                                </a>
 +                                            </div>
 +                                        </div>
-+                                        <div class="emptyspace col-xs-12"></div>
 +                                    </div>
-+                                </span>
-+                            </div>
++                                    <div class="emptyspace col-xs-12"></div>
++                                    <div class="row-fluid fr">
++                                        <div class="col-sm-6 col-xs-12">
++                                            <div class="col-md-4 col-xs-12">
++                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
++                                            </div>
++                                            <div class="col-md-8 col-xs-12 center">
++                                                <p>La plupart des participants de Canadensys ont transféré leurs données au <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr">domaine public</a>.</p>
++                                            </div>
++                                        </div>
++                                        <div class="col-sm-6 col-xs-12">
++                                            <div class="col-md-4 col-xs-12">
++                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                            </div>
++                                            <div class="col-md-8 col-xs-12">
++                                                <p>Tous les autres contenus de ce site opèrent sous <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.fr">CC-BY</a>, sauf pour le <a href="http://www.canadensys.net/documents?lang=fr">logo de Canadensys</a>, qui est sous copyright.</p>
++                                            </div>
++                                        </div>
++                                    </div>
++                                    <div class="row-fluid en">
++                                        <div class="col-sm-6 col-xs-12">
++                                            <div class="col-md-4 col-xs-12">
++                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
++                                            </div>
++                                            <div class="col-md-8 col-xs-12 center">
++                                                <p>Most Canadensys participants have dedicated their data to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
++                                            </div>
++                                        </div>
++                                        <div class="col-sm-6 col-xs-12">
++                                            <div class="col-md-4 col-xs-12">
++                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.en" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                            </div>
++                                            <div class="col-md-8 col-xs-12">
++                                                <p>All other content on this website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">CC-BY</a>, except for the copyrighted <a href="http://www.canadensys.net/documents">Canadensys logo</a>.</p>
++                                            </div>
++                                        </div>
++                                    </div>
++                                    <div class="emptyspace col-xs-12"></div>
++                                </div>
++                            </span>
 +                        </div>
 +                    </div>
 +                </div>
-+            </div><!--/#footer -->
-+        </div><!--/#footer -->
++            </div>
++        </div>
++    </div><!--/#footer -->
 +                <!-- Custom footer END -->
 +            </footer>
 +        </div>
@@ -254,13 +284,21 @@ index 6c591f37f..c55b5dd4d 100644
 +                <div id="modalcontent"></div>
 +            </div>
 +        </div>
++    <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.12.1.js"></script>
++    <script type="text/javascript" src="${baseURL}/js/global.js"></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/bootstrap3/js/bootstrap.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/js.cookie-2.1.4.min.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_lang_ipt.js"/></script>
++    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_active_menu.js"></script>
 +    </body>
  </html>
 diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
-index 03280a429..14a0b6645 100644
+index 916f3df..09dee8b 100644
 --- a/WEB-INF/pages/inc/header.ftl
 +++ b/WEB-INF/pages/inc/header.ftl
-@@ -10,35 +10,42 @@
+@@ -10,35 +10,35 @@
        xmlns:foaf="http://xmlns.com/foaf/0.1/">
    <head>
  
@@ -292,18 +330,11 @@ index 03280a429..14a0b6645 100644
 +    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/font-awesome.min.css" media="all" />	
 +    <!-- for css overrides needed for customizations -->
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
 +    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/bootstrap3/css/bootstrap.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/alc-styles.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/alc-styles-bs3.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
 +    <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
-+    <script type="text/javascript" src="${baseURL}/js/modernizr.js"></script>
-+    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
-+    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.12.1.js"></script>
-+    <script type="text/javascript" src="${baseURL}/js/global.js"></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/bootstrap3/js/bootstrap.js"/></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/js/js.cookie-2.1.4.min.js"/></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_lang_ipt.js"/></script>
-+    <script src="http://layout.canadensys.net/common/js/change_active_menu.js"></script>
 +    
  [#-- GOOGLE ANALYTICS - asynchroneous: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html --]
  [#if cfg.gbifAnalytics || (cfg.analyticsKey!"")?length>1] 
@@ -328,7 +359,7 @@ index 03280a429..14a0b6645 100644
    (function() {
      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-@@ -48,7 +55,7 @@
+@@ -48,7 +48,7 @@
  [/#if]
  
      [#-- Metadata used by browsers (title in browser toolbar, bookmark when added to favorites), search engines (keywords) --]
@@ -337,7 +368,7 @@ index 03280a429..14a0b6645 100644
      [#assign registeredIpt = action.getRegisteredIpt()!""/]
      [#if resource?? && eml??]
        <meta name="description" content="${eml.description!}" charset="UTF-8" />
-@@ -76,4 +83,4 @@ $(document).ready(function(){
+@@ -76,4 +76,4 @@ $(document).ready(function(){
  });
  </script>
  
@@ -345,10 +376,10 @@ index 03280a429..14a0b6645 100644
 \ No newline at end of file
 +[#assign currentMenu = "home"]
 diff --git a/WEB-INF/pages/inc/menu.ftl b/WEB-INF/pages/inc/menu.ftl
-index 3fe4cf84c..335829819 100644
+index 3fe4cf8..c71cabf 100644
 --- a/WEB-INF/pages/inc/menu.ftl
 +++ b/WEB-INF/pages/inc/menu.ftl
-@@ -1,104 +1,292 @@
+@@ -1,104 +1,295 @@
  [#ftl output_format="HTML"]
  </head>
 - 	<body>
@@ -480,10 +511,12 @@ index 3fe4cf84c..335829819 100644
 +                              </li>
 +                          </ul>
 +                          <ul class="nav navbar-nav">
-+<!--                              <li id="nav_data">
++<!--
++                              <li id="nav_data">
 +                                  <a class="en" href="http://data.canadensys.net/?lang=en">data</a>
 +                                  <a class="fr" href="http://data.canadensys.net/?lang=fr">données</a>
-+                              </li>-->
++                              </li>
++-->
 +                              <li id="nav_explorer" class="dropdown">
 +                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="en">explorer</span><span class="fr">explorateur</span> <span class="caret"></span></a>
 +                                  <ul class="dropdown-menu">
@@ -519,14 +552,15 @@ index 3fe4cf84c..335829819 100644
 +                                  <a class="en" href="http://data.canadensys.net/ipt/?request_locale=en">repository</a>
 +                                  <a class="fr" href="http://data.canadensys.net/ipt/?request_locale=fr">dépôt</a>
 +                              </li>
-+                              <li id="nav_vascan">
-+                                  <a class="en" href="http://data.canadensys.net/vascan/">vascan</a>
-+                                  <a class="fr" href="http://data.canadensys.net/vascan/?lang=fr">vascan</a>
-+                              </li>
 +                              <li id="nav_tools">
-+                                  <a class="en" href="http://data.canadensys.net/tools/">tools</a>
-+                                  <a class="fr" href="http://data.canadensys.net/tools/?lang=fr">outils</a>
++                                  <a class="en" href="http://data.canadensys.net/tools/coordinates?lang=en">tools</a>
++                                  <a class="fr" href="http://data.canadensys.net/tools/coordinates?lang=fr">outils</a>
 +                              </li>
++                              <li id="nav_vascan">
++                                  <a class="en" href="http://data.canadensys.net/vascan/search?lang=en">vascan</a>
++                                  <a class="fr" href="http://data.canadensys.net/vascan/search?lang=fr">vascan</a>
++                              </li>
++
 +                          </ul>
 +                          <ul class="nav navbar-nav navbar-right visible-xs">
 +                              <li>
@@ -732,7 +766,7 @@ index 3fe4cf84c..335829819 100644
 +    [@s.actionerror/]
 +    <div id="dialog-confirm" title="[@s.text name="basic.confirm"/]" style="display: none;"></div>
 diff --git a/WEB-INF/pages/macros/resourcesTable.ftl b/WEB-INF/pages/macros/resourcesTable.ftl
-index 6b4c43842..13fd5bbeb 100644
+index 6b4c438..13fd5bb 100644
 --- a/WEB-INF/pages/macros/resourcesTable.ftl
 +++ b/WEB-INF/pages/macros/resourcesTable.ftl
 @@ -8,7 +8,8 @@ resourcesTable macro: Generates a data table that has searching, pagination, and
@@ -781,7 +815,7 @@ index 6b4c43842..13fd5bbeb 100644
 \ No newline at end of file
 +</#macro>
 diff --git a/WEB-INF/pages/macros/versionsTable.ftl b/WEB-INF/pages/macros/versionsTable.ftl
-index 1d43d657d..695a83728 100644
+index 1d43d65..695a837 100644
 --- a/WEB-INF/pages/macros/versionsTable.ftl
 +++ b/WEB-INF/pages/macros/versionsTable.ftl
 @@ -15,7 +15,7 @@ versionsTable macro: Generates a data table that has pagination.
@@ -794,7 +828,7 @@ index 1d43d657d..695a83728 100644
                 '${v.recordsPublished}',
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
 diff --git a/WEB-INF/pages/manage/eml/basic.ftl b/WEB-INF/pages/manage/eml/basic.ftl
-index fee9b85dd..d50417600 100644
+index 358bfe3..d504176 100644
 --- a/WEB-INF/pages/manage/eml/basic.ftl
 +++ b/WEB-INF/pages/manage/eml/basic.ftl
 @@ -132,7 +132,7 @@
@@ -807,7 +841,7 @@ index fee9b85dd..d50417600 100644
  <div class="grid_17 suffix_1">
  <h2 class="subTitle"><@s.text name='manage.metadata.basic.title'/></h2>
 diff --git a/WEB-INF/pages/manage/home.ftl b/WEB-INF/pages/manage/home.ftl
-index 2b6c1f5a8..d8a0f6691 100644
+index 2b6c1f5..d8a0f66 100644
 --- a/WEB-INF/pages/manage/home.ftl
 +++ b/WEB-INF/pages/manage/home.ftl
 @@ -12,7 +12,7 @@
@@ -827,7 +861,7 @@ index 2b6c1f5a8..d8a0f6691 100644
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
 diff --git a/WEB-INF/pages/manage/mapping.ftl b/WEB-INF/pages/manage/mapping.ftl
-index d7e446f39..9a25eedf8 100644
+index d7e446f..9a25eed 100644
 --- a/WEB-INF/pages/manage/mapping.ftl
 +++ b/WEB-INF/pages/manage/mapping.ftl
 @@ -92,7 +92,7 @@ $(document).ready(function(){
@@ -847,7 +881,7 @@ index d7e446f39..9a25eedf8 100644
 \ No newline at end of file
 +</#escape>
 diff --git a/WEB-INF/pages/manage/overview.ftl b/WEB-INF/pages/manage/overview.ftl
-index a3080fe0a..2b0ac6409 100644
+index a3080fe..2b0ac64 100644
 --- a/WEB-INF/pages/manage/overview.ftl
 +++ b/WEB-INF/pages/manage/overview.ftl
 @@ -106,7 +106,8 @@ $(document).ready(function(){
@@ -861,7 +895,7 @@ index a3080fe0a..2b0ac6409 100644
  			showReport=false;
  			$("#toggleReport").text("<@s.text name='basic.show'/>");
 diff --git a/WEB-INF/pages/portal/home.ftl b/WEB-INF/pages/portal/home.ftl
-index f152c418a..b4a4e6400 100644
+index f152c41..b4a4e64 100644
 --- a/WEB-INF/pages/portal/home.ftl
 +++ b/WEB-INF/pages/portal/home.ftl
 @@ -5,17 +5,18 @@
@@ -887,19 +921,23 @@ index f152c418a..b4a4e6400 100644
 -  <#include "/WEB-INF/pages/inc/footer.ftl">
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
+-- 
 diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
-index 0de1fc05a..2b5f2b995 100644
+index 0de1fc0..6c3143f 100644
 --- a/WEB-INF/pages/portal/resource_new.ftl
 +++ b/WEB-INF/pages/portal/resource_new.ftl
-@@ -118,7 +118,7 @@
+@@ -118,9 +118,9 @@
    <#assign anchor_citation>#citation</#assign>
  
  <!-- Sidebar -->
 -<div id="sidebar-wrapper">
 +<div id="sidebar-wrapper hidden">
  
-     <ul class="sidebar-nav">
+-    <ul class="sidebar-nav">
++    <ul class="sidebar-nav hidden">
          <li>
+           <input class="contract" type="button" id="menu-toggle" name="contract-sidebar" value=""/>
+         </li>
 @@ -301,16 +301,22 @@
  
                            <#if eml.distributionUrl?has_content || resource.lastPublished??>
@@ -957,4 +995,3 @@ index 0de1fc05a..2b5f2b995 100644
 -
 -- 
 2.17.1
-
