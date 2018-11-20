@@ -1,22 +1,22 @@
-From 63a783d3a7abf5e192899b48e960bfc59c04ad48 Mon Sep 17 00:00:00 2001
+From a6e5a15b8c41573f3b5debb1c9ae06a971a6c723 Mon Sep 17 00:00:00 2001
 From: JeGoi <jeremy.goimard@gmail.com>
-Date: Tue, 20 Nov 2018 11:16:59 -0500
-Subject: [PATCH] update
+Date: Tue, 20 Nov 2018 15:37:58 -0500
+Subject: [PATCH] New ipt
 
 ---
  WEB-INF/pages/admin/organisations.ftl     |  38 +-
  WEB-INF/pages/admin/users.ftl |  24 +-
- WEB-INF/pages/inc/footer.ftl  | 153 ++++++++++++++----
- WEB-INF/pages/inc/header.ftl  |  54 +++----
+ WEB-INF/pages/inc/footer.ftl  | 153 ++++++--
+ WEB-INF/pages/inc/header.ftl  |  54 +--
  WEB-INF/pages/inc/menu.ftl    | 371 +++++++++++++-----
  WEB-INF/pages/macros/resourcesTable.ftl   |  11 +-
  WEB-INF/pages/macros/versionsTable.ftl    |   2 +-
- WEB-INF/pages/manage/eml/basic.ftl |   2 +-
+ webapp/WEB-INF/pages/manage/eml/basic.ftl |   2 +-
  WEB-INF/pages/manage/home.ftl |   4 +-
- WEB-INF/pages/manage/mapping.ftl   |   4 +-
- WEB-INF/pages/manage/overview.ftl  |   3 +-
+ webapp/WEB-INF/pages/manage/mapping.ftl   |   4 +-
+ webapp/WEB-INF/pages/manage/overview.ftl  |   3 +-
  WEB-INF/pages/portal/home.ftl |   7 +-
- WEB-INF/pages/portal/resource_new.ftl     |  31 +++-
+ WEB-INF/pages/portal/resource_new.ftl     |  31 +-
  13 files changed, 506 insertions(+), 198 deletions(-)
 
 diff --git a/WEB-INF/pages/admin/organisations.ftl b/WEB-INF/pages/admin/organisations.ftl
@@ -921,7 +921,6 @@ index f152c41..b4a4e64 100644
 -  <#include "/WEB-INF/pages/inc/footer.ftl">
 \ No newline at end of file
 +  <#include "/WEB-INF/pages/inc/footer.ftl">
--- 
 diff --git a/WEB-INF/pages/portal/resource_new.ftl b/WEB-INF/pages/portal/resource_new.ftl
 index 0de1fc0..6c3143f 100644
 --- a/WEB-INF/pages/portal/resource_new.ftl
@@ -995,3 +994,4 @@ index 0de1fc0..6c3143f 100644
 -
 -- 
 2.17.1
+
