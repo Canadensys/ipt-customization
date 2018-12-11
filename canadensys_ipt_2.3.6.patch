@@ -184,13 +184,13 @@ index 6c591f3..169fcd2 100644
 +                    <div id="fConnect" class="col-sm-2 col-xs-12">
 +                        <div class="emptyspace span12"></div>
 +                        <div class="col-xs-12">
-+                            <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/github_black_white_64.png" alt="GitHub"></a>
++                            <a href="https://github.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/github_black_white_64.png" alt="GitHub"></a>
 +                        </div>
 +                        <div class="col-xs-12">
-+                            <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/facebook_black_white_64.png" alt="Facebook"></a>
++                            <a href="https://www.facebook.com/canadensys/" target="_blank"><img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/facebook_black_white_64.png" alt="Facebook"></a>
 +                        </div>
 +                        <div class="col-xs-12">
-+                            <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/twitter_black_white_64.png" alt="Twitter"></a>
++                            <a href="https://twitter.com/Canadensys" target="_blank"><img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/twitter_black_white_64.png" alt="Twitter"></a>
 +                        </div>
 +                        <div class="emptyspace col-xs-12"></div>
 +                    </div>
@@ -203,13 +203,13 @@ index 6c591f3..169fcd2 100644
 +                                        <div class="row-fluid fr">
 +                                            <div class="col-xs-6  text-center">
 +                                                <a class="fr" href="http://www.canadensys.net/about/norms?lang=fr">
-+                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
++                                                  <img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
 +                                                  <p>Comment nous citer</p>
 +                                                </a>
 +                                            </div>
 +                                            <div class="col-xs-6  text-center">
 +                                                <a class="fr" href="http://www.canadensys.net/about/contact?lang=fr">
-+                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us">
++                                                  <img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/mail_black_white_64.png" alt="Contact us">
 +                                                  <p>Contactez nous</p>
 +                                                </a>
 +                                            </div>
@@ -217,13 +217,13 @@ index 6c591f3..169fcd2 100644
 +                                        <div class="row-fluid en">
 +                                            <div class="col-xs-6  text-center">
 +                                                <a class="en" href="http://www.canadensys.net/about/norms?lang=en">
-+                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
++                                                  <img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/cite_us_black_white_64_2.png" alt="Cite us">
 +                                                  <p>How to cite us</p>
 +                                                </a>
 +                                            </div>
 +                                            <div class="col-xs-6  text-center">
 +                                                <a class="en" href="http://www.canadensys.net/about/contact?lang=en">
-+                                                  <img class="img-responsive icon-footer" src="http://layout.canadensys.net/common/images/icons/mail_black_white_64.png" alt="Contact us">
++                                                  <img class="img-responsive icon-footer" src="https://layout.canadensys/common/images/icons/mail_black_white_64.png" alt="Contact us">
 +                                                  <p>Contact us</p>
 +                                                </a>
 +                                            </div>
@@ -233,7 +233,7 @@ index 6c591f3..169fcd2 100644
 +                                    <div class="row-fluid fr">
 +                                        <div class="col-sm-6 col-xs-12">
 +                                            <div class="col-md-4 col-xs-12">
-+                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
++                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr" title="CC0 1.0 universel Transfert au domaine public"><img src="https://layout.canadensys/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
 +                                            </div>
 +                                            <div class="col-md-8 col-xs-12 center">
 +                                                <p>La plupart des participants de Canadensys ont transféré leurs données au <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.fr">domaine public</a>.</p>
@@ -241,7 +241,7 @@ index 6c591f3..169fcd2 100644
 +                                        </div>
 +                                        <div class="col-sm-6 col-xs-12">
 +                                            <div class="col-md-4 col-xs-12">
-+                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.fr" title="Creative Commons Attribution 3.0 non transposé"><img src="https://layout.canadensys/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
 +                                            </div>
 +                                            <div class="col-md-8 col-xs-12">
 +                                                <p>Tous les autres contenus de ce site opèrent sous <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.fr">CC-BY</a>, sauf pour le <a href="http://www.canadensys.net/documents?lang=fr">logo de Canadensys</a>, qui est sous copyright.</p>
@@ -251,7 +251,7 @@ index 6c591f3..169fcd2 100644
 +                                    <div class="row-fluid en">
 +                                        <div class="col-sm-6 col-xs-12">
 +                                            <div class="col-md-4 col-xs-12">
-+                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" title="CC0 1.0 universel Transfert au domaine public"><img src="http://layout.canadensys.net/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
++                                                <a class="cc_logo" href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" title="CC0 1.0 universel Transfert au domaine public"><img src="https://layout.canadensys/common/images/icons/cc0-logo.png" alt="cc0-logo"></a>
 +                                            </div>
 +                                            <div class="col-md-8 col-xs-12 center">
 +                                                <p>Most Canadensys participants have dedicated their data to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
@@ -259,7 +259,7 @@ index 6c591f3..169fcd2 100644
 +                                        </div>
 +                                        <div class="col-sm-6 col-xs-12">
 +                                            <div class="col-md-4 col-xs-12">
-+                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.en" title="Creative Commons Attribution 3.0 non transposé"><img src="http://layout.canadensys.net/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
++                                                <a rel="license" class="cc_logo" href="http://creativecommons.org/licenses/by/3.0/deed.en" title="Creative Commons Attribution 3.0 non transposé"><img src="https://layout.canadensys/common/images/icons/cc-by-logo.png" alt="cc-by-logo"></a>
 +                                            </div>
 +                                            <div class="col-md-8 col-xs-12">
 +                                                <p>All other content on this website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">CC-BY</a>, except for the copyrighted <a href="http://www.canadensys.net/documents">Canadensys logo</a>.</p>
@@ -288,10 +288,10 @@ index 6c591f3..169fcd2 100644
 +    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-3.2.1.min.js"></script>
 +    <script type="text/javascript" src="${baseURL}/js/jquery/jquery-ui.min-1.12.1.js"></script>
 +    <script type="text/javascript" src="${baseURL}/js/global.js"></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/bootstrap3/js/bootstrap.js"/></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/js/js.cookie-2.1.4.min.js"/></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_lang_ipt.js"/></script>
-+    <script type="text/javascript" src="http://layout.canadensys.net/common/js/change_active_menu.js"></script>
++    <script type="text/javascript" src="https://layout.canadensys/common/bootstrap3/js/bootstrap.js"/></script>
++    <script type="text/javascript" src="https://layout.canadensys/common/js/js.cookie-2.1.4.min.js"/></script>
++    <script type="text/javascript" src="https://layout.canadensys/common/js/change_lang_ipt.js"/></script>
++    <script type="text/javascript" src="https://layout.canadensys/common/js/change_active_menu.js"></script>
 +    </body>
  </html>
 diff --git a/WEB-INF/pages/inc/header.ftl b/WEB-INF/pages/inc/header.ftl
@@ -324,16 +324,16 @@ index 916f3df..09dee8b 100644
 +    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/960_24_col.css" />
 +    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/main.css" />
 +    <link rel="stylesheet" type="text/css" media="all" href="${baseURL}/styles/jquery/dataTable.css"/>
-+    <link rel="shortcut icon" href="http://layout.canadensys.net/common/images/favicon.ico" type="image/x-icon" />
++    <link rel="shortcut icon" href="https://layout.canadensys/common/images/favicon.ico" type="image/x-icon" />
 +    <link href="${baseURL}/rss.do" title="Latest Resources" rel="alternate" type="application/rss+xml" />
 +    <link media="all" type="text/css" href="${baseURL}/styles/jquery/jquery-ui.min-1.12.1.css" rel="stylesheet" />
 +    <link rel="stylesheet" type="text/css" href="${baseURL}/styles/font-awesome.min.css" media="all" />	
 +    <!-- for css overrides needed for customizations -->
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/common.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/bootstrap3/css/bootstrap.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/commonui-bs3/css/ala-styles.css"/>
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/alc-styles-bs3.css" />
-+    <link rel="stylesheet" type="text/css" media="all" href="http://layout.canadensys.net/common/css/canadensys-ipt.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="https://layout.canadensys/common/css/common.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="https://layout.canadensys/common/bootstrap3/css/bootstrap.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="https://layout.canadensys/commonui-bs3/css/ala-styles.css"/>
++    <link rel="stylesheet" type="text/css" media="all" href="https://layout.canadensys/common/css/alc-styles-bs3.css" />
++    <link rel="stylesheet" type="text/css" media="all" href="https://layout.canadensys/common/css/canadensys-ipt.css" />
 +    <!-- for support of old browsers, like IE8. See http://modernizr.com/docs/#html5inie -->
 +    
  [#-- GOOGLE ANALYTICS - asynchroneous: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html --]
@@ -404,7 +404,7 @@ index 3fe4cf8..c71cabf 100644
 +          <div id="" class="col-xs-8 col-xs-offset-2 hidden-xs">
 +              <div class="col-xs-6 text-left">
 +                  <a href="http://www.canadensys.net">
-+                      <img class="img-responsive image-header" src="http://layout.canadensys.net/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
++                      <img class="img-responsive image-header" src="https://layout.canadensys/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
 +                      <span id="header-canadensys">Canadensys</span>
                    </a>
 -                </div>
@@ -454,7 +454,7 @@ index 3fe4cf8..c71cabf 100644
 +          </div>
 +          <div id="header-xs" class="col-xs-12 visible-xs">
 +              <a class="navbar-brand visible-xs" href="http://www.canadensys.net">
-+                  <img class="img-responsive image-header-xs" src="http://layout.canadensys.net/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
++                  <img class="img-responsive image-header-xs" src="https://layout.canadensys/common/images/canadensys_logo_simple_white.png" alt="Canadensys">
 +                  <span id="header-canadensys-xs">Canadensys</span>
 +              </a>
 +          </div>
@@ -823,7 +823,7 @@ index 1d43d65..695a837 100644
            /* only show released versions. The version must be public unless user has manager rights in which case they can see all released versions */
            <#if v.released?? && ((v.publicationStatus == 'PUBLIC' || v.publicationStatus == 'REGISTERED') || managerRights) >
 -              [<#if (version?? && v.version == version.toPlainString()) || (!version?? && v.version == resource.emlVersion.toPlainString())>'<img class="latestVersion" src="${baseURL}/images/dataTables/forward_enabled_hover.png"/>${v.version!}'<#else>'<img class="latestVersionHidden" src="${baseURL}/images/dataTables/forward_enabled_hover.png"/><a href="${baseURL}/resource?r=${shortname}&amp;v=${v.version!}">${v.version!}</a>'</#if>,
-+              [<#if (version?? && v.version == version.toPlainString()) || (!version?? && v.version == resource.emlVersion.toPlainString())>'<img class="latestVersion" src="http://layout.canadensys.net/common/images/dataTables/forward_enabled_hover_red.png"/>${v.version!}'<#else>'<img class="latestVersionHidden" src="http://layout.canadensys.net/common/images/dataTables/forward_enabled_hover_red.png"/><a href="${baseURL}/resource?r=${shortname}&amp;v=${v.version!}">${v.version!}</a>'</#if>,
++              [<#if (version?? && v.version == version.toPlainString()) || (!version?? && v.version == resource.emlVersion.toPlainString())>'<img class="latestVersion" src="https://layout.canadensys/common/images/dataTables/forward_enabled_hover_red.png"/>${v.version!}'<#else>'<img class="latestVersionHidden" src="https://layout.canadensys/common/images/dataTables/forward_enabled_hover_red.png"/><a href="${baseURL}/resource?r=${shortname}&amp;v=${v.version!}">${v.version!}</a>'</#if>,
                 '${v.released?date}',
                 '${v.recordsPublished}',
                 <#if v.changeSummary?has_content>"${v.changeSummary?replace("\'", "\\'")?replace("\"", '\\"')}&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"<#else>"<@s.text name="publishing.changeSummary.default"/>&nbsp;<#if managerRights><a href='${baseURL}/manage/history.do?r=${resource.shortname}&v=${v.version}'><@s.text name='button.edit'/></a></#if>"</#if>,
